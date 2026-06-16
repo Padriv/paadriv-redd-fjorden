@@ -3,7 +3,7 @@ Nettside for Pådriv for "Oppdrag: Fjorden vår", en åpen plattform der aktøre
 
 ## Oppdrag: Fjorden vår - Nettside
 
-Landingsside og bidragsportal for Prosjekt Oslofjorden, et samarbeid mellom nesten 30 aktører som jobber for fjordens fremtid.
+Landingsside og bidragsportal for Oppdrag: fjorden vår, et samarbeid mellom nesten 30 aktører som jobber for fjordens fremtid.
 
 ## Formål
 Nettsiden er en nøytral møteplass der organisasjoner, bedrifter og enkeltpersoner kan:
