@@ -1,4 +1,4 @@
-import InterestButton from "./components/InterestButton";
+import InterestButton from "../components/InterestButton";
 
 export default function Home() {
   return (
