@@ -4,17 +4,22 @@ import { useState } from "react";
 import MultiSelect from "./MultiSelect";
 import SubmitButton from "./SubmitButton";
 
-export default function IndividualSignupForm() {
+export default function IndividualSignupForm({ onClose }: { onClose?: () => void }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [skills, setSkills] = useState<string[]>([]);
     const [passion, setPassion] = useState("");
-    
+
 
     return (
         <div className="relative p-8 rounded-2xl w-full flex flex-col gap-8">
-            <h2 className="text-xl font-bold">Bli med i Oppdrag: fjorden vår</h2>
+            <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold">Bli med i Oppdrag: fjorden vår</h2>
+                {onClose && (
+                    <button onClick={onClose} aria-label="Lukk skjema" className="text-zinc-400 hover:text-black transition-colors text-2xl leading-none">✕</button>
+                )}
+            </div>
 
             <div className = "flex flex-col gap-2">
                 <label className="block text-sm font-medium mb-1">Navn:</label>
