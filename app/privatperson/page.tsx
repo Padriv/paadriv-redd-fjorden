@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import IndividualSignupForm from "@/components/IndividualSignupForm";
+import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
 import SubmitButton from "@/components/SubmitButton";
 
 export default function Privatperson() {
