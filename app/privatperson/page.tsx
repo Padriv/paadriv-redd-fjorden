@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import IndividualSignupForm from "@/components/IndividualSignupForm";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function Privatperson() {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center bg-white px-16 py-32">
       <Link
@@ -16,6 +23,10 @@ export default function Privatperson() {
         <p className="text-lg leading-8 text-zinc-600">
           Informasjon om hva det innebærer å bidra som enkeltperson
         </p>
+        {!showForm && (
+          <SubmitButton label="Meld deg på" onClick={() => setShowForm(true)} />
+        )}
+        {showForm && <IndividualSignupForm onClose={() => setShowForm(false)} />}
       </div>
     </main>
   );
