@@ -12,8 +12,12 @@ export default function IndividualSignupForm({ onClose }: { onClose?: () => void
     const [passion, setPassion] = useState("");
 
 
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+    }
+
     return (
-        <div className="relative p-8 rounded-2xl w-full flex flex-col gap-8">
+        <form onSubmit={handleSubmit} className="relative p-8 rounded-2xl w-full flex flex-col gap-8">
             <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold">Bli med i Oppdrag: fjorden vår</h2>
                 {onClose && (
@@ -74,8 +78,8 @@ export default function IndividualSignupForm({ onClose }: { onClose?: () => void
                 />
             </div>
 
-            <SubmitButton label="Send inn" />
+            <SubmitButton label="Send inn" type="submit" />
 
-        </div>
+        </form>
     );
 }
