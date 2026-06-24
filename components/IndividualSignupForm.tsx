@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MultiSelect from "./MultiSelect";
-
+import SubmitButton from "./SubmitButton";
 
 export default function IndividualSignupForm() {
     const [name, setName] = useState("");
@@ -10,6 +10,7 @@ export default function IndividualSignupForm() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [skills, setSkills] = useState<string[]>([]);
     const [passion, setPassion] = useState("");
+    
 
     return (
         <div className="relative p-8 rounded-2xl w-full flex flex-col gap-8">
@@ -67,6 +68,9 @@ export default function IndividualSignupForm() {
                     className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
                 />
             </div>
+
+            <SubmitButton label="Send inn" />
+
         </div>
     );
 }
