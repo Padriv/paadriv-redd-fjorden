@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import MultiSelect from "./MultiSelect";
 
 
 export default function IndividualSignupForm() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [skills, setSkills] = useState<string[]>([]);
     const [passion, setPassion] = useState("");
 
     return (
@@ -43,6 +45,15 @@ export default function IndividualSignupForm() {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="123 45 678"
                     className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
+                />
+            </div>
+
+            <div className = "flex flex-col gap-2">
+                <label className="block text-sm font-medium mb-1 mt-3">Har du kompetanse eller erfaring innen noen av områdene under?</label>
+                <MultiSelect
+                    options={["Vannkvalitet", "Kystmiljø", "Bærekraft", "Frivillighet og organisasjonsarbeid"]}
+                    selected={skills}
+                    setSelected={setSkills}
                 />
             </div>
 
