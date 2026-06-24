@@ -1,4 +1,4 @@
-import JoinSection from "../components/JoinSection";
+import JoinSection from "./_components/JoinSection";
 
 export default function Home() {
   return (
