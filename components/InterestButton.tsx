@@ -14,12 +14,12 @@ export default function InterestButton() {
         >
           Privatperson
         </Link>
-        <a
-          href="#meld-interesse-organisasjon"
+        <Link
+          href="/organisasjon"
           className="flex h-12 items-center justify-center rounded-full bg-black px-8 text-base font-medium text-white transition-colors hover:bg-gray-800"
         >
           Organisasjon
-        </a>
+        </Link>
       </div>
     </section>
   );
