@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function InterestButton() {
+export default function JoinSection() {
   return (
     <section
       id="meld-interesse-organisasjon"
