@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MultiSelect from "../../../components/MultiSelect";
-import SubmitButton from "../../../components/SubmitButton";
+import Button from "../../../components/Button";
 
 export default function IndividualSignupForm({ onClose }: { onClose?: () => void }) {
     const [name, setName] = useState("");
@@ -78,7 +78,7 @@ export default function IndividualSignupForm({ onClose }: { onClose?: () => void
                 />
             </div>
 
-            <SubmitButton label="Send inn" type="submit" />
+            <Button label="Send inn" type="submit" />
 
         </form>
     ); }
