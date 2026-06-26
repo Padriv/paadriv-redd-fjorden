@@ -1,0 +1,8 @@
+name: TEST
+variables:
+  - name: table
+    value: tblwNsjstRgN87Auv
+  - name: app
+    value: appb0oCcoC3lj21q1
+  - secret: true
+    name: PAT

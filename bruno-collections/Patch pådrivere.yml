@@ -1,0 +1,30 @@
+info:
+  name: Patch pådrivere
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: https://api.airtable.com/v0/{{app}}/{{table}}/{{record}}
+  body:
+    type: json
+    data: |
+      {
+        "fields": {
+          "Kompetanse": ["IT"],
+          "Er det muligheter (eller utfordringer) i Oslo som er spesielt viktige for deg?": "nei",
+          "Velkomstepost": false
+        }
+      }
+  auth: inherit
+
+runtime:
+  variables:
+    - name: record
+      value: <må settes>
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,30 @@
+info:
+  name: Post pådrivere
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: https://api.airtable.com/v0/{{app}}/{{table}}
+  body:
+    type: json
+    data: |-
+      {
+          "records": [
+            {
+              "fields": {
+                "Navn": "Test Test",
+                "Samtykke": "test",
+                "Epost": "test.test@bekk.no",
+                "Virksomhet": "Bekk"
+              }
+            }
+          ]
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
