@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import Link from "next/link";
 
 export default function JoinSection() {
@@ -8,18 +9,8 @@ export default function JoinSection() {
     >
       <h2 className="text-2xl font-semibold text-black">Bli med</h2>
       <div className="flex flex-wrap justify-center gap-4">
-        <Link
-          href="/privatperson"
-          className="flex h-12 items-center justify-center rounded-full bg-black px-8 text-base font-medium text-white transition-colors hover:bg-gray-800"
-        >
-          Privatperson
-        </Link>
-        <Link
-          href="/organisasjon"
-          className="flex h-12 items-center justify-center rounded-full bg-black px-8 text-base font-medium text-white transition-colors hover:bg-gray-800"
-        >
-          Organisasjon
-        </Link>
+        <Button href="/privatperson" label="Privatperson" />
+        <Button href="/organisasjon" label="Organisasjon" />
       </div>
     </section>
   );

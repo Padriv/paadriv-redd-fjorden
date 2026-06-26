@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
-import SubmitButton from "@/components/SubmitButton";
+import Button from "@/components/Button";
 
 export default function Privatperson() {
   const [showForm, setShowForm] = useState(false);
@@ -24,7 +24,7 @@ export default function Privatperson() {
           Informasjon om hva det innebærer å bidra som enkeltperson
         </p>
         {!showForm && (
-          <SubmitButton label="Meld deg på" onClick={() => setShowForm(true)} />
+          <Button label="Meld deg på" onClick={() => setShowForm(true)} />
         )}
         {showForm && <IndividualSignupForm onClose={() => setShowForm(false)} />}
       </div>
