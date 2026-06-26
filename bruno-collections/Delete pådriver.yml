@@ -1,0 +1,20 @@
+info:
+  name: Delete pådriver
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: https://api.airtable.com/v0/{{app}}/{{table}}/{{record}}
+  auth: inherit
+
+runtime:
+  variables:
+    - name: record
+      value: <Må settes>
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
