@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Button from "@/components/Button";
 
 export default function Organisasjon() {
   return (
@@ -16,6 +17,7 @@ export default function Organisasjon() {
         <p className="text-lg leading-8 text-zinc-600">
           Informasjon om hva det innebærer å bidra som organisasjon
         </p>
+        <Button  label="Meld deg på" />
       </div>
     </main>
   );
