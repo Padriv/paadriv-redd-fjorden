@@ -1,4 +1,4 @@
-import InterestButton from "../components/InterestButton";
+import JoinSection from "./_components/JoinSection";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
         <h1 className="text-3xl font-semibold text-black">
           Oslofjorden trenger flere på laget — bli med og bidra med det du kan
         </h1>
-        <InterestButton />
+        <JoinSection />
       </div>
     </main>
   );

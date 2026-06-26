@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import MultiSelect from "./MultiSelect";
-import SubmitButton from "./SubmitButton";
+import MultiSelect from "../../../components/MultiSelect";
+import SubmitButton from "../../../components/SubmitButton";
 
 export default function IndividualSignupForm({ onClose }: { onClose?: () => void }) {
     const [name, setName] = useState("");
@@ -81,5 +81,4 @@ export default function IndividualSignupForm({ onClose }: { onClose?: () => void
             <SubmitButton label="Send inn" type="submit" />
 
         </form>
-    );
-}
+    ); }
