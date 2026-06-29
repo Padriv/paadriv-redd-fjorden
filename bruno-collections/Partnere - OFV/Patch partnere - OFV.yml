@@ -1,5 +1,5 @@
 info:
-  name: Patch pådrivere
+  name: Patch partnere - OFV
   type: http
   seq: 3
 
@@ -8,12 +8,16 @@ http:
   url: https://api.airtable.com/v0/{{app}}/{{table}}/{{record}}
   body:
     type: json
-    data: |
+    data: |-
       {
         "fields": {
-          "Kompetanse": ["IT"],
-          "Er det muligheter (eller utfordringer) i Oslo som er spesielt viktige for deg?": "nei",
-          "Velkomstepost": false
+          "Navn på organisasjon": "Test",
+          "Organisasjonsnummer": 123,
+          "Navn kontaktperson": "Test",
+          "Epost kontaktperson": "test@bekk.no",
+          "Tlf kontaktperson": "1111111",
+          "Kompetanse" : ["Sirkulær økonomi"],
+          "Samtykke": "Jeg samtykker"
         }
       }
   auth: inherit

@@ -1,7 +1,7 @@
 info:
-  name: Delete pådriver
+  name: Delete Partnere - OFV
   type: http
-  seq: 4
+  seq: 2
 
 http:
   method: DELETE
@@ -11,7 +11,7 @@ http:
 runtime:
   variables:
     - name: record
-      value: <Må settes>
+      value: <må settes>
 
 settings:
   encodeUrl: true
