@@ -1,0 +1,56 @@
+info:
+  name: "Patch prosjektportefølje "
+  type: http
+  seq: 2
+
+http:
+  method: PATCH
+  url: https://api.airtable.com/v0/{{app}}/{{table}}/{{record}}
+  body:
+    type: json
+    data: |
+      {
+        "fields": {
+          "Samarbeidspartnere" : [
+                "Oslofjorden friluftsråd",
+                "Oslo kommune",
+                "OsloMet",
+                "Veas",
+                "NIVA",
+                "NMBU",
+                "Ocean Industry Forum Oslofjord",
+                "Punkt Oslo",
+                "Hafslund",
+                "Hav Eiendom",
+                "Oslo Havn",
+                "Asker kommune",
+                "Osloregionen IPR",
+                "Sør Norges Fiskarlag",
+                "Nosytten",
+                "Avantor Slemmestad",
+                "Stiftelsen Fjordakademiet",
+                "Jibb Kommunikasjon",
+                "SoCentral",
+                "Oslo kommune (MOS) ",
+                "Chemring Nobel AS",
+                "Norges Bondelag",
+                "Nesodden kommune",
+                "KNBF",
+                "Akershus fylkeskommune",
+                "SINTEF"
+              ]
+            },
+            "typecast" : true
+      }
+  auth: inherit
+
+runtime:
+  variables:
+    - name: record
+      value: recNvM7EFsQDHRd57
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

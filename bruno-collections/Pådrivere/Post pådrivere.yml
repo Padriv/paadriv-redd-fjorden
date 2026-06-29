@@ -1,0 +1,33 @@
+info:
+  name: Post pådrivere
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: https://api.airtable.com/v0/{{app}}/{{table}}
+  body:
+    type: json
+    data: |-
+      {
+          "records": [
+            {
+              "fields": {
+                "Navn": "Fornavn Etternavn",
+                "Telefon": "12345678",
+                "Epost": "Epost",
+                "Virksomhet": "Organisasjon",
+                "Prosjekt" : ["recNvM7EFsQDHRd57"],
+                "Samtykke": "Jeg samtykker",
+                "Samtykke offentliggjøre kontaktinfo": true
+              }
+            }
+          ]
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
