@@ -1,7 +1,7 @@
 name: TEST
 variables:
   - name: table
-    value: tblrIxdb6OLYDom7L
+    value: "tblwNsjstRgN87Auv "
   - name: app
     value: appb0oCcoC3lj21q1
   - secret: true
