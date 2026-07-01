@@ -1,6 +1,7 @@
 const baseUrl = process.env.BASE_URL;
 const app = process.env.AIRTABLE_APP_ID;
 const table = process.env.AIRTABLE_TABLE_NAME;
+const project = process.env.AIRTABLE_PROJECT_ID;
 
 export type Padriver = {
 	records: [
@@ -9,7 +10,8 @@ export type Padriver = {
 				Navn: string;
 				Telefon: string;
 				Epost: string;
-				Prosjekt: string[];
+				Motivasjon: string;
+				Kompetanse: string[];
 				Samtykke: string;
 				"Samtykke offentliggjøre kontaktinfo": boolean;
 			};
@@ -24,7 +26,7 @@ const createPadriver = async (data: Padriver) => {
 			"Content-Type": "application/json",
 		},
 		method: "POST",
-		body: JSON.stringify(data),
+		body: JSON.stringify({ ...data, Prosjekt: [project] }),
 	});
 };
 
