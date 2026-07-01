@@ -64,7 +64,7 @@ export default function IndividualSignupForm({
 			setErrors(newErrors);
 			return;
 		}
-		test();
+		submitPadriver();
 	}
 
 	const createPadriverData = {
@@ -83,7 +83,7 @@ export default function IndividualSignupForm({
 		],
 	} satisfies Padriver;
 
-	async function test() {
+	async function submitPadriver() {
 		await fetch("/api/padriver", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
