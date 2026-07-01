@@ -9,6 +9,7 @@ export type Padriver = {
 				Navn: string;
 				Telefon: string;
 				Epost: string;
+				Kompetanse: string[];
 				Prosjekt: string[];
 				Samtykke: string;
 				"Samtykke offentliggjøre kontaktinfo": boolean;
