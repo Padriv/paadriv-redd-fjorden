@@ -219,8 +219,12 @@ export default function IndividualSignupForm({
 							onBlur={field.handleBlur}
 							placeholder="Jeg ønsker å bli pådriver fordi... "
 							rows={4}
+							maxLength={250}
 							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900 resize-none"
 						/>
+						<span className="text-xs text-zinc-500 self-end">
+							{field.state.value.length}/250
+						</span>
 						{field.state.meta.errorMap.onSubmit && (
 							<p className="text-red-500 text-xs">
 								{field.state.meta.errorMap.onSubmit}
