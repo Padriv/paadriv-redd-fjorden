@@ -45,6 +45,7 @@ export default function IndividualSignupForm({
 			telefon: "",
 			motivasjon: "",
 			kompetanse: [] as string[],
+			samtykke: false,
 		},
 		onSubmit: async ({ value }) => {
 			const response = await fetch("/api/padriver", {
@@ -260,6 +261,42 @@ export default function IndividualSignupForm({
 					</div>
 				)}
 			</form.Field>
+
+			<div className="flex flex-col gap-2">
+				<h3 className="text-lg font-semibold">
+					Samtykke <span className="text-red-500">*</span>
+				</h3>
+
+				<form.Field
+					name="samtykke"
+					validators={{
+						onSubmit: ({ value }) =>
+							!value ? "Du må samtykke for å sende inn skjemaet" : undefined,
+					}}
+				>
+					{(field) => (
+						<div className="flex flex-col gap-2 rounded-xl border border-zinc-200 p-4">
+							<label className="flex items-start gap-2 text-sm cursor-pointer">
+								<input
+									type="checkbox"
+									checked={field.state.value}
+									onChange={(e) => field.handleChange(e.target.checked)}
+									className="mt-1"
+								/>
+								<span>
+									Jeg samtykker til at opplysningene kan publiseres på
+									fjordenvår.no og at Pådriv kan bruke dem til å koble meg med andre pådrivere og partnere.
+								</span>
+							</label>
+							{field.state.meta.errorMap.onSubmit && (
+								<p className="text-red-500 text-xs">
+									{field.state.meta.errorMap.onSubmit}
+								</p>
+							)}
+						</div>
+					)}
+				</form.Field>
+				</div>
 
 			<Button label="Send inn" type="submit" />
 		</form>
