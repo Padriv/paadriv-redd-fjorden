@@ -24,10 +24,10 @@ const addProjectToFields = (record: Padriver['records'][number]) => {
 }
 
 const createPadriver = async (data: Padriver) => {
-    const records = data.records.map(addProjectToFields)
+   	const records = data.records.map(addProjectToFields)
     const body = JSON.stringify({ records })
 
-	await fetch(`${baseUrl}/${app}/${table}`, {
+	const response = await fetch(`${baseUrl}/${app}/${table}`, {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
 			"Content-Type": "application/json",
@@ -35,7 +35,12 @@ const createPadriver = async (data: Padriver) => {
 		method: "POST",
 		body
 	});
-
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status}: ${errorText}`,
+		);
+	}
 };
 
 export const airtableClient = {
