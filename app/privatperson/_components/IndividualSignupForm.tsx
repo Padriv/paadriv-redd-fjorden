@@ -205,14 +205,19 @@ export default function IndividualSignupForm({
 				{(field) => (
 					<div className="flex flex-col gap-2">
 						<label htmlFor="motivasjon" className="text-sm font-medium">
-							Motivasjon <span className="text-red-500">*</span>
+							Hvorfor ønsker du å bli pådriver for "Oppdrag: Fjorden Vår"?{" "}
+							<span className="text-red-500">*</span>
+							<div className="flex flex-col gap-1 mt-2 text-xs font-normal text-zinc-600">
+								<span>Merk: svaret ditt vil bli publisert på nettsiden.</span>
+								<span>Ta kontakt med pådriv om du ønsker endringer senere.</span>
+							</div>
 						</label>
 						<textarea
 							id="motivasjon"
 							value={field.state.value}
 							onChange={(e) => field.handleChange(e.target.value)}
 							onBlur={field.handleBlur}
-							placeholder="Hvorfor ønsker du å bli pådriver for Oppdrag: Fjorden Vår?"
+							placeholder="Jeg ønsker å bli pådriver fordi... "
 							rows={4}
 							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900 resize-none"
 						/>
