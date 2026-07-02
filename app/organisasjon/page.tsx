@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
 import Button from "@/components/Button";
 
 export default function Organisasjon() {
+	const [showForm, setShowForm] = useState(false);
+
 	return (
 		<main className="relative flex min-h-screen flex-col items-center justify-center bg-white px-16 py-32">
 			<Link
@@ -11,13 +17,19 @@ export default function Organisasjon() {
 				← Tilbake
 			</Link>
 			<div className="flex max-w-2xl flex-col gap-6">
-				<h1 className="text-3xl font-semibold text-black">
-					Bli med som organisasjon
-				</h1>
+				<h1 className="text-3xl font-semibold text-black">Organisasjon</h1>
 				<p className="text-lg leading-8 text-zinc-600">
 					Informasjon om hva det innebærer å bidra som organisasjon
 				</p>
-				<Button label="Meld deg på" />
+				{!showForm && (
+					<Button
+						label="Bli med som partner"
+						onClick={() => setShowForm(true)}
+					/>
+				)}
+				{showForm && (
+					<OrganizationSignupForm onClose={() => setShowForm(false)} />
+				)}
 			</div>
 		</main>
 	);
