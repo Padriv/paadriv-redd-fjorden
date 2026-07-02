@@ -1,6 +1,7 @@
 const baseUrl = process.env.BASE_URL;
 const app = process.env.AIRTABLE_APP_ID;
 const table = process.env.AIRTABLE_TABLE_NAME;
+const project = process.env.AIRTABLE_PROJECT_ID;
 
 export type Padriver = {
 	records: [
@@ -9,7 +10,8 @@ export type Padriver = {
 				Navn: string;
 				Telefon: string;
 				Epost: string;
-				Prosjekt: string[];
+				Motivasjon: string;
+				Kompetanse: string[];
 				Samtykke: string;
 				"Samtykke offentliggjøre kontaktinfo": boolean;
 			};
@@ -17,15 +19,23 @@ export type Padriver = {
 	];
 };
 
+const addProjectToFields = (record: Padriver['records'][number]) => {
+    return {fields: {...record.fields, Prosjekt: [project]}}
+}
+
 const createPadriver = async (data: Padriver) => {
+    const records = data.records.map(addProjectToFields)
+    const body = JSON.stringify({ records })
+
 	await fetch(`${baseUrl}/${app}/${table}`, {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
 			"Content-Type": "application/json",
 		},
 		method: "POST",
-		body: JSON.stringify(data),
+		body
 	});
+
 };
 
 export const airtableClient = {
