@@ -234,17 +234,29 @@ export default function IndividualSignupForm({
 				)}
 			</form.Field>
 
-			<form.Field name="kompetanse">
+			<form.Field
+				name="kompetanse"
+				validators={{
+					onSubmit: ({ value }) =>
+						value.length === 0 ? "Velg minst ett kompetanseområde" : undefined,
+				}}
+			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
 						<p className="text-sm font-medium">
-							Har du kompetanse eller erfaring innen noen av områdene under?
+							Har du kompetanse eller erfaring innen noen av områdene under?{" "}
+							<span className="text-red-500">*</span>
 						</p>
 						<MultiSelect
 							options={skillOptions}
 							selected={field.state.value}
 							setSelected={field.handleChange}
 						/>
+						{field.state.meta.errorMap.onSubmit && (
+							<p className="text-red-500 text-xs">
+								{field.state.meta.errorMap.onSubmit}
+							</p>
+						)}
 					</div>
 				)}
 			</form.Field>
