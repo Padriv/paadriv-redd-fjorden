@@ -19,15 +19,24 @@ export type Padriver = {
 	];
 };
 
+const addProjectToFields = (record: Padriver['records'][number]) => {
+    return { ...record.fields, Prosjekt: [project]}
+}
+
 const createPadriver = async (data: Padriver) => {
-	await fetch(`${baseUrl}/${app}/${table}`, {
+    const records = data.records.map(addProjectToFields)
+    const body = JSON.stringify({ records })
+
+    console.log("###############", body)
+	const response = await fetch(`${baseUrl}/${app}/${table}`, {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
 			"Content-Type": "application/json",
 		},
 		method: "POST",
-		body: JSON.stringify({ ...data, Prosjekt: [project] }),
+		body
 	});
+    console.log("airtable response", response)
 };
 
 export const airtableClient = {
