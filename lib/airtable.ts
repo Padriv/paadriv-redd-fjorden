@@ -2,6 +2,7 @@ const baseUrl = process.env.BASE_URL;
 const app = process.env.AIRTABLE_APP_ID;
 const table = process.env.AIRTABLE_TABLE_NAME;
 const project = process.env.AIRTABLE_PROJECT_ID;
+const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_NAME;
 
 export type Padriver = {
 	records: [
@@ -19,13 +20,34 @@ export type Padriver = {
 	];
 };
 
-const addProjectToFields = (record: Padriver['records'][number]) => {
-    return {fields: {...record.fields, Prosjekt: [project]}}
-}
+export type Partner = {
+	records: [
+		{
+			fields: {
+				"Navn på organisasjon": string;
+				Organisasjonsnummer: number;
+				"Epost Organisasjon": string;
+				Lokasjon: string;
+				"Navn kontaktperson": string;
+				"Epost kontaktperson": string;
+				"Tlf kontaktperson": string;
+				Motivasjon: string;
+				Kompetanse: string[];
+				"Økonomisk bidrag": string;
+				"Annet bidrag": string;
+				Samtykke: boolean;
+			};
+		},
+	];
+};
+
+const addProjectToFields = (record: Padriver["records"][number]) => {
+	return { fields: { ...record.fields, Prosjekt: [project] } };
+};
 
 const createPadriver = async (data: Padriver) => {
-   	const records = data.records.map(addProjectToFields)
-    const body = JSON.stringify({ records })
+	const records = data.records.map(addProjectToFields);
+	const body = JSON.stringify({ records });
 
 	const response = await fetch(`${baseUrl}/${app}/${table}`, {
 		headers: {
@@ -33,7 +55,7 @@ const createPadriver = async (data: Padriver) => {
 			"Content-Type": "application/json",
 		},
 		method: "POST",
-		body
+		body,
 	});
 	if (!response.ok) {
 		const errorText = await response.text();
@@ -43,6 +65,22 @@ const createPadriver = async (data: Padriver) => {
 	}
 };
 
+// Partnere-tabellen kobles foreløpig ikke mot et Prosjekt-felt, skal etter hvert kobles til Prosjektportefølje/samarbeidspartnere-kolonnen,
+//Bilde-feltet sendes heller ikke, fordi det krever et eget uploadAttachment-kall mot Airtable etter at recorden er opprettet
+const createPartner = async (data: Partner) => {
+	const body = JSON.stringify(data);
+
+	await fetch(`${baseUrl}/${app}/${partnereTable}`, {
+		headers: {
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+			"Content-Type": "application/json",
+		},
+		method: "POST",
+		body,
+	});
+};
+
 export const airtableClient = {
 	padriver: { create: createPadriver },
+	partnere: { create: createPartner },
 };
