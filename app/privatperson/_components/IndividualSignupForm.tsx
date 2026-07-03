@@ -198,26 +198,14 @@ export default function IndividualSignupForm({
 				)}
 			</form.Field>
 
-			<form.Field
-				name="bilde"
-				validators={{
-					onSubmit: ({ value }) => (!value ? "Bilde er påkrevd" : undefined),
-				}}
-			>
+			<form.Field name="bilde">
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<p className="text-sm font-medium">
-							Profilbilde <span className="text-red-500">*</span>
-						</p>
+						<p className="text-sm font-medium">Profilbilde</p>
 						<ImageUploadDemo
 							value={field.state.value}
 							onChange={field.handleChange}
 						/>
-						{field.state.meta.errorMap.onSubmit && (
-							<p className="text-red-500 text-xs">
-								{field.state.meta.errorMap.onSubmit}
-							</p>
-						)}
 					</div>
 				)}
 			</form.Field>
