@@ -11,7 +11,7 @@ const skillOptions = [
 	"Forretningsutvikling",
 	"Sirkulær økonomi",
 	"Ombruk",
-	"Arkitektur",
+	"Arkitektur ",
 	"Byplanlegging",
 	"Nærmiljøutvikling",
 	"Naturvern og biologisk mangfold",
@@ -30,7 +30,7 @@ const skillOptions = [
 	"Eiendom",
 	"Frivillig arbeid",
 	"Demokrati",
-	"Ingen relevant kompetanse eller erfaring, men vil gjerne bidra",
+	"Ingen av disse gjelder for meg, men jeg er likefullt en Pådriver!",
 ];
 
 export default function IndividualSignupForm({
