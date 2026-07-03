@@ -83,7 +83,7 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="orgNavn"
 					validators={{
-						onSubmit: ({ value }) =>
+						onBlur: ({ value }) =>
 							!value.trim() ? "Navn på organisasjonen er påkrevd" : undefined,
 					}}
 				>
@@ -101,9 +101,9 @@ export default function OrganizationSignupForm({
 								placeholder="Fjorden Vår AS"
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 							/>
-							{field.state.meta.errorMap.onSubmit && (
+							{field.state.meta.errorMap.onBlur && (
 								<p className="text-red-500 text-xs">
-									{field.state.meta.errorMap.onSubmit}
+									{field.state.meta.errorMap.onBlur}
 								</p>
 							)}
 						</div>
@@ -113,7 +113,7 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="orgNummer"
 					validators={{
-						onSubmit: ({ value }) =>
+						onBlur: ({ value }) =>
 							!value.trim() ? "Organisasjonsnummer er påkrevd" : undefined,
 					}}
 				>
@@ -131,9 +131,9 @@ export default function OrganizationSignupForm({
 								placeholder="123 456 789"
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 							/>
-							{field.state.meta.errorMap.onSubmit && (
+							{field.state.meta.errorMap.onBlur && (
 								<p className="text-red-500 text-xs">
-									{field.state.meta.errorMap.onSubmit}
+									{field.state.meta.errorMap.onBlur}
 								</p>
 							)}
 						</div>
@@ -176,7 +176,7 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="lokasjon"
 					validators={{
-						onSubmit: ({ value }) =>
+						onBlur: ({ value }) =>
 							!value.trim() ? "Lokasjon er påkrevd" : undefined,
 					}}
 				>
@@ -194,9 +194,9 @@ export default function OrganizationSignupForm({
 								placeholder="Oslo, Norge"
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 							/>
-							{field.state.meta.errorMap.onSubmit && (
+							{field.state.meta.errorMap.onBlur && (
 								<p className="text-red-500 text-xs">
-									{field.state.meta.errorMap.onSubmit}
+									{field.state.meta.errorMap.onBlur}
 								</p>
 							)}
 						</div>
@@ -228,7 +228,7 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="kontaktNavn"
 					validators={{
-						onSubmit: ({ value }) =>
+						onBlur: ({ value }) =>
 							!value.trim() ? "Navn er påkrevd" : undefined,
 					}}
 				>
@@ -246,9 +246,9 @@ export default function OrganizationSignupForm({
 								placeholder="Ola Nordmann"
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 							/>
-							{field.state.meta.errorMap.onSubmit && (
+							{field.state.meta.errorMap.onBlur && (
 								<p className="text-red-500 text-xs">
-									{field.state.meta.errorMap.onSubmit}
+									{field.state.meta.errorMap.onBlur}
 								</p>
 							)}
 						</div>
@@ -343,7 +343,7 @@ export default function OrganizationSignupForm({
 					validators={{
 						onChange: ({ value }) =>
 							value.length > 400 ? "Maks 400 tegn" : undefined,
-						onSubmit: ({ value }) =>
+						onBlur: ({ value }) =>
 							!value.trim() ? "Dette feltet er påkrevd" : undefined,
 					}}
 				>
@@ -371,9 +371,9 @@ export default function OrganizationSignupForm({
 									{field.state.meta.errorMap.onChange}
 								</p>
 							)}
-							{field.state.meta.errorMap.onSubmit && (
+							{field.state.meta.errorMap.onBlur && (
 								<p className="text-red-500 text-xs">
-									{field.state.meta.errorMap.onSubmit}
+									{field.state.meta.errorMap.onBlur}
 								</p>
 							)}
 						</div>
@@ -503,7 +503,20 @@ export default function OrganizationSignupForm({
 				</form.Field>
 			</div>
 
-			<Button label="Send inn" type="submit" />
+			<form.Subscribe
+				selector={(state) => [state.canSubmit, state.submissionAttempts] as const}
+			>
+				{([canSubmit, submissionAttempts]) => (
+					<div className="flex flex-col gap-2">
+						<Button label="Send inn" type="submit" />
+						{!canSubmit && submissionAttempts > 0 && (
+							<p className="text-red-500 text-sm text-center">
+								Fyll ut alle obligatoriske felter
+							</p>
+						)}
+					</div>
+				)}
+			</form.Subscribe>
 		</form>
 	);
 }
