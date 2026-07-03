@@ -322,8 +322,8 @@ export default function OrganizationSignupForm({
 					validators={{
 						onBlur: ({ value }) => {
 							if (!value.trim()) return "Tlf er påkrevd";
-							if (!/^\d[\d\s]*$/.test(value.trim()))
-								return "Tlf kan bare inneholde tall";
+							if (!/^\+?\d[\d\s]*$/.test(value.trim()))
+								return "Tlf kan bare inneholde tall (og eventuelt + foran landkode)";
 							return undefined;
 						},
 					}}
@@ -339,7 +339,7 @@ export default function OrganizationSignupForm({
 								value={field.state.value}
 								onChange={(e) => field.handleChange(e.target.value)}
 								onBlur={field.handleBlur}
-								placeholder="123 45 678"
+								placeholder="+47 123 45 678"
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 							/>
 							{field.state.meta.errorMap.onBlur && (
@@ -537,12 +537,14 @@ export default function OrganizationSignupForm({
 			</div>
 
 			<form.Subscribe
-				selector={(state) => [state.canSubmit, state.submissionAttempts] as const}
+				selector={(state) =>
+					[state.isValid, state.submissionAttempts] as const
+				}
 			>
-				{([canSubmit, submissionAttempts]) => (
+				{([isValid, submissionAttempts]) => (
 					<div className="flex flex-col gap-2">
 						<Button label="Send inn" type="submit" />
-						{!canSubmit && submissionAttempts > 0 && (
+						{!isValid && submissionAttempts > 0 && (
 							<p className="text-red-500 text-sm text-center">
 								Fyll ut alle obligatoriske felter
 							</p>
