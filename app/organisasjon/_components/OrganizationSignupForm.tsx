@@ -1,9 +1,9 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
 import type { Partner } from "@/lib/airtable";
 import Button from "../../../components/Button";
+import { ImageUploadDemo } from "../../../components/ImageUpload";
 import MultiSelect from "../../../components/MultiSelect";
 
 const bidragOptions = [
@@ -29,18 +29,17 @@ export default function OrganizationSignupForm({
 }: {
 	onClose?: () => void;
 }) {
-	const [bildeNavn, setBildeNavn] = useState<string | null>(null);
-	const [logoNavn, setLogoNavn] = useState<string | null>(null);
-
 	const form = useForm({
 		defaultValues: {
 			orgNavn: "",
 			orgNummer: "",
 			orgEpost: "",
 			lokasjon: "",
+			logo: null as File | null,
 			kontaktNavn: "",
 			kontaktEpost: "",
 			kontaktTlf: "",
+			bilde: null as File | null,
 			motivasjon: "",
 			kompetanse: [] as string[],
 			okonomiskBidrag: "",
@@ -232,21 +231,17 @@ export default function OrganizationSignupForm({
 					)}
 				</form.Field>
 
-				<div className="flex flex-col gap-2">
-					<label
-						htmlFor="logo"
-						className="cursor-pointer flex items-center justify-center rounded-full border border-zinc-300 px-6 py-3 text-sm font-medium hover:bg-zinc-50 transition-colors"
-					>
-						{logoNavn ?? "Last opp logo"}
-					</label>
-					<input
-						id="logo"
-						type="file"
-						accept="image/*"
-						className="hidden"
-						onChange={(e) => setLogoNavn(e.target.files?.[0]?.name ?? null)}
-					/>
-				</div>
+				<form.Field name="logo">
+					{(field) => (
+						<div className="flex flex-col gap-2">
+							<p className="text-sm font-medium">Logo</p>
+							<ImageUploadDemo
+								value={field.state.value}
+								onChange={field.handleChange}
+							/>
+						</div>
+					)}
+				</form.Field>
 			</div>
 
 			<div className="flex flex-col gap-4">
@@ -352,21 +347,17 @@ export default function OrganizationSignupForm({
 				</form.Field>
 			</div>
 
-			<div className="flex flex-col gap-2">
-				<label
-					htmlFor="bilde"
-					className="cursor-pointer flex items-center justify-center rounded-full border border-zinc-300 px-6 py-3 text-sm font-medium hover:bg-zinc-50 transition-colors"
-				>
-					{bildeNavn ?? "Last opp profilbilde"}
-				</label>
-				<input
-					id="bilde"
-					type="file"
-					accept="image/*"
-					className="hidden"
-					onChange={(e) => setBildeNavn(e.target.files?.[0]?.name ?? null)}
-				/>
-			</div>
+			<form.Field name="bilde">
+				{(field) => (
+					<div className="flex flex-col gap-2">
+						<p className="text-sm font-medium">Profilbilde</p>
+						<ImageUploadDemo
+							value={field.state.value}
+							onChange={field.handleChange}
+						/>
+					</div>
+				)}
+			</form.Field>
 
 			<div className="flex flex-col gap-4">
 				<h3 className="text-lg font-semibold">Partnerskap</h3>
