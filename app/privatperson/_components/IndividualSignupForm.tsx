@@ -298,6 +298,18 @@ export default function IndividualSignupForm({
 				</form.Field>
 				</div>
 
+			<form.Subscribe
+				selector={(state) => [state.submissionAttempts, state.isValid] as const}
+			>
+				{([submissionAttempts, isValid]) =>
+					submissionAttempts > 0 && !isValid ? (
+						<p className="text-red-500 text-sm" role="alert">
+							Fyll ut alle påkrevde felt før du sender inn.
+						</p>
+					) : null
+				}
+			</form.Subscribe>
+
 			<Button label="Send inn" type="submit" />
 		</form>
 	);
