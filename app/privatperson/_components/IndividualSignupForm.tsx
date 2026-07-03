@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
 import type { Padriver } from "@/lib/airtable";
 import Button from "../../../components/Button";
 import MultiSelect from "../../../components/MultiSelect";
@@ -46,7 +47,7 @@ export default function IndividualSignupForm({
 			kompetanse: [] as string[],
 		},
 		onSubmit: async ({ value }) => {
-			await fetch("/api/padriver", {
+			const response = await fetch("/api/padriver", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -63,8 +64,17 @@ export default function IndividualSignupForm({
 							},
 						},
 					],
-				} satisfies Padriver),
+				}satisfies Padriver),
 			});
+
+			if (response.status !== 201) {
+				toast.error("Noe gikk galt", {
+					description:
+						"Vi klarte ikke å registrere påmeldingen din. Prøv igjen.",
+				});
+				return;
+			}
+
 			onClose?.();
 		},
 	});
