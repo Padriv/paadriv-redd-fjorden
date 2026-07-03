@@ -2,6 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
+import type { Partner } from "@/lib/airtable";
 import Button from "../../../components/Button";
 import MultiSelect from "../../../components/MultiSelect";
 
@@ -46,8 +47,32 @@ export default function OrganizationSignupForm({
 			annetBidrag: "",
 			samtykke: false,
 		},
-		onSubmit: async () => {
-			// TODO: koble opp mot Partnere-OFV i Airtable (se eget issue/PR for Airtable-integrasjonen)
+		onSubmit: async ({ value }) => {
+			//Bilde/logo sendes ikke med enda. Airtable krever et eget uploadAttachment-kall mot recorden etter at den er opprettet. Fikses senere
+			await fetch("/api/partnere", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					records: [
+						{
+							fields: {
+								"Navn på organisasjon": value.orgNavn,
+								Organisasjonsnummer: Number(value.orgNummer.replace(/\s/g, "")),
+								"Epost Organisasjon": value.orgEpost,
+								Lokasjon: value.lokasjon,
+								"Navn kontaktperson": value.kontaktNavn,
+								"Epost kontaktperson": value.kontaktEpost,
+								"Tlf kontaktperson": value.kontaktTlf.replace(/\s/g, ""),
+								Motivasjon: value.motivasjon,
+								Kompetanse: value.kompetanse,
+								"Økonomisk bidrag": value.okonomiskBidrag,
+								"Annet bidrag": value.annetBidrag,
+								Samtykke: value.samtykke,
+							},
+						},
+					],
+				} satisfies Partner),
+			});
 			onClose?.();
 		},
 	});
@@ -113,8 +138,12 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="orgNummer"
 					validators={{
-						onBlur: ({ value }) =>
-							!value.trim() ? "Organisasjonsnummer er påkrevd" : undefined,
+						onBlur: ({ value }) => {
+							if (!value.trim()) return "Organisasjonsnummer er påkrevd";
+							if (!/^\d[\d\s]*$/.test(value.trim()))
+								return "Organisasjonsnummer kan bare inneholde tall";
+							return undefined;
+						},
 					}}
 				>
 					{(field) => (
@@ -291,8 +320,12 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="kontaktTlf"
 					validators={{
-						onBlur: ({ value }) =>
-							!value.trim() ? "Tlf er påkrevd" : undefined,
+						onBlur: ({ value }) => {
+							if (!value.trim()) return "Tlf er påkrevd";
+							if (!/^\d[\d\s]*$/.test(value.trim()))
+								return "Tlf kan bare inneholde tall";
+							return undefined;
+						},
 					}}
 				>
 					{(field) => (
