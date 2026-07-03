@@ -67,7 +67,7 @@ export default function IndividualSignupForm({
 							},
 						},
 					],
-				}satisfies Padriver),
+				} satisfies Padriver),
 			});
 
 			if (response.status !== 201) {
@@ -224,7 +224,9 @@ export default function IndividualSignupForm({
 							<span className="text-red-500">*</span>
 							<div className="flex flex-col gap-1 mt-2 text-xs font-normal text-zinc-600">
 								<span>Merk: svaret ditt vil bli publisert på nettsiden.</span>
-								<span>Ta kontakt med pådriv om du ønsker endringer senere.</span>
+								<span>
+									Ta kontakt med pådriv om du ønsker endringer senere.
+								</span>
 							</div>
 						</label>
 						<textarea
@@ -299,7 +301,8 @@ export default function IndividualSignupForm({
 								/>
 								<span>
 									Jeg samtykker til at opplysningene kan publiseres på
-									fjordenvår.no og at Pådriv kan bruke dem til å koble meg med andre pådrivere og partnere.
+									fjordenvår.no i forbindelse med presentasjon av meg som
+									pådriver.
 								</span>
 							</label>
 							{field.state.meta.errorMap.onSubmit && (
@@ -310,7 +313,7 @@ export default function IndividualSignupForm({
 						</div>
 					)}
 				</form.Field>
-				</div>
+			</div>
 
 			<form.Subscribe
 				selector={(state) => [state.submissionAttempts, state.isValid] as const}

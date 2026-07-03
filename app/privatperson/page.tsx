@@ -17,14 +17,15 @@ export default function Privatperson() {
 				← Tilbake
 			</Link>
 			<div className="flex max-w-2xl flex-col gap-6">
-				<h1 className="text-3xl font-semibold text-black">
-					Bli med som privatperson
-				</h1>
+				<h1 className="text-3xl font-semibold text-black">Privatperson</h1>
 				<p className="text-lg leading-8 text-zinc-600">
 					Informasjon om hva det innebærer å bidra som enkeltperson
 				</p>
 				{!showForm && (
-					<Button label="Meld deg på" onClick={() => setShowForm(true)} />
+					<Button
+						label="Bli med som pådriver"
+						onClick={() => setShowForm(true)}
+					/>
 				)}
 				{showForm && (
 					<IndividualSignupForm onClose={() => setShowForm(false)} />
