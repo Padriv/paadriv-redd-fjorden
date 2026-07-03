@@ -46,9 +46,8 @@ export default function OrganizationSignupForm({
 			annetBidrag: "",
 			samtykke: false,
 		},
-		onSubmit: async ({ value }) => {
-			// TODO: koble opp mot Partnere-OFV i Airtable på samme måte som IndividualSignupForm er koblet til Pådrivere i Airtable
-			console.log("Organisasjonssøknad sendt inn:", value);
+		onSubmit: async () => {
+			// TODO: koble opp mot Partnere-OFV i Airtable (se eget issue/PR for Airtable-integrasjonen)
 			onClose?.();
 		},
 	});
@@ -342,6 +341,8 @@ export default function OrganizationSignupForm({
 				<form.Field
 					name="motivasjon"
 					validators={{
+						onChange: ({ value }) =>
+							value.length > 400 ? "Maks 400 tegn" : undefined,
 						onSubmit: ({ value }) =>
 							!value.trim() ? "Dette feltet er påkrevd" : undefined,
 					}}
@@ -359,8 +360,17 @@ export default function OrganizationSignupForm({
 								onBlur={field.handleBlur}
 								placeholder="Fortell litt om hvorfor dere ønsker å bli partner, og hva dere håper å oppnå med samarbeidet."
 								rows={4}
+								maxLength={400}
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900 resize-none"
 							/>
+							<p className="text-xs text-zinc-400 text-right">
+								{field.state.value.length}/400 tegn
+							</p>
+							{field.state.meta.errorMap.onChange && (
+								<p className="text-red-500 text-xs">
+									{field.state.meta.errorMap.onChange}
+								</p>
+							)}
 							{field.state.meta.errorMap.onSubmit && (
 								<p className="text-red-500 text-xs">
 									{field.state.meta.errorMap.onSubmit}
@@ -412,18 +422,19 @@ export default function OrganizationSignupForm({
 				<form.Field name="okonomiskBidrag">
 					{(field) => (
 						<div className="flex flex-col gap-2">
-							<label
-								htmlFor="okonomiskBidrag"
-								className="text-sm font-medium italic"
-							>
-								Fyll ut her hva din virksomhet kan bidra med.
+							<label htmlFor="okonomiskBidrag" className="text-sm font-medium">
+								Beløp
 							</label>
+							<p className="text-sm italic text-zinc-600">
+								Kan dere bidra med et beløp, sponsormidler eller annen økonomisk
+								støtte?
+							</p>
 							<textarea
 								id="okonomiskBidrag"
 								value={field.state.value}
 								onChange={(e) => field.handleChange(e.target.value)}
 								onBlur={field.handleBlur}
-								placeholder="F.eks. et sponsorbeløp per år, eller andre økonomiske ressurser"
+								placeholder="F.eks. et gitt beløp per år, eller sponsormidler"
 								rows={3}
 								className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900 resize-none"
 							/>
@@ -434,12 +445,13 @@ export default function OrganizationSignupForm({
 				<form.Field name="annetBidrag">
 					{(field) => (
 						<div className="flex flex-col gap-2">
-							<label
-								htmlFor="annetBidrag"
-								className="text-sm font-medium italic"
-							>
+							<label htmlFor="annetBidrag" className="text-sm font-medium">
 								Annet bidrag
 							</label>
+							<p className="text-sm italic text-zinc-600">
+								Kan dere allokere personer/stillingsbrøker til innsatsgruppen,
+								eller bidra på andre måter?
+							</p>
 							<textarea
 								id="annetBidrag"
 								value={field.state.value}
