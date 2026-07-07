@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import type { Bilde } from "./airtable";
+import type { Image } from "./airtable";
 
 export function fileToBase64(file: File): Promise<string> {
 	return new Promise((resolve, reject) => {
@@ -17,9 +17,9 @@ export function fileToBase64(file: File): Promise<string> {
 	});
 }
 
-export async function resolveBilde(
+export async function resolveImage(
 	file: File | null,
-): Promise<Bilde | null | undefined> {
+): Promise<Image | null | undefined> {
 	if (!file) return null;
 	try {
 		return {

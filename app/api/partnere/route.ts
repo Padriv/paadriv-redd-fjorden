@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 		const result = await client.airtable.partnere.create(partnerData);
 		const recordId = result.records[0].id;
 		if (bilde && recordId) {
-			await client.airtable.partnere.uploadBilde(recordId, bilde);
+			await client.airtable.partnere.uploadImage(recordId, bilde);
 		}
 		if (logo && recordId) {
 			await client.airtable.partnere.uploadLogo(recordId, logo);

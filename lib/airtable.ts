@@ -47,16 +47,16 @@ export type Partner = {
 const addProjectToFields = (record: Padriver["records"][number]) => {
 	return { fields: { ...record.fields, Prosjekt: [project] } };
 };
-export type Bilde = {
+export type Image = {
 	filename: string;
 	contentType: string;
 	base64: string;
 };
 
-export type CreatePadriverRequest = Padriver & { bilde?: Bilde | null };
+export type CreatePadriverRequest = Padriver & { bilde?: Image | null };
 export type CreatePartnerRequest = Partner & {
-	bilde?: Bilde | null;
-	logo?: Bilde | null;
+	bilde?: Image | null;
+	logo?: Image | null;
 };
 
 const profilbildeField = "Profilbilde";
@@ -180,7 +180,7 @@ const createPartner = async (data: Partner) => {
 };
 
 
-const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bilde) => {
+const uploadAttachment = async (recordId: string, fieldName: string, bilde: Image) => {
 	const response = await fetch(
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
 		{
@@ -204,20 +204,20 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bild
 	}
 };
 
-const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
+const uploadPadriverImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
-const uploadPartnerBilde = (recordId: string, bilde: Bilde) =>
+const uploadPartnerImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, partnerBildeField, bilde);
 
-const uploadPartnerLogo = (recordId: string, logo: Bilde) =>
+const uploadPartnerLogo = (recordId: string, logo: Image) =>
 	uploadAttachment(recordId, logoField, logo);
 
 export const airtableClient = {
-	padriver: { create: createPadriver, uploadBilde: uploadPadriverBilde },
+	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
 	partnere: {
 		create: createPartner,
-		uploadBilde: uploadPartnerBilde,
+		uploadImage: uploadPartnerImage,
 		uploadLogo: uploadPartnerLogo,
 	},
 };

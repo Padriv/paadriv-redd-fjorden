@@ -3,7 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import type { CreatePadriverRequest } from "@/lib/airtable";
-import { resolveBilde } from "@/lib/picture";
+import { resolveImage } from "@/lib/Image";
 import Button from "../../../components/Button";
 import { ImageUploadDemo } from "../../../components/ImageUpload";
 import MultiSelect from "../../../components/MultiSelect";
@@ -51,7 +51,7 @@ export default function IndividualSignupForm({
 			samtykke: false,
 		},
 		onSubmit: async ({ value }) => {
-			const bilde = await resolveBilde(value.bilde);
+			const bilde = await resolveImage(value.bilde);
 			if (bilde === undefined) return;
 
 			const response = await fetch("/api/padriver", {
