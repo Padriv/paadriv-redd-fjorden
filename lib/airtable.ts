@@ -216,6 +216,57 @@ type AirtablePartnerRecord = {
 	};
 };
 
+type GetPartnereResponse = { records: AirtablePartnerRecord[] };
+
+const isAirtablePartnerRecord = (
+	value: unknown,
+): value is AirtablePartnerRecord => {
+	if (
+		typeof value !== "object" ||
+		value === null ||
+		!("id" in value) ||
+		!("fields" in value)
+	) {
+		return false;
+	}
+	const { id, fields } = value as { id: unknown; fields: unknown };
+	if (typeof id !== "string" || typeof fields !== "object" || fields === null) {
+		return false;
+	}
+
+	const { "Navn på organisasjon": navn, Bilde } = fields as {
+		"Navn på organisasjon"?: unknown;
+		Bilde?: unknown;
+	};
+	if (navn !== undefined && typeof navn !== "string") {
+		return false;
+	}
+	if (Bilde !== undefined) {
+		if (!Array.isArray(Bilde)) {
+			return false;
+		}
+		const harGyldigeBilder = Bilde.every(
+			(bilde) =>
+				typeof bilde === "object" &&
+				bilde !== null &&
+				typeof (bilde as { url?: unknown }).url === "string",
+		);
+		if (!harGyldigeBilder) {
+			return false;
+		}
+	}
+
+	return true;
+};
+
+const isGetPartnereResponse = (data: unknown): data is GetPartnereResponse => {
+	if (typeof data !== "object" || data === null || !("records" in data)) {
+		return false;
+	}
+	const { records } = data as { records: unknown };
+	return Array.isArray(records) && records.every(isAirtablePartnerRecord);
+};
+
 const getPartnere = async (): Promise<PartnerListItem[]> => {
 	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
 		headers: {
@@ -230,7 +281,10 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 		);
 	}
 
-	const json = (await response.json()) as { records: AirtablePartnerRecord[] };
+	const json = await response.json();
+	if (!isGetPartnereResponse(json)) {
+		throw new Error("Uventet svar fra Airtable ved henting av partnere");
+	}
 
 	//AirtablePartnerRecord[] blir gjort om til PartnerListItem[]
 	return json.records
