@@ -4,6 +4,8 @@ const app = process.env.AIRTABLE_APP_ID;
 const table = process.env.AIRTABLE_TABLE_NAME;
 const project = process.env.AIRTABLE_PROJECT_ID;
 const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_NAME;
+const prosjektportefoljeTable =
+	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_NAME;
 
 export type Padriver = {
 	records: [
@@ -94,12 +96,59 @@ const createPadriver = async (data: Padriver) => {
 	return json;
 };
 
-// Partnere-tabellen kobles foreløpig ikke mot et Prosjekt-felt, skal etter hvert kobles til Prosjektportefølje/samarbeidspartnere-kolonnen,
-//Bilde-feltet sendes heller ikke, fordi det krever et eget uploadAttachment-kall mot Airtable etter at recorden er opprettet
+// Samarbeidspartnere er et Multiple select-felt, ikke et lenke-felt, så vi må hente gjeldende liste og skrive den tilbake med den nye partneren lagt til.
+const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
+	const getResponse = await fetch(
+		`${baseUrl}/${app}/${prosjektportefoljeTable}/${project}`,
+		{
+			headers: {
+				Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+			},
+		},
+	);
+
+	if (!getResponse.ok) {
+		const errorText = await getResponse.text();
+		throw new Error(
+			`Klarte ikke å hente prosjektraden fra Prosjektportefølje: ${getResponse.status} ${errorText}`,
+		);
+	}
+
+	const record = await getResponse.json();
+	const eksisterende: string[] = record.fields?.Samarbeidspartnere ?? [];
+
+	if (eksisterende.includes(partnerNavn)) {
+		return;
+	}
+
+	const patchResponse = await fetch(
+		`${baseUrl}/${app}/${prosjektportefoljeTable}/${project}`,
+		{
+			method: "PATCH",
+			headers: {
+				Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				fields: { Samarbeidspartnere: [...eksisterende, partnerNavn] },
+				typecast: true,
+			}),
+		},
+	);
+
+	if (!patchResponse.ok) {
+		const errorText = await patchResponse.text();
+		throw new Error(
+			`Klarte ikke å oppdatere Samarbeidspartnere: ${patchResponse.status} ${errorText}`,
+		);
+	}
+};
+
+// Bilde sendes ikke med enda - krever et eget uploadAttachment-kall
 const createPartner = async (data: Partner) => {
 	const body = JSON.stringify(data);
 
-	await fetch(`${baseUrl}/${app}/${partnereTable}`, {
+	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
 			"Content-Type": "application/json",
@@ -107,6 +156,15 @@ const createPartner = async (data: Partner) => {
 		method: "POST",
 		body,
 	});
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status}: ${errorText}`,
+		);
+	}
+
+	const partnerNavn = data.records[0].fields["Navn på organisasjon"];
+	await addPartnerToSamarbeidspartnere(partnerNavn);
 };
 
 
