@@ -1,4 +1,5 @@
 import JoinSection from "./_components/JoinSection";
+import PaadriverSection from "./_components/PaadriverSection";
 
 export default function Home() {
 	return (
@@ -8,6 +9,7 @@ export default function Home() {
 					Oslofjorden trenger flere på laget — bli med og bidra med det du kan
 				</h1>
 				<JoinSection />
+				<PaadriverSection />
 			</div>
 		</main>
 	);
