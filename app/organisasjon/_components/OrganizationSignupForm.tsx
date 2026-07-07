@@ -1,7 +1,9 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import type { Partner } from "@/lib/airtable";
+import { toast } from "sonner";
+import type { CreatePartnerRequest } from "@/lib/airtable";
+import { resolveImage } from "@/lib/Image";
 import Button from "../../../components/Button";
 import { ImageUploadDemo } from "../../../components/ImageUpload";
 import MultiSelect from "../../../components/MultiSelect";
@@ -47,8 +49,13 @@ export default function OrganizationSignupForm({
 			samtykke: false,
 		},
 		onSubmit: async ({ value }) => {
-			//Bilde/logo sendes ikke med enda. Airtable krever et eget uploadAttachment-kall mot recorden etter at den er opprettet. Fikses senere
-			await fetch("/api/partnere", {
+			const logo = await resolveImage(value.logo);
+			if (logo === undefined) return;
+
+			const bilde = await resolveImage(value.bilde);
+			if (bilde === undefined) return;
+
+			const response = await fetch("/api/partnere", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -70,8 +77,19 @@ export default function OrganizationSignupForm({
 							},
 						},
 					],
-				} satisfies Partner),
+					logo,
+					bilde,
+				} satisfies CreatePartnerRequest),
 			});
+
+			if (response.status !== 201) {
+				toast.error("Noe gikk galt", {
+					description:
+						"Vi klarte ikke å registrere partneren. Prøv igjen.",
+				});
+				return;
+			}
+
 			onClose?.();
 		},
 	});

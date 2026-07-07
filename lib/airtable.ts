@@ -47,19 +47,25 @@ export type Partner = {
 const addProjectToFields = (record: Padriver["records"][number]) => {
 	return { fields: { ...record.fields, Prosjekt: [project] } };
 };
-export type Bilde = {
+export type Image = {
 	filename: string;
 	contentType: string;
 	base64: string;
 };
 
-export type CreatePadriverRequest = Padriver & { bilde?: Bilde | null };
+export type CreatePadriverRequest = Padriver & { bilde?: Image | null };
+export type CreatePartnerRequest = Partner & {
+	bilde?: Image | null;
+	logo?: Image | null;
+};
 
 const profilbildeField = "Profilbilde";
+const partnerBildeField = "Bilde";
+const logoField = "Logo";
 
-type CreatePadriverResponse = { records: [{ id: string }] };
+type CreateRecordResponse = { records: [{ id: string }] };
 
-const isCreatePadriverResponse = (data: unknown): data is CreatePadriverResponse => {
+const isCreateRecordResponse = (data: unknown): data is CreateRecordResponse => {
 	if (typeof data !== "object" || data === null || !("records" in data)) return false;
 	const { records } = data as { records: unknown };
 	return (
@@ -90,7 +96,7 @@ const createPadriver = async (data: Padriver) => {
 	}
 
 	const json = await response.json();
-	if (!isCreatePadriverResponse(json)) {
+	if (!isCreateRecordResponse(json)) {
 		throw new Error("Uventet svar fra Airtable ved oppretting av pådriver");
 	}
 	return json;
@@ -144,7 +150,6 @@ const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
 	}
 };
 
-// Bilde sendes ikke med enda - krever et eget uploadAttachment-kall
 const createPartner = async (data: Partner) => {
 	const body = JSON.stringify(data);
 
@@ -163,12 +168,19 @@ const createPartner = async (data: Partner) => {
 		);
 	}
 
+	const json = await response.json();
+	if (!isCreateRecordResponse(json)) {
+		throw new Error("Uventet svar fra Airtable ved oppretting av partner");
+	}
+
 	const partnerNavn = data.records[0].fields["Navn på organisasjon"];
 	await addPartnerToSamarbeidspartnere(partnerNavn);
+
+	return json;
 };
 
 
-const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bilde) => {
+const uploadAttachment = async (recordId: string, fieldName: string, bilde: Image) => {
 	const response = await fetch(
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
 		{
@@ -192,10 +204,20 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bild
 	}
 };
 
-const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
+const uploadPadriverImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
+const uploadPartnerImage = (recordId: string, bilde: Image) =>
+	uploadAttachment(recordId, partnerBildeField, bilde);
+
+const uploadPartnerLogo = (recordId: string, logo: Image) =>
+	uploadAttachment(recordId, logoField, logo);
+
 export const airtableClient = {
-	padriver: { create: createPadriver, uploadBilde: uploadPadriverBilde },
-	partnere: { create: createPartner },
+	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
+	partnere: {
+		create: createPartner,
+		uploadImage: uploadPartnerImage,
+		uploadLogo: uploadPartnerLogo,
+	},
 };
