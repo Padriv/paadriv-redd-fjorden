@@ -1,11 +1,11 @@
-const baseUrl = process.env.BASE_URL;
+const baseUrl = process.env.AIRTABLE_BASE_URL;
 const contentBaseUrl = process.env.AIRTABLE_CONTENT_BASE_URL;
-const app = process.env.AIRTABLE_APP_ID;
-const table = process.env.AIRTABLE_TABLE_NAME;
-const project = process.env.AIRTABLE_PROJECT_ID;
-const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_NAME;
+const app = process.env.AIRTABLE_BASE_ID;
+const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
+const project = process.env.AIRTABLE_PROSJEKT_RECORD_ID;
+const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
-	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_NAME;
+	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 
 export type Padriver = {
 	records: [
