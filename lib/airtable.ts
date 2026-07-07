@@ -54,12 +54,18 @@ export type Bilde = {
 };
 
 export type CreatePadriverRequest = Padriver & { bilde?: Bilde | null };
+export type CreatePartnerRequest = Partner & {
+	bilde?: Bilde | null;
+	logo?: Bilde | null;
+};
 
 const profilbildeField = "Profilbilde";
+const partnerBildeField = "Bilde";
+const logoField = "Logo";
 
-type CreatePadriverResponse = { records: [{ id: string }] };
+type CreateRecordResponse = { records: [{ id: string }] };
 
-const isCreatePadriverResponse = (data: unknown): data is CreatePadriverResponse => {
+const isCreateRecordResponse = (data: unknown): data is CreateRecordResponse => {
 	if (typeof data !== "object" || data === null || !("records" in data)) return false;
 	const { records } = data as { records: unknown };
 	return (
@@ -90,7 +96,7 @@ const createPadriver = async (data: Padriver) => {
 	}
 
 	const json = await response.json();
-	if (!isCreatePadriverResponse(json)) {
+	if (!isCreateRecordResponse(json)) {
 		throw new Error("Uventet svar fra Airtable ved oppretting av pådriver");
 	}
 	return json;
@@ -144,7 +150,6 @@ const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
 	}
 };
 
-// Bilde sendes ikke med enda - krever et eget uploadAttachment-kall
 const createPartner = async (data: Partner) => {
 	const body = JSON.stringify(data);
 
@@ -163,8 +168,15 @@ const createPartner = async (data: Partner) => {
 		);
 	}
 
+	const json = await response.json();
+	if (!isCreateRecordResponse(json)) {
+		throw new Error("Uventet svar fra Airtable ved oppretting av partner");
+	}
+
 	const partnerNavn = data.records[0].fields["Navn på organisasjon"];
 	await addPartnerToSamarbeidspartnere(partnerNavn);
+
+	return json;
 };
 
 
@@ -195,7 +207,17 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bild
 const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
+const uploadPartnerBilde = (recordId: string, bilde: Bilde) =>
+	uploadAttachment(recordId, partnerBildeField, bilde);
+
+const uploadPartnerLogo = (recordId: string, logo: Bilde) =>
+	uploadAttachment(recordId, logoField, logo);
+
 export const airtableClient = {
 	padriver: { create: createPadriver, uploadBilde: uploadPadriverBilde },
-	partnere: { create: createPartner },
+	partnere: {
+		create: createPartner,
+		uploadBilde: uploadPartnerBilde,
+		uploadLogo: uploadPartnerLogo,
+	},
 };
