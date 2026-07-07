@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Link from "next/link";
 import { client } from "@/lib/client";
 
 export default async function PartnereSection() {
@@ -23,12 +23,9 @@ export default async function PartnereSection() {
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-6">
-			<div className="flex items-center justify-between">
-				<h2 className="text-2xl font-semibold text-black">
-					Våre {partnere.length} partnere
-				</h2>
-				<Button href="/partnere" label="Se alle" />
-			</div>
+			<h2 className="text-2xl font-semibold text-black">
+				Våre {partnere.length} partnere
+			</h2>
 
 			<div className="w-full overflow-hidden">
 				<div className="flex w-max animate-marquee gap-8">
@@ -54,6 +51,13 @@ export default async function PartnereSection() {
 					))}
 				</div>
 			</div>
+
+			<Link
+				href="/partnere"
+				className="self-end text-sm font-medium text-zinc-500 transition-colors hover:text-black"
+			>
+				Se alle →
+			</Link>
 		</section>
 	);
 }
