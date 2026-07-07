@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 		const result = await client.airtable.padriver.create(padriverData);
 		const recordId = result.records[0].id;
 		if (bilde && recordId) {
-			await client.airtable.padriver.uploadBilde(recordId, bilde);
+			await client.airtable.padriver.uploadImage(recordId, bilde);
 		}
 	} catch (error) {
 		return NextResponse.json({ success: false }, { status: 502 });
