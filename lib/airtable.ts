@@ -57,8 +57,11 @@ const profilbildeField = "Profilbilde";
 
 type CreatePadriverResponse = { records: [{ id: string }] };
 
-const isCreatePadriverResponse = (data: unknown): data is CreatePadriverResponse => {
-	if (typeof data !== "object" || data === null || !("records" in data)) return false;
+const isCreatePadriverResponse = (
+	data: unknown,
+): data is CreatePadriverResponse => {
+	if (typeof data !== "object" || data === null || !("records" in data))
+		return false;
 	const { records } = data as { records: unknown };
 	return (
 		Array.isArray(records) &&
@@ -66,7 +69,6 @@ const isCreatePadriverResponse = (data: unknown): data is CreatePadriverResponse
 		typeof records[0]?.id === "string"
 	);
 };
-
 
 const createPadriver = async (data: Padriver) => {
 	const records = data.records.map(addProjectToFields);
@@ -109,8 +111,11 @@ const createPartner = async (data: Partner) => {
 	});
 };
 
-
-const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bilde) => {
+const uploadAttachment = async (
+	recordId: string,
+	fieldName: string,
+	bilde: Bilde,
+) => {
 	const response = await fetch(
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
 		{
@@ -137,7 +142,49 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Bild
 const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
+//formen vi ønsker å ha data i etter at vi har hentet det fra Airtable, for å bruke i PartnereSection og resten av applikasjonen
+export type PartnerListItem = {
+	id: string;
+	navn: string;
+	logoUrl?: string;
+};
+
+//formen på data som hentes rett fra Airtable, den vi ønsker å transformere til PartnerListItem
+type AirtablePartnerRecord = {
+	id: string;
+	fields: {
+		"Navn på organisasjon"?: string;
+		Bilde?: { url: string }[];
+	};
+};
+
+const getPartnere = async (): Promise<PartnerListItem[]> => {
+	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
+		headers: {
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+		},
+	});
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status}: ${errorText}`,
+		);
+	}
+
+	const json = (await response.json()) as { records: AirtablePartnerRecord[] };
+
+	//AirtablePartnerRecord[] blir gjort om til PartnerListItem[]
+	return json.records
+		.filter((record) => record.fields["Navn på organisasjon"])
+		.map((record) => ({
+			id: record.id,
+			navn: record.fields["Navn på organisasjon"] as string,
+			logoUrl: record.fields.Bilde?.[0]?.url,
+		}));
+};
+
 export const airtableClient = {
 	padriver: { create: createPadriver, uploadBilde: uploadPadriverBilde },
-	partnere: { create: createPartner },
+	partnere: { create: createPartner, list: getPartnere },
 };
