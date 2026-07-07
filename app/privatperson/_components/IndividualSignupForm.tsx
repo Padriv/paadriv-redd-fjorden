@@ -33,7 +33,7 @@ async function resolveBilde(
 			contentType: file.type,
 			base64: await fileToBase64(file),
 		};
-	} catch (e) {
+	} catch {
 		toast.error("Noe gikk galt med bildet", {
 			description:
 				"Vi klarte ikke å lese bildet. Sjekk at filen er i et gyldig bildeformat og prøv igjen.",
@@ -105,7 +105,7 @@ export default function IndividualSignupForm({
 						},
 					],
 					bilde,
-				}satisfies CreatePadriverRequest),
+				} satisfies CreatePadriverRequest),
 			});
 
 			if (response.status !== 201) {
@@ -209,8 +209,12 @@ export default function IndividualSignupForm({
 			<form.Field
 				name="telefon"
 				validators={{
-					onBlur: ({ value }) =>
-						!value.trim() ? "Telefonnummer er påkrevd" : undefined,
+					onBlur: ({ value }) => {
+						if (!value.trim()) return "Telefonnummer er påkrevd";
+						if (!/^\+?\d[\d\s]*$/.test(value.trim()))
+							return "Telefonnummer kan bare inneholde tall (og eventuelt + foran landkode)";
+						return undefined;
+					},
 				}}
 			>
 				{(field) => (
@@ -224,7 +228,8 @@ export default function IndividualSignupForm({
 							value={field.state.value}
 							onChange={(e) => field.handleChange(e.target.value)}
 							onBlur={field.handleBlur}
-							placeholder="123 45 678"
+							placeholder="+47 123 45 678"
+							maxLength={18}
 							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 						/>
 						{field.state.meta.errorMap.onBlur && (
