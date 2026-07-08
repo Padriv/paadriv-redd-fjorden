@@ -1,6 +1,6 @@
 const baseUrl = process.env.AIRTABLE_BASE_URL;
 const contentBaseUrl = process.env.AIRTABLE_CONTENT_BASE_URL;
-const app = process.env.AIRTABLE_BASE_ID;
+const app = process.env.AIRTABLE_APP_BASE_ID;
 const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
 const project = process.env.AIRTABLE_PROSJEKT_RECORD_ID;
 const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
@@ -82,7 +82,7 @@ const createPadriver = async (data: Padriver) => {
 
 	const response = await fetch(`${baseUrl}/${app}/${table}`, {
 		headers: {
-			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 			"Content-Type": "application/json",
 		},
 		method: "POST",
@@ -108,7 +108,7 @@ const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
 		`${baseUrl}/${app}/${prosjektportefoljeTable}/${project}`,
 		{
 			headers: {
-				Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+				Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 			},
 		},
 	);
@@ -132,7 +132,7 @@ const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
 		{
 			method: "PATCH",
 			headers: {
-				Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+				Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
@@ -155,7 +155,7 @@ const createPartner = async (data: Partner) => {
 
 	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
 		headers: {
-			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 			"Content-Type": "application/json",
 		},
 		method: "POST",
@@ -185,7 +185,7 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Imag
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
 		{
 			headers: {
-				Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+				Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 				"Content-Type": "application/json",
 			},
 			method: "POST",
