@@ -200,21 +200,28 @@ const uploadAttachment = async (
 const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
-//formen vi ønsker å ha data i etter at vi har hentet det fra Airtable, for å bruke i PartnereSection og resten av applikasjonen
 export type PartnerListItem = {
 	id: string;
 	navn: string;
 	logoUrl?: string;
 };
 
-//formen på data som hentes rett fra Airtable, den vi ønsker å transformere til PartnerListItem
-type AirtablePartnerRecord = {
+type RawAirtablePartnerRecord = {
 	id: string;
 	fields: {
 		"Navn på organisasjon"?: string;
 		Bilde?: { url: string }[];
 	};
 };
+
+type RawAirtablePartnerRecordWithName = RawAirtablePartnerRecord & {
+	fields: { "Navn på organisasjon": string };
+};
+
+const hasOrganizationName = (
+	record: RawAirtablePartnerRecord,
+): record is RawAirtablePartnerRecordWithName =>
+	typeof record.fields["Navn på organisasjon"] === "string";
 
 const getPartnere = async (): Promise<PartnerListItem[]> => {
 	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
@@ -232,15 +239,12 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 
 	const json = await response.json();
 
-	//AirtablePartnerRecord[] blir gjort om til PartnerListItem[]
-	const { records } = json as { records: AirtablePartnerRecord[] };
-	return records
-		.filter((record) => record.fields["Navn på organisasjon"])
-		.map((record) => ({
-			id: record.id,
-			navn: record.fields["Navn på organisasjon"] as string,
-			logoUrl: record.fields.Bilde?.[0]?.url,
-		}));
+	const { records } = json as { records: RawAirtablePartnerRecord[] };
+	return records.filter(hasOrganizationName).map((record) => ({
+		id: record.id,
+		navn: record.fields["Navn på organisasjon"],
+		logoUrl: record.fields.Bilde?.[0]?.url,
+	}));
 };
 
 export const airtableClient = {
