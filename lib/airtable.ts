@@ -206,7 +206,7 @@ export type PartnerListItem = {
 	logoUrl?: string;
 };
 
-type RawAirtablePartnerRecord = {
+type PartnerResponse = {
 	id: string;
 	fields: {
 		"Navn på organisasjon"?: string;
@@ -214,13 +214,13 @@ type RawAirtablePartnerRecord = {
 	};
 };
 
-type RawAirtablePartnerRecordWithName = RawAirtablePartnerRecord & {
+type PartnerResponseWithName = PartnerResponse & {
 	fields: { "Navn på organisasjon": string };
 };
 
 const hasOrganizationName = (
-	record: RawAirtablePartnerRecord,
-): record is RawAirtablePartnerRecordWithName =>
+	record: PartnerResponse,
+): record is PartnerResponseWithName =>
 	typeof record.fields["Navn på organisasjon"] === "string";
 
 const getPartnere = async (): Promise<PartnerListItem[]> => {
@@ -239,7 +239,7 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 
 	const json = await response.json();
 
-	const { records } = json as { records: RawAirtablePartnerRecord[] };
+	const { records } = json as { records: PartnerResponse[] };
 	return records.filter(hasOrganizationName).map((record) => ({
 		id: record.id,
 		navn: record.fields["Navn på organisasjon"],
