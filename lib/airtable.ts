@@ -1,11 +1,11 @@
-const baseUrl = process.env.BASE_URL;
+const baseUrl = process.env.AIRTABLE_BASE_URL;
 const contentBaseUrl = process.env.AIRTABLE_CONTENT_BASE_URL;
-const app = process.env.AIRTABLE_APP_ID;
-const table = process.env.AIRTABLE_TABLE_NAME;
-const project = process.env.AIRTABLE_PROJECT_ID;
-const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_NAME;
+const app = process.env.AIRTABLE_BASE_ID;
+const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
+const project = process.env.AIRTABLE_PROSJEKT_RECORD_ID;
+const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
-	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_NAME;
+	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 
 export type Padriver = {
 	records: [
@@ -47,21 +47,27 @@ export type Partner = {
 const addProjectToFields = (record: Padriver["records"][number]) => {
 	return { fields: { ...record.fields, Prosjekt: [project] } };
 };
-export type Bilde = {
+export type Image = {
 	filename: string;
 	contentType: string;
 	base64: string;
 };
 
-export type CreatePadriverRequest = Padriver & { bilde?: Bilde | null };
+export type CreatePadriverRequest = Padriver & { bilde?: Image | null };
+export type CreatePartnerRequest = Partner & {
+	bilde?: Image | null;
+	logo?: Image | null;
+};
 
 const profilbildeField = "Profilbilde";
+const partnerBildeField = "Bilde";
+const logoField = "Logo";
 
-type CreatePadriverResponse = { records: [{ id: string }] };
+type CreateRecordResponse = { records: [{ id: string }] };
 
-const isCreatePadriverResponse = (
+const isCreateRecordResponse = (
 	data: unknown,
-): data is CreatePadriverResponse => {
+): data is CreateRecordResponse => {
 	if (typeof data !== "object" || data === null || !("records" in data))
 		return false;
 	const { records } = data as { records: unknown };
@@ -92,7 +98,7 @@ const createPadriver = async (data: Padriver) => {
 	}
 
 	const json = await response.json();
-	if (!isCreatePadriverResponse(json)) {
+	if (!isCreateRecordResponse(json)) {
 		throw new Error("Uventet svar fra Airtable ved oppretting av pådriver");
 	}
 	return json;
@@ -146,7 +152,6 @@ const addPartnerToSamarbeidspartnere = async (partnerNavn: string) => {
 	}
 };
 
-// Bilde sendes ikke med enda - krever et eget uploadAttachment-kall
 const createPartner = async (data: Partner) => {
 	const body = JSON.stringify(data);
 
@@ -165,14 +170,21 @@ const createPartner = async (data: Partner) => {
 		);
 	}
 
+	const json = await response.json();
+	if (!isCreateRecordResponse(json)) {
+		throw new Error("Uventet svar fra Airtable ved oppretting av partner");
+	}
+
 	const partnerNavn = data.records[0].fields["Navn på organisasjon"];
 	await addPartnerToSamarbeidspartnere(partnerNavn);
+
+	return json;
 };
 
 const uploadAttachment = async (
 	recordId: string,
 	fieldName: string,
-	bilde: Bilde,
+	bilde: Image,
 ) => {
 	const response = await fetch(
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
@@ -197,7 +209,7 @@ const uploadAttachment = async (
 	}
 };
 
-const uploadPadriverBilde = (recordId: string, bilde: Bilde) =>
+const uploadPadriverImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
 export type PartnerListItem = {
@@ -247,7 +259,18 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	}));
 };
 
+const uploadPartnerImage = (recordId: string, bilde: Image) =>
+	uploadAttachment(recordId, partnerBildeField, bilde);
+
+const uploadPartnerLogo = (recordId: string, logo: Image) =>
+	uploadAttachment(recordId, logoField, logo);
+
 export const airtableClient = {
-	padriver: { create: createPadriver, uploadBilde: uploadPadriverBilde },
-	partnere: { create: createPartner, list: getPartnere },
+	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
+	partnere: {
+		create: createPartner,
+		list: getPartnere,
+		uploadImage: uploadPartnerImage,
+		uploadLogo: uploadPartnerLogo,
+	},
 };
