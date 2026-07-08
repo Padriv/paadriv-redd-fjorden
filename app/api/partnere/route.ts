@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import type { CreatePartnerRequest } from "@/lib/airtable";
 import { client } from "@/lib/client";
 
+export async function GET() {
+	const partnere = await client.airtable.partnere.list();
+	return NextResponse.json({ partnere });
+}
+
 export async function POST(request: Request) {
 	const { bilde, logo, ...partnerData }: CreatePartnerRequest =
 		await request.json();
@@ -15,7 +20,7 @@ export async function POST(request: Request) {
 		if (logo && recordId) {
 			await client.airtable.partnere.uploadLogo(recordId, logo);
 		}
-	} catch (error) {
+	} catch {
 		return NextResponse.json({ success: false }, { status: 502 });
 	}
 

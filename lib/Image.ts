@@ -27,7 +27,7 @@ export async function resolveImage(
 			contentType: file.type,
 			base64: await fileToBase64(file),
 		};
-	} catch (e) {
+	} catch {
 		toast.error("Noe gikk galt med bildet", {
 			description:
 				"Vi klarte ikke å lese bildet. Sjekk at filen er i et gyldig bildeformat og prøv igjen.",

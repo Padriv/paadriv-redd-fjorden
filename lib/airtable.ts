@@ -65,8 +65,11 @@ const logoField = "Logo";
 
 type CreateRecordResponse = { records: [{ id: string }] };
 
-const isCreateRecordResponse = (data: unknown): data is CreateRecordResponse => {
-	if (typeof data !== "object" || data === null || !("records" in data)) return false;
+const isCreateRecordResponse = (
+	data: unknown,
+): data is CreateRecordResponse => {
+	if (typeof data !== "object" || data === null || !("records" in data))
+		return false;
 	const { records } = data as { records: unknown };
 	return (
 		Array.isArray(records) &&
@@ -74,7 +77,6 @@ const isCreateRecordResponse = (data: unknown): data is CreateRecordResponse => 
 		typeof records[0]?.id === "string"
 	);
 };
-
 
 const createPadriver = async (data: Padriver) => {
 	const records = data.records.map(addProjectToFields);
@@ -179,8 +181,11 @@ const createPartner = async (data: Partner) => {
 	return json;
 };
 
-
-const uploadAttachment = async (recordId: string, fieldName: string, bilde: Image) => {
+const uploadAttachment = async (
+	recordId: string,
+	fieldName: string,
+	bilde: Image,
+) => {
 	const response = await fetch(
 		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
 		{
@@ -207,6 +212,53 @@ const uploadAttachment = async (recordId: string, fieldName: string, bilde: Imag
 const uploadPadriverImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
+export type PartnerListItem = {
+	id: string;
+	navn: string;
+	logoUrl?: string;
+};
+
+type PartnerResponse = {
+	id: string;
+	fields: {
+		"Navn på organisasjon"?: string;
+		Bilde?: { url: string }[];
+	};
+};
+
+type PartnerResponseWithName = PartnerResponse & {
+	fields: { "Navn på organisasjon": string };
+};
+
+const hasOrganizationName = (
+	record: PartnerResponse,
+): record is PartnerResponseWithName =>
+	typeof record.fields["Navn på organisasjon"] === "string";
+
+const getPartnere = async (): Promise<PartnerListItem[]> => {
+	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
+		headers: {
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+		},
+	});
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status}: ${errorText}`,
+		);
+	}
+
+	const json = await response.json();
+
+	const { records } = json as { records: PartnerResponse[] };
+	return records.filter(hasOrganizationName).map((record) => ({
+		id: record.id,
+		navn: record.fields["Navn på organisasjon"],
+		logoUrl: record.fields.Bilde?.[0]?.url,
+	}));
+};
+
 const uploadPartnerImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, partnerBildeField, bilde);
 
@@ -217,6 +269,7 @@ export const airtableClient = {
 	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
 	partnere: {
 		create: createPartner,
+		list: getPartnere,
 		uploadImage: uploadPartnerImage,
 		uploadLogo: uploadPartnerLogo,
 	},

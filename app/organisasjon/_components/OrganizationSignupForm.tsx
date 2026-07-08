@@ -84,8 +84,7 @@ export default function OrganizationSignupForm({
 
 			if (response.status !== 201) {
 				toast.error("Noe gikk galt", {
-					description:
-						"Vi klarte ikke å registrere partneren. Prøv igjen.",
+					description: "Vi klarte ikke å registrere partneren. Prøv igjen.",
 				});
 				return;
 			}
@@ -546,9 +545,7 @@ export default function OrganizationSignupForm({
 			</div>
 
 			<form.Subscribe
-				selector={(state) =>
-					[state.isValid, state.submissionAttempts] as const
-				}
+				selector={(state) => [state.isValid, state.submissionAttempts] as const}
 			>
 				{([isValid, submissionAttempts]) => (
 					<div className="flex flex-col gap-2">

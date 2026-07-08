@@ -72,7 +72,7 @@ export default function IndividualSignupForm({
 						},
 					],
 					bilde,
-				}satisfies CreatePadriverRequest),
+				} satisfies CreatePadriverRequest),
 			});
 
 			if (response.status !== 201) {
