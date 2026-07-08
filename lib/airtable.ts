@@ -238,7 +238,7 @@ const hasOrganizationName = (
 const getPartnere = async (): Promise<PartnerListItem[]> => {
 	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
 		headers: {
-			Authorization: `Bearer ${process.env.AIRTABLE_PAT_KEY}`,
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 		},
 	});
 
