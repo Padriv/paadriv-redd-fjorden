@@ -25,7 +25,6 @@ export default function JoinSection() {
 			id="meld-interesse-organisasjon"
 			className="flex flex-col items-center gap-10 py-8"
 		>
-			<h2 className="text-2xl font-bold">Les mer om hvordan du kan bidra!</h2>
 			<div className="flex w-full flex-col gap-6 sm:flex-row">
 				{cards.map((card) => (
 					<div
