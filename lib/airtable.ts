@@ -212,12 +212,6 @@ const uploadAttachment = async (
 const uploadPadriverImage = (recordId: string, bilde: Image) =>
 	uploadAttachment(recordId, profilbildeField, bilde);
 
-const uploadPartnerImage = (recordId: string, bilde: Image) =>
-	uploadAttachment(recordId, partnerBildeField, bilde);
-
-const uploadPartnerLogo = (recordId: string, logo: Image) =>
-	uploadAttachment(recordId, logoField, logo);
-
 export type PartnerListItem = {
 	id: string;
 	navn: string;
@@ -265,10 +259,17 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	}));
 };
 
+const uploadPartnerImage = (recordId: string, bilde: Image) =>
+	uploadAttachment(recordId, partnerBildeField, bilde);
+
+const uploadPartnerLogo = (recordId: string, logo: Image) =>
+	uploadAttachment(recordId, logoField, logo);
+
 export const airtableClient = {
 	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
 	partnere: {
-		create: createPartner, list: getPartnere,
+		create: createPartner,
+		list: getPartnere,
 		uploadImage: uploadPartnerImage,
 		uploadLogo: uploadPartnerLogo,
 	},

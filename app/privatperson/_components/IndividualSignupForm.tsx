@@ -8,40 +8,6 @@ import Button from "../../../components/Button";
 import { ImageUploadDemo } from "../../../components/ImageUpload";
 import MultiSelect from "../../../components/MultiSelect";
 
-function fileToBase64(file: File): Promise<string> {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.onload = () => {
-			const result = reader.result;
-			if (typeof result !== "string") {
-				reject(new Error("Uventet resultat fra FileReader"));
-				return;
-			}
-			resolve(result.slice(result.indexOf(",") + 1));
-		};
-		reader.onerror = () => reject(reader.error);
-		reader.readAsDataURL(file);
-	});
-}
-
-async function resolveBilde(
-	file: File | null,
-): Promise<CreatePadriverRequest["bilde"] | undefined> {
-	if (!file) return null;
-	try {
-		return {
-			filename: file.name,
-			contentType: file.type,
-			base64: await fileToBase64(file),
-		};
-	} catch {
-		toast.error("Noe gikk galt med bildet", {
-			description:
-				"Vi klarte ikke å lese bildet. Sjekk at filen er i et gyldig bildeformat og prøv igjen.",
-		});
-	}
-}
-
 const skillOptions = [
 	"Sosialt entreprenørskap/samfunnsinnovasjon",
 	"Forretningsutvikling",

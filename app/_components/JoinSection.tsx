@@ -21,10 +21,7 @@ const cards = [
 
 export default function JoinSection() {
 	return (
-		<section
-			id="bli-med"
-			className="flex flex-col items-center gap-10 py-8"
-		>
+		<section id="bli-med" className="flex flex-col items-center gap-10 py-8">
 			<div className="flex w-full flex-col gap-6 sm:flex-row">
 				{cards.map((card) => (
 					<div

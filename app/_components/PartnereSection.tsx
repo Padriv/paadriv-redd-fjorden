@@ -16,7 +16,7 @@ export default async function PartnereSection() {
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-6">
-			<h2 className="text-2xl font-semibold">
+			<h2 className="text-2xl font-semibold text-black">
 				Våre {partnere.length} partnere
 			</h2>
 
@@ -46,7 +46,7 @@ export default async function PartnereSection() {
 
 			<Link
 				href="/partnere"
-				className="self-end text-sm font-medium text-zinc-300 transition-colors hover:text-white"
+				className="self-end text-sm font-medium text-zinc-500 transition-colors hover:text-black"
 			>
 				Se alle →
 			</Link>

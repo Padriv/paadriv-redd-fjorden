@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 		if (logo && recordId) {
 			await client.airtable.partnere.uploadLogo(recordId, logo);
 		}
-	} catch (error) {
+	} catch {
 		return NextResponse.json({ success: false }, { status: 502 });
 	}
 
