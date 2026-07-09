@@ -14,7 +14,7 @@ export default function Hero() {
 			<div className="absolute inset-0 bg-gradient-to-b from-emerald-950/40 via-emerald-950/50 to-emerald-950/85" />
 
 			<div className="relative z-10 flex max-w-2xl flex-col gap-3 text-[#FEFFC8] sm:gap-4">
-				<h1 className="text-hero text-balance font-[family-name:var(--font-syne)] font-extrabold leading-tight">
+				<h1 className="text-hero text-balance font-extrabold leading-tight">
 					Bli med og gjør Oslofjorden frisk
 				</h1>
 				<p className="text-body text-balance max-w-lg font-medium leading-relaxed">
