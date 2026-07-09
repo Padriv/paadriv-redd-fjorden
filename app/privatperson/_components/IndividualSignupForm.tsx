@@ -176,8 +176,12 @@ export default function IndividualSignupForm({
 			<form.Field
 				name="telefon"
 				validators={{
-					onBlur: ({ value }) =>
-						!value.trim() ? "Telefonnummer er påkrevd" : undefined,
+					onBlur: ({ value }) => {
+						if (!value.trim()) return "Telefonnummer er påkrevd";
+						if (!/^\+?\d[\d\s]*$/.test(value.trim()))
+							return "Telefonnummer kan bare inneholde tall (og eventuelt + foran landkode)";
+						return undefined;
+					},
 				}}
 			>
 				{(field) => (
@@ -191,7 +195,8 @@ export default function IndividualSignupForm({
 							value={field.state.value}
 							onChange={(e) => field.handleChange(e.target.value)}
 							onBlur={field.handleBlur}
-							placeholder="123 45 678"
+							placeholder="+47 123 45 678"
+							maxLength={18}
 							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
 						/>
 						{field.state.meta.errorMap.onBlur && (
