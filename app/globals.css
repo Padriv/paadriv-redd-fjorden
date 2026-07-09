@@ -15,6 +15,9 @@
 	--text-heading: var(--text-xl);
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
+
+	--color-deep-green: var(--color-emerald-950);
+	--color-cream: #feffc8;
 }
 
 @media (width >= theme(--breakpoint-md)) {
