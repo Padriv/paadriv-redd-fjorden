@@ -5,11 +5,53 @@
 	--foreground: #171717;
 }
 
+@theme {
+	/* mobile-first base sizes */
+	--text-caption: var(--text-xs);
+	--text-label: var(--text-xs);
+	--text-body: var(--text-sm);
+	--text-link: var(--text-sm);
+	--text-button: var(--text-sm);
+	--text-heading: var(--text-xl);
+	--text-hero: var(--text-3xl);
+	--text-display: var(--text-4xl);
+}
+
+@media (width >= theme(--breakpoint-md)) {
+	:root {
+		--text-label: var(--text-sm);
+		--text-body: var(--text-base);
+		--text-link: var(--text-base);
+		--text-button: var(--text-base);
+		--text-heading: var(--text-2xl);
+		--text-hero: var(--text-5xl);
+		--text-display: var(--text-6xl);
+	}
+}
+
+@media (width >= theme(--breakpoint-lg)) {
+	:root {
+		--text-heading: var(--text-3xl);
+		--text-hero: var(--text-6xl);
+		--text-display: var(--text-7xl);
+	}
+}
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+	--animate-marquee: marquee 120s linear infinite;
+
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-100%);
+		}
+	}
 }
 
 @media (prefers-color-scheme: dark) {
