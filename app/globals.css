@@ -15,6 +15,11 @@
 	--text-heading: var(--text-xl);
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
+
+	--color-deep-green: #022c22;
+	--color-green: #07553b;
+	--color-cream: #faf6ec;
+	--color-tan: #efe8d3;
 }
 
 @media (width >= theme(--breakpoint-md)) {
