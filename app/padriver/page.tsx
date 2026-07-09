@@ -15,6 +15,9 @@ export default async function Padrivere() {
 		<main className="flex min-h-screen flex-col items-center bg-white px-16 py-32">
 			<div className="flex w-full max-w-2xl flex-col gap-6">
 				<h1 className="text-3xl font-semibold text-black">Pådrivere</h1>
+				{records.length === 0 && (
+					<p className="text-gray-500">Klarte ikke å hente noen pådrivere.</p>
+				)}
 				<div className="flex flex-col gap-4">
 					{records.map((record) => (
 						<div
