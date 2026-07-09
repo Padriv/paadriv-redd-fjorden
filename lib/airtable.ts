@@ -7,6 +7,13 @@ const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 
+export type AirtableAttachment = {
+	url: string;
+	thumbnails?: {
+		large: { url: string };
+	};
+};
+
 export type Padriver = {
 	records: [
 		{
@@ -18,6 +25,7 @@ export type Padriver = {
 				Kompetanse: string[];
 				Samtykke: string;
 				"Samtykke offentliggjøre kontaktinfo": boolean;
+				Profilbilde?: AirtableAttachment[];
 			};
 		},
 	];
@@ -181,6 +189,56 @@ const createPartner = async (data: Partner) => {
 	return json;
 };
 
+type PadriverResponseRecord = {
+	id: string;
+	fields: {
+		Navn?: string;
+		Telefon?: string;
+		Epost?: string;
+		Motivasjon?: string;
+		Kompetanse?: string[];
+		Samtykke?: string;
+		"Samtykke offentliggjøre kontaktinfo"?: boolean;
+		Profilbilde?: AirtableAttachment[];
+	};
+};
+
+type PadriverResponseRecordWithName = PadriverResponseRecord & {
+	fields: { Navn: string };
+};
+
+const hasNavn = (
+	record: PadriverResponseRecord,
+): record is PadriverResponseRecordWithName =>
+	typeof record.fields.Navn === "string";
+
+export type PadriverListResponse = {
+	records: PadriverResponseRecordWithName[];
+};
+
+const getPadriver = async (): Promise<PadriverListResponse> => {
+	const filterByFormula = `FIND("Oppdrag Fjorden vår", ARRAYJOIN({Prosjekt}))`;
+	const url = `${baseUrl}/${app}/${table}?filterByFormula=${encodeURIComponent(filterByFormula)}`;
+
+	const response = await fetch(url, {
+		headers: {
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+		},
+		next: { revalidate: 60 },
+	});
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status} ved henting av pådrivere: ${errorText}`,
+		);
+	}
+
+	const json = await response.json();
+	const { records } = json as { records: PadriverResponseRecord[] };
+	return { records: records.filter(hasNavn) };
+};
+
 const uploadAttachment = async (
 	recordId: string,
 	fieldName: string,
@@ -266,7 +324,11 @@ const uploadPartnerLogo = (recordId: string, logo: Image) =>
 	uploadAttachment(recordId, logoField, logo);
 
 export const airtableClient = {
-	padriver: { create: createPadriver, uploadImage: uploadPadriverImage },
+	padriver: {
+		create: createPadriver,
+		uploadImage: uploadPadriverImage,
+		list: getPadriver,
+	},
 	partnere: {
 		create: createPartner,
 		list: getPartnere,
