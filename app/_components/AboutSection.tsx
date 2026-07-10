@@ -42,7 +42,7 @@ export default async function AboutSection() {
 		<section className="relative w-full bg-cream px-16 pb-24 pt-40">
 			<Wave fillClassName="fill-deep-green" />
 
-			<div className="mx-auto flex max-w-2xl flex-col gap-stack">
+			<div className="mx-auto flex max-w-2xl flex-col gap-loose">
 				<h2 className="text-section font-semibold text-ink">
 					Sammen for Oslofjorden
 				</h2>
@@ -60,7 +60,7 @@ export default async function AboutSection() {
 
 				<div className="flex flex-wrap gap-cluster">
 					{stats.map((stat) => (
-						<div key={stat.label} className="flex flex-col gap-hairline">
+						<div key={stat.label} className="flex flex-col gap-tight">
 							<span className="text-section font-semibold text-ink">
 								{stat.value}
 							</span>

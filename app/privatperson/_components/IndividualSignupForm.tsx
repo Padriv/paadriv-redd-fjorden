@@ -234,7 +234,7 @@ export default function IndividualSignupForm({
 						<label htmlFor="motivasjon" className="text-label font-medium">
 							Hvorfor ønsker du å bli pådriver for "Oppdrag: Fjorden Vår"?{" "}
 							<span className="text-error">*</span>
-							<div className="flex flex-col gap-hairline mt-2 text-caption font-normal text-copy">
+							<div className="flex flex-col gap-tight mt-2 text-caption font-normal text-copy">
 								<span>Merk: svaret ditt vil bli publisert på nettsiden.</span>
 								<span>
 									Ta kontakt med pådriv om du ønsker endringer senere.

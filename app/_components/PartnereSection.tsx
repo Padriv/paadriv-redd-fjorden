@@ -15,7 +15,7 @@ export default async function PartnereSection() {
 	}
 
 	return (
-		<section className="flex w-full max-w-4xl flex-col gap-stack">
+		<section className="flex w-full max-w-4xl flex-col gap-loose">
 			<h2 className="text-section font-semibold text-cream">
 				Våre {partnere.length} partnere
 			</h2>
