@@ -86,7 +86,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					onDragEnter={handleDragEnter}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}
-					className={`flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed transition-colors ${
+					className={`flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-inline rounded-lg border-2 border-dashed transition-colors ${
 						isDragging
 							? "border-ink bg-surface-strong"
 							: "border-border bg-surface hover:bg-surface-strong"
@@ -109,7 +109,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 							alt="Forhåndsvisning"
 							className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 						/>
-						<div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+						<div className="absolute inset-0 flex items-center justify-center gap-inline bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
 							<button
 								type="button"
 								onClick={handleThumbnailClick}
@@ -127,7 +127,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 						</div>
 					</div>
 					{value && (
-						<div className="mt-2 flex items-center gap-2 text-body text-muted">
+						<div className="mt-2 flex items-center gap-inline text-body text-muted">
 							<span className="truncate">{value.name}</span>
 							<button
 								type="button"

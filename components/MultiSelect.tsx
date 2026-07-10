@@ -18,11 +18,11 @@ export default function MultiSelect({
 	}
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-inline">
 			{options.map((skillsOption) => (
 				<label
 					key={skillsOption}
-					className="flex items-center gap-2 cursor-pointer text-label"
+					className="flex items-center gap-inline cursor-pointer text-label"
 				>
 					<input
 						type="checkbox"

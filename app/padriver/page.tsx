@@ -13,18 +13,18 @@ export default async function Padrivere() {
 
 	return (
 		<main className="flex min-h-screen flex-col items-center bg-background px-16 py-32">
-			<div className="flex w-full max-w-2xl flex-col gap-6">
+			<div className="flex w-full max-w-2xl flex-col gap-stack">
 				<h1 className="text-heading font-semibold text-ink">Pådrivere</h1>
 				{records.length === 0 && (
 					<p className="text-body text-muted">
 						Klarte ikke å hente noen pådrivere.
 					</p>
 				)}
-				<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-group">
 					{records.map((record) => (
 						<div
 							key={record.id}
-							className="flex flex-col gap-2 rounded-2xl border border-border-subtle bg-surface p-6"
+							className="flex flex-col gap-inline rounded-2xl border border-border-subtle bg-surface p-6"
 						>
 							{record.fields.Profilbilde?.[0] && (
 								<img

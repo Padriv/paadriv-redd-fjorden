@@ -100,7 +100,7 @@ export default function OrganizationSignupForm({
 				form.handleSubmit();
 			}}
 			noValidate
-			className="relative p-8 rounded-2xl w-full flex flex-col gap-8"
+			className="relative p-8 rounded-2xl w-full flex flex-col gap-cluster"
 		>
 			<div className="flex items-center justify-between">
 				<h2 className="text-section font-semibold text-ink">
@@ -118,7 +118,7 @@ export default function OrganizationSignupForm({
 				)}
 			</div>
 
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-group">
 				<h3 className="text-subheading font-semibold text-ink">
 					Organisasjonen
 				</h3>
@@ -131,7 +131,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="orgNavn" className="text-label font-medium">
 								Navn på organisasjonen <span className="text-error">*</span>
 							</label>
@@ -165,7 +165,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="orgNummer" className="text-label font-medium">
 								Organisasjonsnummer <span className="text-error">*</span>
 							</label>
@@ -198,7 +198,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="orgEpost" className="text-label font-medium">
 								Epost til organisasjonen <span className="text-error">*</span>
 							</label>
@@ -228,7 +228,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="lokasjon" className="text-label font-medium">
 								Lokasjon <span className="text-error">*</span>
 							</label>
@@ -252,7 +252,7 @@ export default function OrganizationSignupForm({
 
 				<form.Field name="logo">
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<p className="text-label font-medium">Logo</p>
 							<ImageUploadDemo
 								value={field.state.value}
@@ -263,7 +263,7 @@ export default function OrganizationSignupForm({
 				</form.Field>
 			</div>
 
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-group">
 				<h3 className="text-subheading font-semibold text-ink">
 					Kontaktperson i organisasjonen
 				</h3>
@@ -276,7 +276,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="kontaktNavn" className="text-label font-medium">
 								Navn <span className="text-error">*</span>
 							</label>
@@ -309,7 +309,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="kontaktEpost" className="text-label font-medium">
 								Epost <span className="text-error">*</span>
 							</label>
@@ -343,7 +343,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="kontaktTlf" className="text-label font-medium">
 								Tlf <span className="text-error">*</span>
 							</label>
@@ -368,7 +368,7 @@ export default function OrganizationSignupForm({
 
 			<form.Field name="bilde">
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<p className="text-label font-medium">Profilbilde</p>
 						<ImageUploadDemo
 							value={field.state.value}
@@ -378,7 +378,7 @@ export default function OrganizationSignupForm({
 				)}
 			</form.Field>
 
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-group">
 				<h3 className="text-subheading font-semibold text-ink">Partnerskap</h3>
 
 				<form.Field
@@ -391,7 +391,7 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="motivasjon" className="text-label font-medium">
 								Hvorfor ønsker dere å bli partner for Oppdrag: Fjorden vår?{" "}
 								<span className="text-error">*</span>
@@ -432,7 +432,7 @@ export default function OrganizationSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<p className="text-label font-medium">
 							Hvilken kompetanse eller ressurser ønsker dere å bidra med?{" "}
 							<span className="text-error">*</span>
@@ -451,7 +451,7 @@ export default function OrganizationSignupForm({
 				)}
 			</form.Field>
 
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-group">
 				<div>
 					<h3 className="text-subheading font-semibold text-ink">
 						Økonomisk bidrag
@@ -466,7 +466,7 @@ export default function OrganizationSignupForm({
 
 				<form.Field name="okonomiskBidrag">
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label
 								htmlFor="okonomiskBidrag"
 								className="text-label font-medium"
@@ -492,7 +492,7 @@ export default function OrganizationSignupForm({
 
 				<form.Field name="annetBidrag">
 					{(field) => (
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-inline">
 							<label htmlFor="annetBidrag" className="text-label font-medium">
 								Annet bidrag
 							</label>
@@ -514,7 +514,7 @@ export default function OrganizationSignupForm({
 				</form.Field>
 			</div>
 
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-inline">
 				<h3 className="text-subheading font-semibold text-ink">
 					Samtykke <span className="text-error">*</span>
 				</h3>
@@ -527,8 +527,8 @@ export default function OrganizationSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2 rounded-xl border border-border-subtle p-4">
-							<label className="flex items-start gap-2 text-body cursor-pointer">
+						<div className="flex flex-col gap-inline rounded-xl border border-border-subtle p-4">
+							<label className="flex items-start gap-inline text-body cursor-pointer">
 								<input
 									type="checkbox"
 									checked={field.state.value}
@@ -555,7 +555,7 @@ export default function OrganizationSignupForm({
 				selector={(state) => [state.isValid, state.submissionAttempts] as const}
 			>
 				{([isValid, submissionAttempts]) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<Button label="Send inn" type="submit" />
 						{!isValid && submissionAttempts > 0 && (
 							<p className="text-error text-body text-center">

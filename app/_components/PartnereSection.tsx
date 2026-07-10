@@ -15,13 +15,13 @@ export default async function PartnereSection() {
 	}
 
 	return (
-		<section className="flex w-full max-w-4xl flex-col gap-6">
+		<section className="flex w-full max-w-4xl flex-col gap-stack">
 			<h2 className="text-section font-semibold text-cream">
 				Våre {partnere.length} partnere
 			</h2>
 
 			<div className="w-full overflow-hidden">
-				<div className="flex w-max animate-marquee gap-8">
+				<div className="flex w-max animate-marquee gap-cluster">
 					{partnere.map((partner) => (
 						<div
 							key={partner.id}

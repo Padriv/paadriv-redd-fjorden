@@ -23,13 +23,13 @@ export default function JoinSection() {
 	return (
 		<section
 			id="meld-interesse-organisasjon"
-			className="flex flex-col items-center gap-10 py-8"
+			className="flex flex-col items-center gap-block py-8"
 		>
-			<div className="flex w-full flex-col gap-6 sm:flex-row">
+			<div className="flex w-full flex-col gap-stack sm:flex-row">
 				{cards.map((card) => (
 					<div
 						key={card.href}
-						className="flex flex-1 flex-col gap-4 rounded-2xl bg-cream p-6"
+						className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 					>
 						<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
 							{card.tag}

@@ -28,7 +28,9 @@
 	--text-heading: var(--text-xl); /* h1 / page titles */
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
-	--text-lead: var(--text-lg); /* intro paragraph under a page title, fixed at every breakpoint */
+	--text-lead: var(
+		--text-lg
+	); /* intro paragraph under a page title, fixed size */
 
 	/* Brand colors */
 	--color-deep-green: var(--color-emerald-950);
@@ -52,6 +54,15 @@
 
 	--color-cta: var(--color-zinc-900);
 	--color-cta-hover: var(--color-zinc-800);
+
+	--spacing-hairline: calc(var(--spacing) * 1);
+	--spacing-inline: calc(var(--spacing) * 2);
+	--spacing-compact: calc(var(--spacing) * 3);
+	--spacing-group: calc(var(--spacing) * 4);
+	--spacing-stack: calc(var(--spacing) * 6);
+	--spacing-cluster: calc(var(--spacing) * 8);
+	--spacing-block: calc(var(--spacing) * 10);
+	--spacing-section: calc(var(--spacing) * 16);
 }
 
 @media (width >= theme(--breakpoint-md)) {

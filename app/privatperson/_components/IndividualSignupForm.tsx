@@ -94,7 +94,7 @@ export default function IndividualSignupForm({
 				form.handleSubmit();
 			}}
 			noValidate
-			className="relative p-8 rounded-2xl w-full flex flex-col gap-8"
+			className="relative p-8 rounded-2xl w-full flex flex-col gap-cluster"
 		>
 			<div className="flex items-center justify-between">
 				<h2 className="text-section font-semibold text-ink">
@@ -120,7 +120,7 @@ export default function IndividualSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<label htmlFor="navn" className="text-label font-medium">
 							Navn <span className="text-error">*</span>
 						</label>
@@ -153,7 +153,7 @@ export default function IndividualSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<label htmlFor="epost" className="text-label font-medium">
 							E-post <span className="text-error">*</span>
 						</label>
@@ -187,7 +187,7 @@ export default function IndividualSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<label htmlFor="telefon" className="text-label font-medium">
 							Telefon <span className="text-error">*</span>
 						</label>
@@ -212,7 +212,7 @@ export default function IndividualSignupForm({
 
 			<form.Field name="bilde">
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<p className="text-label font-medium">Profilbilde</p>
 						<ImageUploadDemo
 							value={field.state.value}
@@ -230,11 +230,11 @@ export default function IndividualSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<label htmlFor="motivasjon" className="text-label font-medium">
 							Hvorfor ønsker du å bli pådriver for "Oppdrag: Fjorden Vår"?{" "}
 							<span className="text-error">*</span>
-							<div className="flex flex-col gap-1 mt-2 text-caption font-normal text-copy">
+							<div className="flex flex-col gap-hairline mt-2 text-caption font-normal text-copy">
 								<span>Merk: svaret ditt vil bli publisert på nettsiden.</span>
 								<span>
 									Ta kontakt med pådriv om du ønsker endringer senere.
@@ -271,7 +271,7 @@ export default function IndividualSignupForm({
 				}}
 			>
 				{(field) => (
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-inline">
 						<p className="text-label font-medium">
 							Har du kompetanse eller erfaring innen noen av områdene under?{" "}
 							<span className="text-error">*</span>
@@ -290,7 +290,7 @@ export default function IndividualSignupForm({
 				)}
 			</form.Field>
 
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-inline">
 				<h3 className="text-subheading font-semibold text-ink">
 					Samtykke <span className="text-error">*</span>
 				</h3>
@@ -303,8 +303,8 @@ export default function IndividualSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2 rounded-xl border border-border-subtle p-4">
-							<label className="flex items-start gap-2 text-body cursor-pointer">
+						<div className="flex flex-col gap-inline rounded-xl border border-border-subtle p-4">
+							<label className="flex items-start gap-inline text-body cursor-pointer">
 								<input
 									type="checkbox"
 									checked={field.state.value}
