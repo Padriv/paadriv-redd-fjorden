@@ -28,20 +28,22 @@ export default function JoinSection() {
 		>
 			<Wave fillClassName="fill-cream" />
 
-			<div className="mx-auto flex w-full max-w-2xl flex-col gap-6 sm:flex-row">
+			<div className="mx-auto flex w-full max-w-2xl flex-col gap-stack sm:flex-row">
 				{cards.map((card) => (
 					<div
 						key={card.href}
-						className="flex flex-1 flex-col gap-4 rounded-2xl bg-cream p-6"
+						className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 					>
-						<span className="w-fit rounded-full bg-tan px-3 py-1 text-xs font-medium text-green">
+						<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
 							{card.tag}
 						</span>
-						<h3 className="text-lg font-semibold text-black">{card.title}</h3>
-						<p className="text-sm text-zinc-600">{card.description}</p>
+						<h3 className="text-subheading font-semibold text-ink">
+							{card.title}
+						</h3>
+						<p className="text-body text-copy">{card.description}</p>
 						<Link
 							href={card.href}
-							className="text-sm font-medium text-green transition-colors hover:text-black"
+							className="text-link font-medium text-green transition-colors hover:text-ink"
 						>
 							{card.linkLabel} →
 						</Link>

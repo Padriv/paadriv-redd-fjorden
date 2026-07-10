@@ -15,17 +15,17 @@ export default async function PartnereSection() {
 	}
 
 	return (
-		<section className="flex w-full max-w-4xl flex-col gap-6">
-			<h2 className="text-2xl font-semibold text-black">
+		<section className="flex w-full max-w-4xl flex-col gap-stack">
+			<h2 className="text-section font-semibold text-cream">
 				Våre {partnere.length} partnere
 			</h2>
 
 			<div className="w-full overflow-hidden">
-				<div className="flex w-max animate-marquee gap-8">
+				<div className="flex w-max animate-marquee gap-cluster">
 					{partnere.map((partner) => (
 						<div
 							key={partner.id}
-							className="flex h-16 w-40 flex-shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white px-4"
+							className="flex h-16 w-40 flex-shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-white px-4"
 						>
 							{partner.logoUrl ? (
 								<img
@@ -35,7 +35,7 @@ export default async function PartnereSection() {
 								/>
 							) : (
 								// Hvis det ikke er lastet opp logo, vis organisasjonsnavnet som tekst
-								<span className="text-center text-sm font-semibold text-zinc-700">
+								<span className="text-center text-body font-semibold text-copy">
 									{partner.navn}
 								</span>
 							)}
@@ -46,7 +46,7 @@ export default async function PartnereSection() {
 
 			<Link
 				href="/partnere"
-				className="self-end text-sm font-medium text-zinc-500 transition-colors hover:text-black"
+				className="self-end text-link font-medium text-muted-inverse transition-colors hover:text-white"
 			>
 				Se alle →
 			</Link>
