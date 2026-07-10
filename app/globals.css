@@ -1,25 +1,57 @@
 @import "tailwindcss";
 
+/*
+ * Light/dark surface colors. Plain custom properties (not @theme)
+ * since they flip value under prefers-color-scheme below.
+ */
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	--background: var(--color-cream);
+	--foreground: var(--color-deep-green);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: var(--color-deep-green);
+		--foreground: var(--color-cream);
+	}
 }
 
 @theme {
-	/* mobile-first base sizes */
+	/* Typography sizes — mobile-first base, bumped up at md/lg below */
 	--text-caption: var(--text-xs);
 	--text-label: var(--text-xs);
 	--text-body: var(--text-sm);
 	--text-link: var(--text-sm);
 	--text-button: var(--text-sm);
-	--text-heading: var(--text-xl);
+	--text-subheading: var(--text-base); /* h3 / card & form section titles */
+	--text-section: var(--text-lg); /* h2 / section titles */
+	--text-heading: var(--text-xl); /* h1 / page titles */
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
+	--text-lead: var(--text-lg); /* intro paragraph under a page title, fixed at every breakpoint */
 
+	/* Brand colors */
 	--color-deep-green: var(--color-emerald-950);
 	--color-green: #07553b;
 	--color-cream: #feffe5;
 	--color-tan: #efe8d3;
+
+	/* Neutral UI colors — text/borders/surfaces on light backgrounds */
+	--color-ink: var(--color-zinc-900);
+	--color-copy: var(--color-zinc-600);
+	--color-muted: var(--color-zinc-500);
+	--color-muted-inverse: var(--color-zinc-300);
+	--color-surface: var(--color-zinc-50);
+	--color-surface-strong: var(--color-zinc-100);
+	--color-border: var(--color-zinc-300);
+	--color-border-subtle: var(--color-zinc-200);
+
+	--color-error: var(--color-red-500);
+	--color-danger: var(--color-red-600);
+	--color-danger-hover: var(--color-red-700);
+
+	--color-cta: var(--color-zinc-900);
+	--color-cta-hover: var(--color-zinc-800);
 }
 
 @media (width >= theme(--breakpoint-md)) {
@@ -28,6 +60,7 @@
 		--text-body: var(--text-base);
 		--text-link: var(--text-base);
 		--text-button: var(--text-base);
+		--text-section: var(--text-xl);
 		--text-heading: var(--text-2xl);
 		--text-hero: var(--text-5xl);
 		--text-display: var(--text-6xl);
@@ -36,19 +69,27 @@
 
 @media (width >= theme(--breakpoint-lg)) {
 	:root {
+		--text-subheading: var(--text-lg);
+		--text-section: var(--text-2xl);
 		--text-heading: var(--text-3xl);
 		--text-hero: var(--text-6xl);
 		--text-display: var(--text-7xl);
 	}
 }
 
+/*
+ * `inline` because these reference runtime custom properties — the
+ * next/font variables set on <html>, and --background/--foreground
+ * above — rather than static values Tailwind can resolve at build time.
+ */
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
+
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
-	--animate-marquee: marquee 120s linear infinite;
 
+	--animate-marquee: marquee 120s linear infinite;
 	@keyframes marquee {
 		from {
 			transform: translateX(0);
@@ -59,15 +100,8 @@
 	}
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-	}
-}
-
 body {
 	background: var(--background);
 	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--font-sans);
 }

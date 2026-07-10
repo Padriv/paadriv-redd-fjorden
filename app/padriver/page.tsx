@@ -12,17 +12,19 @@ export default async function Padrivere() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center bg-white px-16 py-32">
+		<main className="flex min-h-screen flex-col items-center bg-background px-16 py-32">
 			<div className="flex w-full max-w-2xl flex-col gap-6">
-				<h1 className="text-3xl font-semibold text-black">Pådrivere</h1>
+				<h1 className="text-heading font-semibold text-ink">Pådrivere</h1>
 				{records.length === 0 && (
-					<p className="text-gray-500">Klarte ikke å hente noen pådrivere.</p>
+					<p className="text-body text-muted">
+						Klarte ikke å hente noen pådrivere.
+					</p>
 				)}
 				<div className="flex flex-col gap-4">
 					{records.map((record) => (
 						<div
 							key={record.id}
-							className="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-gray-50 p-6"
+							className="flex flex-col gap-2 rounded-2xl border border-border-subtle bg-surface p-6"
 						>
 							{record.fields.Profilbilde?.[0] && (
 								<img
@@ -34,20 +36,22 @@ export default async function Padrivere() {
 									className="h-24 w-24 rounded-full object-cover"
 								/>
 							)}
-							<h2 className="text-xl font-semibold text-black">
+							<h3 className="text-subheading font-semibold text-ink">
 								{record.fields.Navn}
-							</h2>
+							</h3>
 							{record.fields.Motivasjon && (
-								<p className="text-gray-700">{record.fields.Motivasjon}</p>
+								<p className="text-body text-copy">
+									{record.fields.Motivasjon}
+								</p>
 							)}
 							{record.fields.Kompetanse &&
 								record.fields.Kompetanse.length > 0 && (
-									<p className="text-sm text-gray-500">
+									<p className="text-body text-muted">
 										Kompetanse: {record.fields.Kompetanse.join(", ")}
 									</p>
 								)}
 							{record.fields["Samtykke offentliggjøre kontaktinfo"] && (
-								<div className="text-sm text-gray-500">
+								<div className="text-body text-muted">
 									<p>{record.fields.Epost}</p>
 									<p>{record.fields.Telefon}</p>
 								</div>

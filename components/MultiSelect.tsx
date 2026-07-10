@@ -22,7 +22,7 @@ export default function MultiSelect({
 			{options.map((skillsOption) => (
 				<label
 					key={skillsOption}
-					className="flex items-center gap-2 cursor-pointer text-sm"
+					className="flex items-center gap-2 cursor-pointer text-label"
 				>
 					<input
 						type="checkbox"

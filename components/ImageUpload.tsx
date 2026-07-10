@@ -88,18 +88,22 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					onDrop={handleDrop}
 					className={`flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed transition-colors ${
 						isDragging
-							? "border-black bg-gray-100"
-							: "border-gray-300 bg-gray-50 hover:bg-gray-100"
+							? "border-ink bg-surface-strong"
+							: "border-border bg-surface hover:bg-surface-strong"
 					}`}
 				>
 					<div className="text-center">
-						<p className="text-sm font-medium">Klikk for å velge fil</p>
-						<p className="text-xs text-gray-500">eller dra og slipp fil her</p>
+						<p className="text-body font-medium text-ink">
+							Klikk for å velge fil
+						</p>
+						<p className="text-caption text-muted">
+							eller dra og slipp fil her
+						</p>
 					</div>
 				</button>
 			) : (
 				<div className="relative max-w-[250px]">
-					<div className="group relative aspect-square w-full overflow-hidden rounded-lg border border-gray-200">
+					<div className="group relative aspect-square w-full overflow-hidden rounded-lg border border-border-subtle">
 						<img
 							src={previewUrl}
 							alt="Forhåndsvisning"
@@ -109,26 +113,26 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 							<button
 								type="button"
 								onClick={handleThumbnailClick}
-								className="rounded-full bg-white px-3 py-1.5 text-sm font-medium hover:bg-gray-100"
+								className="rounded-full bg-white px-3 py-1.5 text-button font-medium hover:bg-surface-strong"
 							>
 								Bytt
 							</button>
 							<button
 								type="button"
 								onClick={handleRemove}
-								className="rounded-full bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700"
+								className="rounded-full bg-danger px-3 py-1.5 text-button font-medium text-white hover:bg-danger-hover"
 							>
 								Fjern
 							</button>
 						</div>
 					</div>
 					{value && (
-						<div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+						<div className="mt-2 flex items-center gap-2 text-body text-muted">
 							<span className="truncate">{value.name}</span>
 							<button
 								type="button"
 								onClick={handleRemove}
-								className="ml-auto rounded-full p-1 hover:bg-gray-100"
+								className="ml-auto rounded-full p-1 hover:bg-surface-strong"
 							>
 								✕
 							</button>

@@ -97,13 +97,15 @@ export default function IndividualSignupForm({
 			className="relative p-8 rounded-2xl w-full flex flex-col gap-8"
 		>
 			<div className="flex items-center justify-between">
-				<h2 className="text-xl font-bold">Bli med i Oppdrag: Fjorden Vår</h2>
+				<h2 className="text-section font-semibold text-ink">
+					Bli med i Oppdrag: Fjorden Vår
+				</h2>
 				{onClose && (
 					<button
 						type="button"
 						onClick={onClose}
 						aria-label="Lukk skjema"
-						className="text-zinc-400 hover:text-black transition-colors text-2xl leading-none"
+						className="text-muted hover:text-ink transition-colors text-2xl leading-none"
 					>
 						✕
 					</button>
@@ -119,8 +121,8 @@ export default function IndividualSignupForm({
 			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<label htmlFor="navn" className="text-sm font-medium">
-							Navn <span className="text-red-500">*</span>
+						<label htmlFor="navn" className="text-label font-medium">
+							Navn <span className="text-error">*</span>
 						</label>
 						<input
 							id="navn"
@@ -129,10 +131,10 @@ export default function IndividualSignupForm({
 							onChange={(e) => field.handleChange(e.target.value)}
 							onBlur={field.handleBlur}
 							placeholder="Ola Nordmann"
-							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
+							className="w-full border border-border rounded-lg px-3 py-2 text-body outline-none focus:border-ink"
 						/>
 						{field.state.meta.errorMap.onSubmit && (
-							<p className="text-red-500 text-xs">
+							<p className="text-error text-caption">
 								{field.state.meta.errorMap.onSubmit}
 							</p>
 						)}
@@ -152,8 +154,8 @@ export default function IndividualSignupForm({
 			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<label htmlFor="epost" className="text-sm font-medium">
-							E-post <span className="text-red-500">*</span>
+						<label htmlFor="epost" className="text-label font-medium">
+							E-post <span className="text-error">*</span>
 						</label>
 						<input
 							id="epost"
@@ -162,10 +164,10 @@ export default function IndividualSignupForm({
 							onChange={(e) => field.handleChange(e.target.value)}
 							onBlur={field.handleBlur}
 							placeholder="ola.nordmann@example.com"
-							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
+							className="w-full border border-border rounded-lg px-3 py-2 text-body outline-none focus:border-ink"
 						/>
 						{field.state.meta.errorMap.onBlur && (
-							<p className="text-red-500 text-xs">
+							<p className="text-error text-caption">
 								{field.state.meta.errorMap.onBlur}
 							</p>
 						)}
@@ -186,8 +188,8 @@ export default function IndividualSignupForm({
 			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<label htmlFor="telefon" className="text-sm font-medium">
-							Telefon <span className="text-red-500">*</span>
+						<label htmlFor="telefon" className="text-label font-medium">
+							Telefon <span className="text-error">*</span>
 						</label>
 						<input
 							id="telefon"
@@ -197,10 +199,10 @@ export default function IndividualSignupForm({
 							onBlur={field.handleBlur}
 							placeholder="+47 123 45 678"
 							maxLength={18}
-							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900"
+							className="w-full border border-border rounded-lg px-3 py-2 text-body outline-none focus:border-ink"
 						/>
 						{field.state.meta.errorMap.onBlur && (
-							<p className="text-red-500 text-xs">
+							<p className="text-error text-caption">
 								{field.state.meta.errorMap.onBlur}
 							</p>
 						)}
@@ -211,7 +213,7 @@ export default function IndividualSignupForm({
 			<form.Field name="bilde">
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<p className="text-sm font-medium">Profilbilde</p>
+						<p className="text-label font-medium">Profilbilde</p>
 						<ImageUploadDemo
 							value={field.state.value}
 							onChange={field.handleChange}
@@ -229,10 +231,10 @@ export default function IndividualSignupForm({
 			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<label htmlFor="motivasjon" className="text-sm font-medium">
+						<label htmlFor="motivasjon" className="text-label font-medium">
 							Hvorfor ønsker du å bli pådriver for "Oppdrag: Fjorden Vår"?{" "}
-							<span className="text-red-500">*</span>
-							<div className="flex flex-col gap-1 mt-2 text-xs font-normal text-zinc-600">
+							<span className="text-error">*</span>
+							<div className="flex flex-col gap-1 mt-2 text-caption font-normal text-copy">
 								<span>Merk: svaret ditt vil bli publisert på nettsiden.</span>
 								<span>
 									Ta kontakt med pådriv om du ønsker endringer senere.
@@ -247,13 +249,13 @@ export default function IndividualSignupForm({
 							placeholder="Jeg ønsker å bli pådriver fordi... "
 							rows={4}
 							maxLength={250}
-							className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-zinc-900 resize-none"
+							className="w-full border border-border rounded-lg px-3 py-2 text-body outline-none focus:border-ink resize-none"
 						/>
-						<span className="text-xs text-zinc-500 self-end">
+						<span className="text-caption text-muted self-end">
 							{field.state.value.length}/250
 						</span>
 						{field.state.meta.errorMap.onSubmit && (
-							<p className="text-red-500 text-xs">
+							<p className="text-error text-caption">
 								{field.state.meta.errorMap.onSubmit}
 							</p>
 						)}
@@ -270,9 +272,9 @@ export default function IndividualSignupForm({
 			>
 				{(field) => (
 					<div className="flex flex-col gap-2">
-						<p className="text-sm font-medium">
+						<p className="text-label font-medium">
 							Har du kompetanse eller erfaring innen noen av områdene under?{" "}
-							<span className="text-red-500">*</span>
+							<span className="text-error">*</span>
 						</p>
 						<MultiSelect
 							options={skillOptions}
@@ -280,7 +282,7 @@ export default function IndividualSignupForm({
 							setSelected={field.handleChange}
 						/>
 						{field.state.meta.errorMap.onSubmit && (
-							<p className="text-red-500 text-xs">
+							<p className="text-error text-caption">
 								{field.state.meta.errorMap.onSubmit}
 							</p>
 						)}
@@ -289,8 +291,8 @@ export default function IndividualSignupForm({
 			</form.Field>
 
 			<div className="flex flex-col gap-2">
-				<h3 className="text-lg font-semibold">
-					Samtykke <span className="text-red-500">*</span>
+				<h3 className="text-subheading font-semibold text-ink">
+					Samtykke <span className="text-error">*</span>
 				</h3>
 
 				<form.Field
@@ -301,8 +303,8 @@ export default function IndividualSignupForm({
 					}}
 				>
 					{(field) => (
-						<div className="flex flex-col gap-2 rounded-xl border border-zinc-200 p-4">
-							<label className="flex items-start gap-2 text-sm cursor-pointer">
+						<div className="flex flex-col gap-2 rounded-xl border border-border-subtle p-4">
+							<label className="flex items-start gap-2 text-body cursor-pointer">
 								<input
 									type="checkbox"
 									checked={field.state.value}
@@ -316,7 +318,7 @@ export default function IndividualSignupForm({
 								</span>
 							</label>
 							{field.state.meta.errorMap.onSubmit && (
-								<p className="text-red-500 text-xs">
+								<p className="text-error text-caption">
 									{field.state.meta.errorMap.onSubmit}
 								</p>
 							)}
@@ -330,7 +332,7 @@ export default function IndividualSignupForm({
 			>
 				{([submissionAttempts, isValid]) =>
 					submissionAttempts > 0 && !isValid ? (
-						<p className="text-red-500 text-sm" role="alert">
+						<p className="text-error text-body" role="alert">
 							Fyll ut alle påkrevde felt før du sender inn.
 						</p>
 					) : null
