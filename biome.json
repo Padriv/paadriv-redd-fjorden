@@ -25,6 +25,9 @@
 			"preset": "recommended",
 			"performance": {
 				"noImgElement": "off"
+			},
+			"correctness": {
+				"noUnknownFunction": "off"
 			}
 		}
 	},

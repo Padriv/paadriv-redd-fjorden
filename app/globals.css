@@ -3,116 +3,178 @@
 /*
  * Light/dark surface colors. Plain custom properties (not @theme)
  * since they flip value under prefers-color-scheme below.
+ *
+ * Naming pattern: <role>-surface-color / <role>-on-surface-color
+ * roles: primary, secondary, accent, neutral, cta, danger
+ * "on-surface" = text/icons/borders meant to sit on top of that surface.
  */
 :root {
-	--background: var(--color-cream);
-	--foreground: var(--color-deep-green);
+    /* primary — the page itself */
+    --primary-surface-color: var(--color-cream);
+    --primary-on-surface-color: var(--color-deep-green);
+
+    /* secondary — cards, panels, anything sitting "above" the page */
+    --secondary-surface-color: var(--color-tan);
+    --secondary-on-surface-color: var(--color-deep-green);
+
+    /* accent — brand highlight (links, badges, active states) */
+    --accent-surface-color: var(--color-green);
+    --accent-surface-hover-color: color-mix(in oklab, var(--color-green) 85%, black);
+    --accent-on-surface-color: var(--color-cream);
+
+    /* neutral — old --color-surface / --color-surface-strong */
+    --neutral-surface-color: var(--color-zinc-50);
+    --neutral-surface-strong-color: var(--color-zinc-100);
+    --neutral-on-surface-color: var(--color-zinc-900);
+
+    /* cta — primary action button (distinct from brand accent green) */
+    --cta-surface-color: var(--color-zinc-900);
+    --cta-surface-hover-color: var(--color-zinc-800);
+    --cta-on-surface-color: var(--color-cream);
+
+    /* danger — destructive actions */
+    --danger-surface-color: var(--color-red-600);
+    --danger-surface-hover-color: var(--color-red-700);
+    --danger-on-surface-color: var(--color-cream);
+
+    /* text hierarchy that isn't tied to one specific surface */
+    --copy-on-surface-color: var(--color-zinc-600);
+    --muted-on-surface-color: var(--color-zinc-500);
+    --muted-inverse-on-surface-color: var(--color-zinc-300);
+    --error-on-surface-color: var(--color-red-500);
+
+    /* structural, not really a "surface" */
+    --border-color: var(--color-zinc-300);
+    --border-subtle-color: var(--color-zinc-200);
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--background: var(--color-deep-green);
-		--foreground: var(--color-cream);
-	}
+    :root {
+        --primary-surface-color: var(--color-deep-green);
+        --primary-on-surface-color: var(--color-cream);
+
+        /* extend the same pattern here if secondary/neutral/etc.
+           also need dark-mode variants — left as-is for now, same as
+           the original file only flipped background/foreground */
+    }
 }
 
 @theme {
-	/* Typography sizes — mobile-first base, bumped up at md/lg below */
-	--text-caption: var(--text-xs);
-	--text-label: var(--text-xs);
-	--text-body: var(--text-sm);
-	--text-link: var(--text-sm);
-	--text-button: var(--text-sm);
-	--text-subheading: var(--text-base); /* h3 / card & form section titles */
-	--text-section: var(--text-lg); /* h2 / section titles */
-	--text-heading: var(--text-xl); /* h1 / page titles */
-	--text-hero: var(--text-3xl);
-	--text-display: var(--text-4xl);
-	--text-lead: var(
-		--text-lg
-	); /* intro paragraph under a page title, fixed size */
+    /* Typography sizes — mobile-first base, bumped up at md/lg below */
+    --text-caption: var(--text-xs);
+    --text-label: var(--text-xs);
+    --text-body: var(--text-sm);
+    --text-link: var(--text-sm);
+    --text-button: var(--text-sm);
+    --text-subheading: var(--text-base); /* h3 / card & form section titles */
+    --text-section: var(--text-lg); /* h2 / section titles */
+    --text-heading: var(--text-xl); /* h1 / page titles */
+    --text-hero: var(--text-3xl);
+    --text-display: var(--text-4xl);
+    --text-lead: var(--text-lg); /* intro paragraph under a page title, fixed size */
 
-	/* Brand colors */
-	--color-deep-green: var(--color-emerald-950);
-	--color-green: #07553b;
-	--color-cream: #feffe5;
-	--color-tan: #efe8d3;
+    /* Raw brand palette — single source of truth the semantic surface/on-surface
+       variables above are pulled from. Kept in @theme (not plain :root) so Tailwind
+       still generates bg-/text-/fill-/from-/via-/to- utilities straight off these,
+       for the handful of places (Hero, JoinSection, homepage <main>) that want the
+       brand-dark look unconditionally instead of following prefers-color-scheme. */
+    --color-deep-green: var(--color-emerald-950);
+    --color-green: #07553b;
+    --color-cream: #feffe5;
+    --color-tan: #efe8d3;
 
-	/* Neutral UI colors — text/borders/surfaces on light backgrounds */
-	--color-ink: var(--color-zinc-900);
-	--color-copy: var(--color-zinc-600);
-	--color-muted: var(--color-zinc-500);
-	--color-muted-inverse: var(--color-zinc-300);
-	--color-surface: var(--color-zinc-50);
-	--color-surface-strong: var(--color-zinc-100);
-	--color-border: var(--color-zinc-300);
-	--color-border-subtle: var(--color-zinc-200);
-
-	--color-error: var(--color-red-500);
-	--color-danger: var(--color-red-600);
-	--color-danger-hover: var(--color-red-700);
-
-	--color-cta: var(--color-zinc-900);
-	--color-cta-hover: var(--color-zinc-800);
-
-	--spacing-hairline: calc(var(--spacing) * 1);
-	--spacing-inline: calc(var(--spacing) * 2);
-	--spacing-compact: calc(var(--spacing) * 3);
-	--spacing-group: calc(var(--spacing) * 4);
-	--spacing-stack: calc(var(--spacing) * 6);
-	--spacing-cluster: calc(var(--spacing) * 8);
-	--spacing-block: calc(var(--spacing) * 10);
-	--spacing-section: calc(var(--spacing) * 16);
+    /*
+     * Spacing scale. Defined under --spacing-* so Tailwind auto-generates
+     * every spacing utility off each step: gap-tight, p-tight, m-tight,
+     * space-x-tight, w-tight, etc. — not just gap.
+     *
+     * Named by role rather than t-shirt size (xs/sm/md/lg/xl) on purpose:
+     * those names are already reserved by Tailwind's container scale
+     * (max-w-lg, max-w-xl, ...), and defining --spacing-lg here silently
+     * shadowed --container-lg, breaking every max-w-lg in the app.
+     */
+    --spacing-tight: calc(var(--spacing) * 1);
+    --spacing-inline: calc(var(--spacing) * 2);
+    --spacing-group: calc(var(--spacing) * 4);
+    --spacing-loose: calc(var(--spacing) * 6);
+    --spacing-cluster: calc(var(--spacing) * 10);
+    --spacing-section: calc(var(--spacing) * 16);
 }
 
 @media (width >= theme(--breakpoint-md)) {
-	:root {
-		--text-label: var(--text-sm);
-		--text-body: var(--text-base);
-		--text-link: var(--text-base);
-		--text-button: var(--text-base);
-		--text-section: var(--text-xl);
-		--text-heading: var(--text-2xl);
-		--text-hero: var(--text-5xl);
-		--text-display: var(--text-6xl);
-	}
+    :root {
+        --text-label: var(--text-sm);
+        --text-body: var(--text-base);
+        --text-link: var(--text-base);
+        --text-button: var(--text-base);
+        --text-section: var(--text-xl);
+        --text-heading: var(--text-2xl);
+        --text-hero: var(--text-5xl);
+        --text-display: var(--text-6xl);
+    }
 }
 
 @media (width >= theme(--breakpoint-lg)) {
-	:root {
-		--text-subheading: var(--text-lg);
-		--text-section: var(--text-2xl);
-		--text-heading: var(--text-3xl);
-		--text-hero: var(--text-6xl);
-		--text-display: var(--text-7xl);
-	}
+    :root {
+        --text-subheading: var(--text-lg);
+        --text-section: var(--text-2xl);
+        --text-heading: var(--text-3xl);
+        --text-hero: var(--text-6xl);
+        --text-display: var(--text-7xl);
+    }
 }
 
 /*
  * `inline` because these reference runtime custom properties — the
- * next/font variables set on <html>, and --background/--foreground
- * above — rather than static values Tailwind can resolve at build time.
+ * next/font variables set on <html>, and the surface colors above —
+ * rather than static values Tailwind can resolve at build time.
  */
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
+    --color-background: var(--primary-surface-color);
+    --color-foreground: var(--primary-on-surface-color);
 
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+    --color-secondary: var(--secondary-surface-color);
+    --color-on-secondary: var(--secondary-on-surface-color);
 
-	--animate-marquee: marquee 120s linear infinite;
-	@keyframes marquee {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(-100%);
-		}
-	}
+    --color-accent: var(--accent-surface-color);
+    --color-accent-hover: var(--accent-surface-hover-color);
+    --color-on-accent: var(--accent-on-surface-color);
+
+    --color-ink: var(--neutral-on-surface-color);
+    --color-surface: var(--neutral-surface-color);
+    --color-surface-strong: var(--neutral-surface-strong-color);
+
+    --color-cta: var(--cta-surface-color);
+    --color-cta-hover: var(--cta-surface-hover-color);
+    --color-on-cta: var(--cta-on-surface-color);
+
+    --color-danger: var(--danger-surface-color);
+    --color-danger-hover: var(--danger-surface-hover-color);
+    --color-on-danger: var(--danger-on-surface-color);
+
+    --color-copy: var(--copy-on-surface-color);
+    --color-muted: var(--muted-on-surface-color);
+    --color-muted-inverse: var(--muted-inverse-on-surface-color);
+    --color-error: var(--error-on-surface-color);
+
+    --color-border: var(--border-color);
+    --color-border-subtle: var(--border-subtle-color);
+
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+    --animate-marquee: marquee 120s linear infinite;
+    @keyframes marquee {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
 }
 
 body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-sans);
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
 }

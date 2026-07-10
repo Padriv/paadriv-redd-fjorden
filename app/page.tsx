@@ -1,17 +1,19 @@
 import AboutSection from "./_components/AboutSection";
 import Hero from "./_components/Hero";
 import JoinSection from "./_components/JoinSection";
+import Navigationbar from "./_components/Navigationbar";
 import PaadriverSection from "./_components/PaadriverSection";
 import PartnereSection from "./_components/PartnereSection";
 
 export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-center bg-deep-green text-cream">
+			<Navigationbar />
 			<Hero />
 			<AboutSection />
 			<JoinSection />
 			<div className="flex w-full flex-col items-center gap-section px-16 py-32">
-				<div className="flex max-w-2xl flex-col gap-stack">
+				<div className="flex max-w-2xl flex-col gap-loose">
 					<PaadriverSection />
 				</div>
 				<PartnereSection />

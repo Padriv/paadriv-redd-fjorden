@@ -13,7 +13,7 @@ export default function Hero() {
 
 			<div className="absolute inset-0 bg-gradient-to-b from-deep-green/40 via-deep-green/50 to-deep-green/85" />
 
-			<div className="relative z-10 flex max-w-2xl flex-col gap-compact text-cream sm:gap-group">
+			<div className="relative z-10 flex max-w-2xl flex-col gap-inline text-cream sm:gap-group">
 				<h1 className="text-hero text-balance font-extrabold leading-tight">
 					Bli med og gjør Oslofjorden frisk
 				</h1>
