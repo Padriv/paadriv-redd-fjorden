@@ -11,10 +11,10 @@ export default function Privatperson() {
 	return (
 		<>
 			<Navigationbar solid />
-			<main className="relative flex min-h-screen flex-col items-center justify-center bg-white px-16 py-32">
-				<div className="flex max-w-2xl flex-col gap-6">
-					<h1 className="text-3xl font-semibold text-black">Privatperson</h1>
-					<p className="text-lg leading-8 text-zinc-600">
+			<main className="relative flex min-h-screen flex-col items-center justify-center bg-background px-16 py-32">
+				<div className="flex max-w-2xl flex-col gap-stack">
+					<h1 className="text-heading font-semibold text-ink">Privatperson</h1>
+					<p className="text-lead leading-8 text-copy">
 						Informasjon om hva det innebærer å bidra som enkeltperson
 					</p>
 					{!showForm && (
@@ -29,5 +29,5 @@ export default function Privatperson() {
 				</div>
 			</main>
 		</>
-	);
-}
+		);	
+	}
