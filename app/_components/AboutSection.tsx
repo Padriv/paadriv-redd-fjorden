@@ -42,11 +42,11 @@ export default async function AboutSection() {
 		<section className="relative w-full bg-cream px-16 pb-24 pt-40">
 			<Wave fillClassName="fill-deep-green" />
 
-			<div className="mx-auto flex max-w-2xl flex-col gap-6">
-				<h2 className="text-2xl font-semibold text-black">
+			<div className="mx-auto flex max-w-2xl flex-col gap-stack">
+				<h2 className="text-section font-semibold text-ink">
 					Sammen for Oslofjorden
 				</h2>
-				<p className="text-zinc-600">
+				<p className="text-body text-copy">
 					Oslofjorden er Norges mest belastede fjord. Fiskebestandene har
 					kollapset, ålegressengene forsvinner, og den økologiske tilstanden har
 					vist få tegn til bedring på over ti år. Til tross for stor innsats fra
@@ -58,13 +58,13 @@ export default async function AboutSection() {
 					til konkret handling for en friskere Oslofjord.
 				</p>
 
-				<div className="flex flex-wrap gap-8">
+				<div className="flex flex-wrap gap-cluster">
 					{stats.map((stat) => (
-						<div key={stat.label} className="flex flex-col gap-1">
-							<span className="text-2xl font-semibold text-black">
+						<div key={stat.label} className="flex flex-col gap-hairline">
+							<span className="text-section font-semibold text-ink">
 								{stat.value}
 							</span>
-							<span className="text-sm text-zinc-600">{stat.label}</span>
+							<span className="text-body text-copy">{stat.label}</span>
 						</div>
 					))}
 				</div>
