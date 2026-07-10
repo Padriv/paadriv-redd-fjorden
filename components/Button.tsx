@@ -14,7 +14,7 @@ export default function Button({
 	href,
 }: ButtonProps) {
 	const className =
-		"flex h-12 items-center justify-center rounded-full bg-black px-8 text-base font-medium text-white transition-colors hover:bg-gray-800";
+		"flex h-12 items-center justify-center rounded-full bg-cta px-8 text-button font-medium text-white transition-colors hover:bg-cta-hover";
 
 	if (href) {
 		return (
