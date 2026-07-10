@@ -1,24 +1,46 @@
-const stats = [
-	{ value: "27", label: "partnerorganisasjoner" },
-	{ value: "118", label: "kommuner i nedbørsfeltet" },
-	{ value: "2,8 mill", label: "mennesker berørt" },
-	{ value: "38", label: "aktive pådrivere" },
-];
+import { client } from "@/lib/client";
+import Wave from "./Wave";
 
-export default function AboutSection() {
+async function getPartnerCount() {
+	try {
+		const partnere = await client.airtable.partnere.list();
+		return partnere.length;
+	} catch {
+		return null;
+	}
+}
+
+async function getPadriverCount() {
+	try {
+		const { records } = await client.airtable.padriver.list();
+		return records.length;
+	} catch {
+		return null;
+	}
+}
+
+export default async function AboutSection() {
+	const [partnerCount, padriverCount] = await Promise.all([
+		getPartnerCount(),
+		getPadriverCount(),
+	]);
+
+	const stats = [
+		{
+			value: partnerCount === null ? "–" : String(partnerCount),
+			label: "partnerorganisasjoner",
+		},
+		{ value: "118", label: "kommuner i nedbørsfeltet" },
+		{ value: "2,8 mill", label: "mennesker berørt" },
+		{
+			value: padriverCount === null ? "–" : String(padriverCount),
+			label: "aktive pådrivere",
+		},
+	];
+
 	return (
 		<section className="relative w-full bg-cream px-16 pb-24 pt-40">
-			<svg
-				className="absolute left-0 top-0 h-40 w-full"
-				viewBox="0 0 1440 220"
-				preserveAspectRatio="none"
-				aria-hidden="true"
-			>
-				<path
-					d="M0,110 C360,-80 1080,300 1440,110 L1440,0 L0,0 Z"
-					className="fill-deep-green"
-				/>
-			</svg>
+			<Wave fillClassName="fill-deep-green" />
 
 			<div className="mx-auto flex max-w-2xl flex-col gap-6">
 				<h2 className="text-2xl font-semibold text-black">
