@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Wave from "./Wave";
 
 const cards = [
 	{
@@ -23,9 +24,11 @@ export default function JoinSection() {
 	return (
 		<section
 			id="meld-interesse-organisasjon"
-			className="flex flex-col items-center gap-block py-8"
+			className="relative w-full bg-deep-green px-16 pb-24 pt-40"
 		>
-			<div className="flex w-full flex-col gap-stack sm:flex-row">
+			<Wave fillClassName="fill-cream" />
+
+			<div className="mx-auto flex w-full max-w-2xl flex-col gap-stack sm:flex-row">
 				{cards.map((card) => (
 					<div
 						key={card.href}
