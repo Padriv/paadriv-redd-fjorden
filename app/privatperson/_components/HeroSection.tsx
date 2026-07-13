@@ -1,21 +1,10 @@
-import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
-
 type HeroSectionProps = {
-	showForm: boolean;
 	onJoinClick: () => void;
-	onCloseForm: () => void;
 };
 
-export default function HeroSection({
-	showForm,
-	onJoinClick,
-	onCloseForm,
-}: HeroSectionProps) {
+export default function HeroSection({ onJoinClick }: HeroSectionProps) {
 	return (
-		<section
-			id="meld-deg-pa"
-			className="flex w-full flex-col items-center bg-background px-16 py-32"
-		>
+		<section className="flex w-full flex-col items-center bg-background px-16 py-32">
 			<div className="flex max-w-2xl flex-col gap-group">
 				<span className="text-caption font-semibold uppercase tracking-wide text-muted">
 					For privatpersoner
@@ -28,16 +17,13 @@ export default function HeroSection({
 					å ville noe for fjorden. Vi kobler deg med mennesker, kunnskap og
 					tiltak der engasjementet ditt kan gjøre en forskjell.
 				</p>
-				{!showForm && (
-					<button
-						type="button"
-						onClick={onJoinClick}
-						className="flex h-10 w-fit items-center justify-center self-start rounded-full bg-deep-green px-6 text-label font-medium text-white transition-colors hover:bg-green"
-					>
-						Meld deg på →
-					</button>
-				)}
-				{showForm && <IndividualSignupForm onClose={onCloseForm} />}
+				<button
+					type="button"
+					onClick={onJoinClick}
+					className="flex h-10 w-fit items-center justify-center self-start rounded-full bg-deep-green px-6 text-label font-medium text-white transition-colors hover:bg-green"
+				>
+					Meld deg på →
+				</button>
 			</div>
 		</section>
 	);
