@@ -86,7 +86,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					onDragEnter={handleDragEnter}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}
-					className={`flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-inline rounded-lg border-2 border-dashed transition-colors ${
+					className={`mx-auto flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-inline rounded-lg border-2 border-dashed transition-colors ${
 						isDragging
 							? "border-ink bg-surface-strong"
 							: "border-border bg-surface hover:bg-surface-strong"
@@ -102,7 +102,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					</div>
 				</button>
 			) : (
-				<div className="relative max-w-[250px]">
+				<div className="relative mx-auto max-w-[250px]">
 					<div className="group relative aspect-square w-full overflow-hidden rounded-lg border border-border-subtle">
 						<img
 							src={previewUrl}
@@ -113,7 +113,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 							<button
 								type="button"
 								onClick={handleThumbnailClick}
-								className="rounded-full bg-white px-3 py-1.5 text-button font-medium hover:bg-surface-strong"
+								className="rounded-full bg-cream px-3 py-1.5 text-button font-medium hover:bg-surface-strong"
 							>
 								Bytt
 							</button>
