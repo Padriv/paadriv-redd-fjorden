@@ -187,8 +187,6 @@ export default function IndividualSignupForm({
 				}
 
 				toast.success("Takk for at du meldte deg som pådriver!");
-				form.reset();
-				setStep(1);
 				onClose?.();
 			} catch {
 				toast.error("Noe gikk galt", {
