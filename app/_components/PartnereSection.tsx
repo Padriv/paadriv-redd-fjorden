@@ -25,7 +25,7 @@ export default async function PartnereSection() {
 					{partnere.map((partner) => (
 						<div
 							key={partner.id}
-							className="flex h-16 w-40 flex-shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-white px-4"
+							className="flex h-16 w-40 shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-white px-4"
 						>
 							{partner.logoUrl ? (
 								<img
