@@ -1,5 +1,4 @@
 import { client } from "@/lib/client";
-import Wave from "./Wave";
 
 async function getPartnerCount() {
 	try {
@@ -39,9 +38,7 @@ export default async function AboutSection() {
 	];
 
 	return (
-		<section className="relative w-full bg-cream px-16 pb-24 pt-40">
-			<Wave fillClassName="fill-deep-green" />
-
+		<section className="w-full bg-cream px-16 py-24">
 			<div className="mx-auto flex max-w-2xl flex-col gap-loose">
 				<h2 className="text-section font-semibold text-ink">
 					Sammen for Oslofjorden
