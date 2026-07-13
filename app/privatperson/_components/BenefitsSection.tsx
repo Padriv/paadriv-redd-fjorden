@@ -43,11 +43,11 @@ export default function BenefitsSection() {
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 gap-group sm:grid-cols-2">
+				<div className="grid auto-rows-fr grid-cols-1 gap-group sm:grid-cols-2">
 					{benefits.map((benefit) => (
 						<div
 							key={benefit.title}
-							className="flex flex-col gap-inline rounded-2xl bg-cream p-6 text-ink"
+							className="flex h-full flex-col gap-inline rounded-2xl bg-cream p-6 text-ink"
 						>
 							<h3 className="text-subheading font-semibold">{benefit.title}</h3>
 							<p className="text-body text-copy">{benefit.description}</p>

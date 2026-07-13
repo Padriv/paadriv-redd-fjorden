@@ -9,8 +9,8 @@ export default function CtaSection({ showForm, onJoinClick }: CtaSectionProps) {
 			<div className="flex max-w-2xl flex-col items-center gap-group text-center">
 				<h2 className="text-section font-semibold">Klar til å bli med?</h2>
 				<p className="text-body">
-					Det tar to minutter. Fyll ut, så tar vi kontakt og finner ut hvor du
-					gjør mest nytte.
+					Det tar bare to minutter. Fyll ut skjemaet, så tar vi kontakt for å
+					finne ut hvor du kan gjøre størst forskjell.
 				</p>
 				{!showForm && (
 					<button

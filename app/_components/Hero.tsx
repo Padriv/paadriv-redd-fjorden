@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Wave from "./Wave";
 
 export default function Hero() {
 	return (
@@ -12,6 +13,12 @@ export default function Hero() {
 			/>
 
 			<div className="absolute inset-0 bg-linear-to-b from-deep-green/40 via-deep-green/50 to-deep-green/85" />
+
+			<Wave
+				fillClassName="fill-cream"
+				position="bottom"
+				heightClassName="h-28"
+			/>
 
 			<div className="relative z-10 flex max-w-2xl flex-col gap-inline text-cream sm:gap-group">
 				<h1 className="text-hero text-balance font-extrabold leading-tight">
