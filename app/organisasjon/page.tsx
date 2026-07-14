@@ -64,6 +64,22 @@ export default function Organisasjon() {
 				<div id={anchorId} className="w-full scroll-mt-24">
 					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
 				</div>
+			<main className="relative flex min-h-screen flex-col items-center justify-center bg-background py-32">
+				<div className="flex w-full max-w-2xl flex-col gap-loose px-16">
+					<h1 className="text-3xl font-semibold text-ink">Organisasjon</h1>
+					<p className="text-lg leading-8 text-copy">
+						Informasjon om hva det innebærer å bidra som organisasjon
+					</p>
+					{!showForm && (
+						<Button
+							label="Bli med som partner"
+							onClick={() => setShowForm(true)}
+						/>
+					)}
+				</div>
+				{showForm && (
+					<OrganizationSignupForm onClose={() => setShowForm(false)} />
+				)}
 			</main>
 		</>
 	);
