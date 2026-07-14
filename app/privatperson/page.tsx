@@ -42,7 +42,7 @@ export default function Privatperson() {
 			<Navigationbar solid />
 			<main className="relative flex min-h-screen flex-col items-center">
 				<HeroSection
-					eyebrow="For privatpersoner"
+					overline="For privatpersoner"
 					heading="Bli pådriver for Oslofjorden"
 					description="Du trenger ikke være ekspert eller ha massevis av tid. Du trenger bare å ville noe for fjorden. Vi kobler deg med mennesker, kunnskap og tiltak der engasjementet ditt kan gjøre en forskjell."
 					buttonLabel={buttonLabel}

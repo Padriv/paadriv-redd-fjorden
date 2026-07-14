@@ -43,7 +43,7 @@ export default function Organisasjon() {
 			<Navigationbar solid />
 			<main className="relative flex min-h-screen flex-col items-center">
 				<HeroSection
-					eyebrow="For organisasjoner"
+					overline="For organisasjoner"
 					heading="Bli partner for Oslofjorden"
 					description="Representerer dere en bedrift, kommune eller frivillig organisasjon? Som partner bidrar dere med ressurser, kompetanse og nettverk inn i arbeidet for en frisk Oslofjord, og blir en synlig del av løsningen."
 					buttonLabel={buttonLabel}

@@ -1,5 +1,5 @@
 type HeroSectionProps = {
-	eyebrow: string;
+	overline: string;
 	heading: string;
 	description: string;
 	buttonLabel: string;
@@ -7,7 +7,7 @@ type HeroSectionProps = {
 };
 
 export default function HeroSection({
-	eyebrow,
+	overline,
 	heading,
 	description,
 	buttonLabel,
@@ -17,7 +17,7 @@ export default function HeroSection({
 		<section className="flex w-full flex-col items-center bg-background px-16 py-32">
 			<div className="flex max-w-2xl flex-col gap-group">
 				<span className="text-caption font-semibold uppercase tracking-wide text-muted">
-					{eyebrow}
+					{overline}
 				</span>
 				<h1 className="text-hero font-bold text-ink">{heading}</h1>
 				<p className="text-lead text-copy">{description}</p>
