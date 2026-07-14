@@ -75,11 +75,11 @@ export default async function PaadriverSection() {
 	const grid = buildGrid(withPhoto);
 
 	return (
-		<section className="relative w-full bg-cream px-16 pb-56 pt-56">
+		<section className="relative w-full bg-cream px-10 pb-56 pt-56 md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 			<Wave fillClassName="fill-deep-green" position="bottom" />
 
-			<div className="mx-auto grid w-full max-w-2xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
+			<div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
 				<div className="flex flex-col gap-group">
 					<h2 className="text-section font-semibold text-green">
 						Frivillige = pådrivere

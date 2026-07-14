@@ -2,10 +2,10 @@ import Wave from "@/app/_components/Wave";
 
 export default function PartnershipSection() {
 	return (
-		<section className="relative flex w-full flex-col items-center bg-deep-green px-16 pb-cluster pt-40 text-cream">
+		<section className="relative flex w-full flex-col items-center bg-deep-green px-10 pb-cluster pt-40 text-cream md:px-28">
 			<Wave fillClassName="fill-cream" />
 
-			<div className="flex max-w-2xl flex-col gap-group">
+			<div className="flex max-w-5xl flex-col gap-group">
 				<h2 className="text-section font-semibold">
 					Et spleiselag for fjorden
 				</h2>

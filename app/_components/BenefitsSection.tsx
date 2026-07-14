@@ -17,7 +17,7 @@ export default function BenefitsSection({
 	benefits,
 }: BenefitsSectionProps) {
 	return (
-		<section className="relative flex w-full flex-col items-center bg-cream px-16 pb-cluster pt-40 text-ink">
+		<section className="relative flex w-full flex-col items-center bg-cream px-10 pb-cluster pt-40 text-ink md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 
 			<div className="grid w-full max-w-5xl grid-cols-1 gap-cluster lg:grid-cols-2">

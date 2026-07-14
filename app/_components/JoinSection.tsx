@@ -24,11 +24,11 @@ export default function JoinSection() {
 	return (
 		<section
 			id="bli-med"
-			className="relative w-full bg-deep-green px-16 pb-24 pt-40"
+			className="relative w-full bg-deep-green px-10 pb-24 pt-40 md:px-28"
 		>
 			<Wave fillClassName="fill-cream" />
 
-			<div className="mx-auto flex w-full max-w-2xl flex-col gap-loose sm:flex-row">
+			<div className="mx-auto flex w-full max-w-5xl flex-col gap-loose sm:flex-row">
 				{cards.map((card) => (
 					<div
 						key={card.href}
