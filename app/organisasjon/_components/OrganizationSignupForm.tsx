@@ -66,6 +66,15 @@ const steps = [
 const samtykkeError = (value: boolean) =>
 	!value ? "Du må samtykke for å sende inn skjemaet" : undefined;
 
+function isValidOrganisasjonsnummer(digits: string): boolean {
+	const weights = [3, 2, 7, 6, 5, 4, 3, 2];
+	const sum = weights.reduce((acc, weight, i) => acc + weight * Number(digits[i]), 0);
+	const remainder = sum % 11;
+	if (remainder === 1) return false;
+	const controlDigit = remainder === 0 ? 0 : 11 - remainder;
+	return controlDigit === Number(digits[8]);
+}
+
 function TextField({
 	id,
 	label,
@@ -346,8 +355,13 @@ export default function OrganizationSignupForm({
 							validators={{
 								onBlur: ({ value }) => {
 									if (!value.trim()) return "Organisasjonsnummer er påkrevd";
-									if (!/^\d[\d\s]*$/.test(value.trim()))
+									const digits = value.trim().replace(/\s/g, "");
+									if (!/^\d+$/.test(digits))
 										return "Organisasjonsnummer kan bare inneholde tall";
+									if (digits.length !== 9)
+										return "Organisasjonsnummer må bestå av 9 siffer";
+									if (!isValidOrganisasjonsnummer(digits))
+										return "Ugyldig organisasjonsnummer";
 									return undefined;
 								},
 							}}
