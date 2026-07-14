@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Wave from "./Wave";
 
-export default function Hero() {
+export default function HomeHeroSection() {
 	return (
 		<section className="relative flex h-dvh min-h-150 w-full flex-col justify-end overflow-hidden bg-deep-green pb-32 pl-10 pr-6 pt-10 md:pb-40 md:pl-28 md:pr-16">
 			<Image

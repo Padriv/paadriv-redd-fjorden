@@ -1,3 +1,4 @@
+import AnimatedStat from "@/app/_components/AnimatedStat";
 import { client } from "@/lib/client";
 
 async function getPartnerCount() {
@@ -25,16 +26,15 @@ export default async function AboutSection() {
 	]);
 
 	const stats = [
+		{ target: partnerCount, label: "partnere" },
+		{ target: 118, label: "kommuner i\nnedbørsfeltet" },
 		{
-			value: partnerCount === null ? "–" : String(partnerCount),
-			label: "partnerorganisasjoner",
+			target: 2.8,
+			decimals: 1,
+			suffix: " mill",
+			label: "mennesker\nberørt",
 		},
-		{ value: "118", label: "kommuner i nedbørsfeltet" },
-		{ value: "2,8 mill", label: "mennesker berørt" },
-		{
-			value: padriverCount === null ? "–" : String(padriverCount),
-			label: "aktive pådrivere",
-		},
+		{ target: padriverCount, label: "aktive\npådrivere" },
 	];
 
 	return (
@@ -55,14 +55,15 @@ export default async function AboutSection() {
 					til konkret handling for en friskere Oslofjord.
 				</p>
 
-				<div className="flex flex-wrap gap-cluster">
+				<div className="grid grid-cols-4 gap-group">
 					{stats.map((stat) => (
-						<div key={stat.label} className="flex flex-col gap-tight">
-							<span className="text-section font-semibold text-ink">
-								{stat.value}
-							</span>
-							<span className="text-body text-copy">{stat.label}</span>
-						</div>
+						<AnimatedStat
+							key={stat.label}
+							target={stat.target}
+							label={stat.label}
+							decimals={stat.decimals}
+							suffix={stat.suffix}
+						/>
 					))}
 				</div>
 			</div>
