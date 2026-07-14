@@ -15,6 +15,60 @@ export default function Footer() {
 						For alle som vil finne gode løsninger og en mer bærekraftig retning
 						– sammen!
 					</p>
+					<div className="flex items-center gap-inline">
+						<a
+							href="https://www.instagram.com/paadriv/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex size-10 items-center justify-center rounded-md bg-deep-green"
+							aria-label="Instagram"
+						>
+							<img
+								src="/svg/instagram.svg"
+								alt=""
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://www.facebook.com/paadriv/?locale=nb_NO"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex size-10 items-center justify-center rounded-md bg-deep-green"
+							aria-label="Facebook"
+						>
+							<img
+								src="/svg/facebook.svg"
+								alt=""
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://no.linkedin.com/company/padriv"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex size-10 items-center justify-center rounded-md bg-deep-green"
+							aria-label="LinkedIn"
+						>
+							<img
+								src="/svg/linkedin.svg"
+								alt=""
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://www.youtube.com/channel/UCEMshnOPR6yhexEF38ywkOA/videos"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex size-10 items-center justify-center rounded-md bg-deep-green"
+							aria-label="YouTube"
+						>
+							<img
+								src="/svg/youtube.svg"
+								alt=""
+								className="size-6"
+							/>
+						</a>
+					</div>
 				</div>
 				<div className="flex flex-col gap-group">
 					<h3 className="text-subheading font-semibold text-deep-green">
