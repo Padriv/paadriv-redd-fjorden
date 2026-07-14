@@ -12,10 +12,8 @@ export default function Home() {
 			<HomeHeroSection />
 			<AboutSection />
 			<JoinSection />
+			<PaadriverSection />
 			<div className="flex w-full flex-col items-center gap-section px-16 py-32">
-				<div className="flex max-w-2xl flex-col gap-loose">
-					<PaadriverSection />
-				</div>
 				<PartnereSection />
 			</div>
 		</main>
