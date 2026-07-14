@@ -26,15 +26,15 @@ export default async function AboutSection() {
 	]);
 
 	const stats = [
-		{ target: partnerCount, label: "partnere" },
-		{ target: 118, label: "kommuner i\nnedbørsfeltet" },
+		{ target: padriverCount, label: "aktive\npådrivere" },
+		{ target: partnerCount, label: "engasjerte\npartnere" },
 		{
 			target: 2.8,
 			decimals: 1,
 			suffix: " mill",
 			label: "mennesker\nberørt",
 		},
-		{ target: padriverCount, label: "aktive\npådrivere" },
+		{ target: 118, label: "kommuner i\nnedbørsfeltet" },
 	];
 
 	return (
@@ -55,7 +55,7 @@ export default async function AboutSection() {
 					til konkret handling for en friskere Oslofjord.
 				</p>
 
-				<div className="grid grid-cols-4 gap-group">
+				<div className="grid grid-cols-2 gap-group md:grid-cols-4">
 					{stats.map((stat) => (
 						<AnimatedStat
 							key={stat.label}
