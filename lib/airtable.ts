@@ -280,7 +280,7 @@ type PartnerResponse = {
 	id: string;
 	fields: {
 		"Navn på organisasjon"?: string;
-		Bilde?: { url: string }[];
+		Logo?: { url: string }[];
 	};
 };
 
@@ -313,7 +313,7 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	return records.filter(hasOrganizationName).map((record) => ({
 		id: record.id,
 		navn: record.fields["Navn på organisasjon"],
-		logoUrl: record.fields.Bilde?.[0]?.url,
+		logoUrl: record.fields.Logo?.[0]?.url,
 	}));
 };
 
