@@ -8,8 +8,8 @@ type PadriverRecord = Awaited<
 
 type Slot =
 	| { kind: "photo"; record: PadriverRecord }
-	| { kind: "empty" }
-	| { kind: "invisible" };
+	| { kind: "empty"; key: string }
+	| { kind: "invisible"; key: string };
 
 type SlotKind = "photo" | "empty" | "invisible";
 
@@ -46,12 +46,16 @@ function buildGrid(photos: PadriverRecord[]): Slot[] {
 	const selected = shuffle(photos);
 	let photoIndex = 0;
 
-	return SLOT_PATTERN.map((slotKind) => {
+	// Nøkkelen bygges her, fra posisjonen i det faste mønsteret — ikke i JSX-en
+	// som rendrer resultatet. Mønsteret endrer seg aldri, så posisjonen er en
+	// trygg, stabil nøkkel selv om vi ikke bruker den direkte som React-key.
+	return SLOT_PATTERN.map((slotKind, i) => {
 		if (slotKind === "photo" && photoIndex < selected.length) {
 			return { kind: "photo", record: selected[photoIndex++] };
 		}
-		if (slotKind === "invisible") return { kind: "invisible" };
-		return { kind: "empty" };
+		if (slotKind === "invisible")
+			return { kind: "invisible", key: `slot-${i}` };
+		return { kind: "empty", key: `slot-${i}` };
 	});
 }
 
@@ -59,11 +63,12 @@ export default async function PaadriverSection() {
 	let records: Awaited<
 		ReturnType<typeof client.airtable.padriver.list>
 	>["records"] = [];
+	let loadFailed = false;
 
 	try {
 		({ records } = await client.airtable.padriver.list());
 	} catch {
-		return null;
+		loadFailed = true;
 	}
 
 	const withPhoto = records.filter((record) => record.fields.Profilbilde?.[0]);
@@ -87,12 +92,14 @@ export default async function PaadriverSection() {
 						href="/padriver"
 						className="text-link font-medium text-ink transition-colors hover:text-green"
 					>
-						Se alle {records.length} pådrivere →
+						{loadFailed
+							? "Se alle pådrivere →"
+							: `Se alle ${records.length} pådrivere →`}
 					</Link>
 				</div>
 
 				<div className="mx-auto grid w-fit grid-cols-4 gap-group">
-					{grid.map((slot, index) => {
+					{grid.map((slot) => {
 						if (slot.kind === "photo") {
 							return (
 								<img
@@ -109,14 +116,12 @@ export default async function PaadriverSection() {
 						if (slot.kind === "empty") {
 							return (
 								<div
-									// biome-ignore lint/suspicious/noArrayIndexKey: grid is fixed-size and rebuilt fresh every render, so position never shifts
-									key={index}
+									key={slot.key}
 									className={`${CIRCLE_BASE} rounded-full border border-border`}
 								/>
 							);
 						}
-						// biome-ignore lint/suspicious/noArrayIndexKey: grid is fixed-size and rebuilt fresh every render, so position never shifts
-						return <div key={index} className={CIRCLE_BASE} />;
+						return <div key={slot.key} className={CIRCLE_BASE} />;
 					})}
 				</div>
 			</div>

@@ -1,4 +1,9 @@
 {
 	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "biomejs.biome"
+	"editor.defaultFormatter": "biomejs.biome",
+
+	// Tailwind v4 uses custom CSS at-rules like @theme and @utility in
+	// globals.css. VS Code's built-in CSS validator doesn't know about them
+	// and flags them as "unknown at rule" — this silences that false positive.
+	"css.lint.unknownAtRules": "ignore"
 }

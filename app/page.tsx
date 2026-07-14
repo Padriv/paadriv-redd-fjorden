@@ -13,7 +13,7 @@ export default function Home() {
 			<AboutSection />
 			<JoinSection />
 			<PaadriverSection />
-			<div className="flex w-full flex-col items-center gap-section px-16 py-32">
+			<div className="flex w-full flex-col items-center px-16 py-32">
 				<PartnereSection />
 			</div>
 		</main>
