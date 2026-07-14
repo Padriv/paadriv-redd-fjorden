@@ -26,7 +26,7 @@ export default function Footer() {
 							aria-label="Instagram"
 						>
 							<img
-								src="/svg/instagram.svg"
+								src="/svg/instagram_cream_icon.svg"
 								alt=""
 								className="size-6"
 							/>
@@ -39,7 +39,7 @@ export default function Footer() {
 							aria-label="Facebook"
 						>
 							<img
-								src="/svg/facebook.svg"
+								src="/svg/facebook_cream_icon.svg"
 								alt=""
 								className="size-6"
 							/>
@@ -52,7 +52,7 @@ export default function Footer() {
 							aria-label="LinkedIn"
 						>
 							<img
-								src="/svg/linkedin.svg"
+								src="/svg/linkedin_cream_icon.svg"
 								alt=""
 								className="size-6"
 							/>
@@ -65,7 +65,7 @@ export default function Footer() {
 							aria-label="YouTube"
 						>
 							<img
-								src="/svg/youtube.svg"
+								src="/svg/youtube_cream_icon.svg"
 								alt=""
 								className="size-6"
 							/>
@@ -81,14 +81,14 @@ export default function Footer() {
 							href="mailto:post@paadriv.no"
 							className="flex items-center gap-inline font-medium text-deep-green"
 						>
-							<img src="/svg/mail.svg" alt="" className="size-5" />
+							<img src="/svg/mail_green_icon.svg" alt="" className="size-5" />
 							post@paadriv.no
 						</a>
 						<a
 							href="tel:+4793295492"
 							className="flex items-center gap-inline font-medium text-deep-green"
 						>
-							<img src="/svg/phone.svg" alt="" className="size-5" />
+							<img src="/svg/phone_green_icon.svg" alt="" className="size-5" />
 							+47 932 95 492
 						</a>
 					</div>
