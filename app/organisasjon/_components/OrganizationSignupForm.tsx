@@ -515,6 +515,8 @@ export default function OrganizationSignupForm({
 									if (!value.trim()) return "Tlf er påkrevd";
 									if (!/^\+?\d[\d\s]*$/.test(value.trim()))
 										return "Tlf kan bare inneholde tall (og eventuelt + foran landkode)";
+									if (value.trim().replace(/\s/g, "").length < 8)
+										return "Tlf må bestå av minst 8 tegn";
 									return undefined;
 								},
 							}}
