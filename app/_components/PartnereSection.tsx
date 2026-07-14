@@ -39,6 +39,9 @@ function LogoCopy({
 	));
 }
 
+// Matches --animate-marquee duration in globals.css.
+const MARQUEE_DURATION_SECONDS = 145;
+
 function MarqueeRow({
 	partnere,
 	reverse,
@@ -46,10 +49,14 @@ function MarqueeRow({
 	partnere: PartnerListItem[];
 	reverse?: boolean;
 }) {
+	// Random negative delay: avoids always starting empty at the loop's start.
+	const startDelay = `-${(Math.random() * MARQUEE_DURATION_SECONDS).toFixed(1)}s`;
+
 	return (
 		<div className="w-full overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
 			<div
-				className={`flex w-max animate-marquee gap-cluster ${
+				style={{ animationDelay: startDelay }}
+				className={`flex w-max animate-marquee gap-3 ${
 					reverse ? "[animation-direction:reverse]" : ""
 				}`}
 			>
