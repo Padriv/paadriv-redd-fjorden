@@ -5,12 +5,14 @@ export default function Footer() {
 		<footer className="flex w-full flex-col gap-group bg-cream px-4 py-cluster text-ink sm:px-6 md:px-16">
 			<div className="grid w-full grid-cols-1 gap-loose md:grid-cols-2">
 				<div className="flex flex-col gap-group">
-					<Image
-						src="/images/paadriv-logo-sort.png"
-						alt="Påadriv"
-						width={150}
-						height={47}
-					/>
+					<a href="https://paadriv.no" target="_blank" rel="noopener noreferrer">
+						<Image
+							src="/images/paadriv-logo-sort.png"
+							alt="Påadriv"
+							width={150}
+							height={47}
+						/>
+					</a>
 					<p className="text-body max-w-xs text-muted">
 						For alle som vil finne gode løsninger og en mer bærekraftig retning
 						– sammen!
