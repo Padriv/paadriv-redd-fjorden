@@ -307,14 +307,31 @@ export default function OrganizationSignupForm({
 					<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
 						Steg {step} av {steps.length}
 					</span>
-					<div className="mt-group flex items-center gap-inline">
-						<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-label font-semibold text-green">
-							{step}
-						</span>
-						<h3 className="text-subheading font-semibold text-ink">
-							{current.title}
-							{current.required && <span className="text-error"> *</span>}
-						</h3>
+					<div className="mt-group flex items-center justify-between gap-inline">
+						<div className="flex items-center gap-inline">
+							<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-label font-semibold text-green">
+								{step}
+							</span>
+							<h3 className="text-subheading font-semibold text-ink">
+								{current.title}
+								{current.required && <span className="text-error"> *</span>}
+							</h3>
+						</div>
+						{step === 4 && (
+							<form.Field name="kompetanse">
+								{(field) =>
+									field.state.value.length > 0 && (
+										<button
+											type="button"
+											onClick={() => field.handleChange([])}
+											className="text-caption font-medium text-muted hover:text-ink hover:underline"
+										>
+											Nullstill
+										</button>
+									)
+								}
+							</form.Field>
+						)}
 					</div>
 					<p className="text-body text-copy">{current.description}</p>
 					<div className="h-1.5 w-full rounded-full bg-green/10">

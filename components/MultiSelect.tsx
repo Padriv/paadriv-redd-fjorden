@@ -9,7 +9,50 @@ type MultiSelectProps = {
 };
 
 const CHIP_CLASSNAME =
-	"rounded-full border px-4 py-2 text-label transition-colors";
+	"rounded-full border px-4 py-2 text-label shadow-sm transition-all duration-150";
+
+const CHIP_COLORS = [
+	{
+		bg: "bg-green-dark-forest",
+		border: "border-green-dark-forest",
+	},
+	{
+		bg: "bg-green-deep-pine",
+		border: "border-green-deep-pine",
+	},
+	{
+		bg: "bg-green-forest",
+		border: "border-green-forest",
+	},
+	{
+		bg: "bg-green-birch-leaf",
+		border: "border-green-birch-leaf",
+	},
+	{
+		bg: "bg-green-deep-sea",
+		border: "border-green-deep-sea",
+	},
+	{
+		bg: "bg-green-sage",
+		border: "border-green-sage",
+	},
+	{
+		bg: "bg-green-moss",
+		border: "border-green-moss",
+	},
+	{
+		bg: "bg-green-light-moss",
+		border: "border-green-light-moss",
+	},
+	{
+		bg: "bg-green-sea",
+		border: "border-green-sea",
+	},
+	{
+		bg: "bg-green-olive",
+		border: "border-green-olive",
+	},
+] as const;
 
 function packRows(
 	chipOptions: string[],
@@ -60,6 +103,17 @@ export default function MultiSelect({
 	const chipOptions = useMemo(() => options.slice(0, -1), [options]);
 	const isNoneSelected =
 		noneOption !== undefined && selected.includes(noneOption);
+
+	const colorByOption = useMemo(
+		() =>
+			new Map(
+				chipOptions.map((option, i) => [
+					option,
+					CHIP_COLORS[i % CHIP_COLORS.length],
+				]),
+			),
+		[chipOptions],
+	);
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [orderedOptions, setOrderedOptions] = useState(chipOptions);
@@ -125,6 +179,7 @@ export default function MultiSelect({
 			<div ref={containerRef} className="flex flex-wrap gap-inline">
 				{orderedOptions.map((option) => {
 					const isSelected = selected.includes(option);
+					const color = colorByOption.get(option);
 
 					return (
 						<button
@@ -135,10 +190,10 @@ export default function MultiSelect({
 							aria-pressed={isSelected}
 							className={`${CHIP_CLASSNAME} ${
 								isNoneSelected ? "opacity-40 hover:opacity-100" : ""
-							} ${
-								isSelected
-									? "border-accent bg-accent text-on-accent"
-									: "border-border bg-cream text-ink hover:border-ink"
+							} ${color?.border ?? "border-border"} ${
+								isSelected && color
+									? `${color.bg} text-cream shadow-md`
+									: "bg-cream text-ink hover:shadow-md"
 							}`}
 						>
 							{option}
