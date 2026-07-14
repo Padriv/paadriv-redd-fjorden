@@ -83,6 +83,18 @@
     --color-cream: #feffe5;
     --color-tan: #efe8d3;
 
+    /* 10 green tones, from darkest to lightest, for the MultiSelect chips */
+    --color-green-dark-forest: #1c3d2f;
+    --color-green-deep-pine: #2a4f3c;
+    --color-green-forest: #3d6b4f;
+    --color-green-birch-leaf: #4d7d5c;
+    --color-green-sage: #5f9271;
+    --color-green-moss: #6f9a63;
+    --color-green-light-moss: #88ab7c;
+    --color-green-sea: #4a8577;
+    --color-green-deep-sea: #3c7369;
+    --color-green-olive: #7a8f52;
+
     /*
      * Spacing scale. Defined under --spacing-* so Tailwind auto-generates
      * every spacing utility off each step: gap-tight, p-tight, m-tight,
