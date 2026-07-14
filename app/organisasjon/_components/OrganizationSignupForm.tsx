@@ -452,6 +452,7 @@ export default function OrganizationSignupForm({
 									<ImageUploadDemo
 										value={field.state.value}
 										onChange={field.handleChange}
+										aspectRatio="wide"
 									/>
 								</div>
 							)}

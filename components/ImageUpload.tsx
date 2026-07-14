@@ -5,12 +5,26 @@ import { useEffect, useRef, useState } from "react";
 type ImageUploadProps = {
 	value: File | null;
 	onChange: (file: File | null) => void;
+	aspectRatio?: "square" | "wide";
 };
 
-export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
+const aspectRatioClasses: Record<
+	NonNullable<ImageUploadProps["aspectRatio"]>,
+	{ aspect: string; maxWidth: string }
+> = {
+	square: { aspect: "aspect-square", maxWidth: "max-w-[250px]" },
+	wide: { aspect: "aspect-[3/1]", maxWidth: "max-w-[450px]" },
+};
+
+export function ImageUploadDemo({
+	value,
+	onChange,
+	aspectRatio = "square",
+}: ImageUploadProps) {
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isDragging, setIsDragging] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const { aspect, maxWidth } = aspectRatioClasses[aspectRatio];
 
 	useEffect(() => {
 		if (!value) {
@@ -86,7 +100,7 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					onDragEnter={handleDragEnter}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}
-					className={`mx-auto flex aspect-square w-full max-w-[250px] cursor-pointer flex-col items-center justify-center gap-inline rounded-lg border-2 border-dashed transition-colors ${
+					className={`mx-auto flex ${aspect} w-full ${maxWidth} cursor-pointer flex-col items-center justify-center gap-inline rounded-lg border-2 border-dashed transition-colors ${
 						isDragging
 							? "border-ink bg-surface-strong"
 							: "border-border bg-surface hover:bg-surface-strong"
@@ -102,8 +116,10 @@ export function ImageUploadDemo({ value, onChange }: ImageUploadProps) {
 					</div>
 				</button>
 			) : (
-				<div className="relative mx-auto max-w-[250px]">
-					<div className="group relative aspect-square w-full overflow-hidden rounded-lg border border-border-subtle">
+				<div className={`relative mx-auto ${maxWidth}`}>
+					<div
+						className={`group relative ${aspect} w-full overflow-hidden rounded-lg border border-border-subtle`}
+					>
 						<img
 							src={previewUrl}
 							alt="Forhåndsvisning"
