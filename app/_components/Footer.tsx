@@ -11,8 +11,32 @@ export default function Footer() {
 						width={150}
 						height={47}
 					/>
+					<p className="text-body max-w-xs text-muted">
+						For alle som vil finne gode løsninger og en mer bærekraftig retning
+						– sammen!
+					</p>
 				</div>
-				<div className="flex flex-col gap-group" />
+				<div className="flex flex-col gap-group">
+					<h3 className="text-subheading font-semibold text-deep-green">
+						Kontakt
+					</h3>
+					<div className="flex flex-col gap-inline">
+						<a
+							href="mailto:post@paadriv.no"
+							className="flex items-center gap-inline font-medium text-deep-green"
+						>
+							<img src="/svg/mail.svg" alt="" className="size-5" />
+							post@paadriv.no
+						</a>
+						<a
+							href="tel:+4793295492"
+							className="flex items-center gap-inline font-medium text-deep-green"
+						>
+							<img src="/svg/phone.svg" alt="" className="size-5" />
+							+47 932 95 492
+						</a>
+					</div>
+				</div>
 			</div>
 		</footer>
 	);
