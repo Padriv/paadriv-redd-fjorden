@@ -26,7 +26,7 @@ export default async function AboutSection() {
 	]);
 
 	const stats = [
-		{ target: padriverCount, label: "aktive\npådrivere" },
+		{ target: padriverCount, label: "aktive\nfrivillige" },
 		{ target: partnerCount, label: "engasjerte\npartnere" },
 		{
 			target: 2.8,

@@ -9,7 +9,7 @@ import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignu
 import QuotesSection from "@/app/privatperson/_components/QuotesSection";
 import { useJoinForm } from "@/lib/useJoinForm";
 
-const buttonLabel = "Meld deg på";
+const buttonLabel = "Bli pådriver";
 
 const benefits = [
 	{
@@ -44,8 +44,9 @@ export default function Privatperson() {
 			<main className="relative flex min-h-screen flex-col items-center">
 				<HeroSection
 					overline="For privatpersoner"
-					heading="Bli pådriver for Oslofjorden"
-					description="Du trenger ikke være ekspert eller ha massevis av tid. Du trenger bare å ville noe for fjorden. Vi kobler deg med mennesker, kunnskap og tiltak der engasjementet ditt kan gjøre en forskjell."
+					heading="Bli frivillig for Oslofjorden"
+					subheading="Frivillige = pådrivere"
+					description="Du trenger ikke være ekspert eller ha massevis av tid. Du trenger bare å ville noe for fjorden. Da blir du det vi kaller en pådriver: en frivillig som bidrar aktivt til å skape gode nærmiljøer og mer bærekraftige samfunn. Du bidrar med din kompetanse og dine erfaringer på samlinger og arrangementer, og blir del av et nettverk av mennesker som drar i samme retning. Enten du har mye eller lite tid, er det alltid en måte å bidra på"
 					buttonLabel={buttonLabel}
 					onJoinClick={onJoinClick}
 				/>
