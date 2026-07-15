@@ -1,6 +1,7 @@
 type HeroSectionProps = {
 	overline: string;
 	heading: string;
+	subheading?: string;
 	description: string;
 	buttonLabel: string;
 	onJoinClick: () => void;
@@ -9,6 +10,7 @@ type HeroSectionProps = {
 export default function HeroSection({
 	overline,
 	heading,
+	subheading,
 	description,
 	buttonLabel,
 	onJoinClick,
@@ -20,6 +22,9 @@ export default function HeroSection({
 					{overline}
 				</span>
 				<h1 className="text-hero font-bold text-ink">{heading}</h1>
+				{subheading && (
+					<p className="text-lead font-semibold text-green">{subheading}</p>
+				)}
 				<p className="text-lead text-copy">{description}</p>
 				<button
 					type="button"

@@ -665,7 +665,7 @@ export default function OrganizationSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										"Jeg samtykker til at bedriften og min kontaktinformasjon kan deles med relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante koblinger."
+										Jeg samtykker til at bedriften og min kontaktinformasjon kan deles med relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante koblinger.
 										<span className="text-error">*</span>
 									</span>
 								</label>
