@@ -3,9 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import type { CreatePadriverRequest } from "@/lib/airtable";
-import { resolveImage } from "@/lib/Image";
-import { ImageUploadDemo } from "../../../components/ImageUpload";
+import type { Padriver } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
 
 const skillOptions = [
@@ -43,18 +41,13 @@ const steps = [
 	},
 	{
 		title: "Din motivasjon",
-		description: "Hvorfor vil du bli pådriver? Svaret publiseres på nettsiden.",
+		description: "Hvorfor vil du bli pådriver?",
 		required: true,
 	},
 	{
 		title: "Kompetanse",
 		description: "Har du erfaring innen noe av dette? Velg gjerne flere.",
 		required: true,
-	},
-	{
-		title: "Profilbilde",
-		description: "Valgfritt – men et ansikt gjør profilen varmere.",
-		required: false,
 	},
 	{
 		title: "Samtykke",
@@ -141,22 +134,12 @@ export default function IndividualSignupForm({
 			navn: "",
 			epost: "",
 			telefon: "",
-			bilde: null as File | null,
 			motivasjon: "",
 			kompetanse: [] as string[],
 			samtykke: false,
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				const bilde = await resolveImage(value.bilde);
-				if (bilde === undefined) {
-					toast.error("Noe gikk galt med bildet", {
-						description:
-							"Vi klarte ikke å behandle bildet du lastet opp. Prøv et annet bilde, eller gå tilbake og fjern det.",
-					});
-					return;
-				}
-
 				const response = await fetch("/api/padriver", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -174,8 +157,7 @@ export default function IndividualSignupForm({
 								},
 							},
 						],
-						bilde,
-					} satisfies CreatePadriverRequest),
+					} satisfies Padriver),
 				});
 
 				if (response.status !== 201) {
@@ -212,7 +194,6 @@ export default function IndividualSignupForm({
 		2: [{ name: "motivasjon", cause: "submit" }],
 		3: [{ name: "kompetanse", cause: "submit" }],
 		4: [],
-		5: [],
 	};
 
 	const goNext = async () => {
@@ -451,17 +432,6 @@ export default function IndividualSignupForm({
 				)}
 
 				{step === 4 && (
-					<form.Field name="bilde">
-						{(field) => (
-							<ImageUploadDemo
-								value={field.state.value}
-								onChange={field.handleChange}
-							/>
-						)}
-					</form.Field>
-				)}
-
-				{step === 5 && (
 					<form.Field
 						name="samtykke"
 						validators={{
@@ -492,9 +462,9 @@ export default function IndividualSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at opplysningene kan publiseres på
-										fjordenvår.no i forbindelse med presentasjon av meg som
-										pådriver. <span className="text-error">*</span>
+										Jeg samtykker til at min kontaktinformasjon kan deles med andre
+										relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante
+										koblinger. <span className="text-error">*</span>
 									</span>
 								</label>
 								{(field.state.meta.errorMap.onBlur ||

@@ -1,5 +1,4 @@
 const baseUrl = process.env.AIRTABLE_BASE_URL;
-const contentBaseUrl = process.env.AIRTABLE_CONTENT_BASE_URL;
 const app = process.env.AIRTABLE_APP_BASE_ID;
 const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
 const project = process.env.AIRTABLE_PROSJEKT_RECORD_ID;
@@ -55,21 +54,6 @@ export type Partner = {
 const addProjectToFields = (record: Padriver["records"][number]) => {
 	return { fields: { ...record.fields, Prosjekt: [project] } };
 };
-export type Image = {
-	filename: string;
-	contentType: string;
-	base64: string;
-};
-
-export type CreatePadriverRequest = Padriver & { bilde?: Image | null };
-export type CreatePartnerRequest = Partner & {
-	bilde?: Image | null;
-	logo?: Image | null;
-};
-
-const profilbildeField = "Profilbilde";
-const partnerBildeField = "Bilde";
-const logoField = "Logo";
 
 type CreateRecordResponse = { records: [{ id: string }] };
 
@@ -239,37 +223,6 @@ const getPadriver = async (): Promise<PadriverListResponse> => {
 	return { records: records.filter(hasNavn) };
 };
 
-const uploadAttachment = async (
-	recordId: string,
-	fieldName: string,
-	bilde: Image,
-) => {
-	const response = await fetch(
-		`${contentBaseUrl}/${app}/${recordId}/${encodeURIComponent(fieldName)}/uploadAttachment`,
-		{
-			headers: {
-				Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			body: JSON.stringify({
-				contentType: bilde.contentType,
-				file: bilde.base64,
-				filename: bilde.filename,
-			}),
-		},
-	);
-	if (!response.ok) {
-		const errorText = await response.text();
-		throw new Error(
-			`Airtable svarte med status ${response.status} ved opplasting av bilde: ${errorText}`,
-		);
-	}
-};
-
-const uploadPadriverImage = (recordId: string, bilde: Image) =>
-	uploadAttachment(recordId, profilbildeField, bilde);
-
 export type PartnerListItem = {
 	id: string;
 	navn: string;
@@ -317,22 +270,13 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	}));
 };
 
-const uploadPartnerImage = (recordId: string, bilde: Image) =>
-	uploadAttachment(recordId, partnerBildeField, bilde);
-
-const uploadPartnerLogo = (recordId: string, logo: Image) =>
-	uploadAttachment(recordId, logoField, logo);
-
 export const airtableClient = {
 	padriver: {
 		create: createPadriver,
-		uploadImage: uploadPadriverImage,
 		list: getPadriver,
 	},
 	partnere: {
 		create: createPartner,
 		list: getPartnere,
-		uploadImage: uploadPartnerImage,
-		uploadLogo: uploadPartnerLogo,
 	},
 };

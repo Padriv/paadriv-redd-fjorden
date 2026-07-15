@@ -3,12 +3,10 @@
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import type { CreatePartnerRequest } from "@/lib/airtable";
-import { resolveImage } from "@/lib/Image";
-import { ImageUploadDemo } from "../../../components/ImageUpload";
+import type { Partner } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
 
-const bidragOptions = [
+const kompetanseOptions = [
 	"Naturrestaurering",
 	"Marin økologi og biologisk mangfold",
 	"Vannkvalitet og vannmiljø",
@@ -34,18 +32,17 @@ const steps = [
 	},
 	{
 		title: "Kontaktperson",
-		description:
-			"Hvem skal vi kontakte hos dere? Legg gjerne ved et bilde også.",
+		description: "Hvem skal vi kontakte hos dere?",
 		required: true,
 	},
 	{
 		title: "Deres motivasjon",
 		description:
-			"Hvorfor ønsker dere å bli partner? Svaret publiseres på nettsiden.",
+			"Hvorfor ønsker dere å bli partner?",
 		required: true,
 	},
 	{
-		title: "Bidrag",
+		title: "Kompetanse",
 		description:
 			"Hvilken kompetanse eller ressurser ønsker dere å bidra med? Velg gjerne flere.",
 		required: true,
@@ -149,11 +146,9 @@ export default function OrganizationSignupForm({
 			orgNummer: "",
 			orgEpost: "",
 			lokasjon: "",
-			logo: null as File | null,
 			kontaktNavn: "",
 			kontaktEpost: "",
 			kontaktTlf: "",
-			bilde: null as File | null,
 			motivasjon: "",
 			kompetanse: [] as string[],
 			okonomiskBidrag: "",
@@ -162,24 +157,6 @@ export default function OrganizationSignupForm({
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				const logo = await resolveImage(value.logo);
-				if (logo === undefined) {
-					toast.error("Noe gikk galt med logoen", {
-						description:
-							"Vi klarte ikke å behandle logoen du lastet opp. Prøv en annen fil, eller gå tilbake og fjern den.",
-					});
-					return;
-				}
-
-				const bilde = await resolveImage(value.bilde);
-				if (bilde === undefined) {
-					toast.error("Noe gikk galt med bildet", {
-						description:
-							"Vi klarte ikke å behandle bildet du lastet opp. Prøv et annet bilde, eller gå tilbake og fjern det.",
-					});
-					return;
-				}
-
 				const response = await fetch("/api/partnere", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -204,9 +181,7 @@ export default function OrganizationSignupForm({
 								},
 							},
 						],
-						logo,
-						bilde,
-					} satisfies CreatePartnerRequest),
+					} satisfies Partner),
 				});
 
 				if (response.status !== 201) {
@@ -444,19 +419,6 @@ export default function OrganizationSignupForm({
 								/>
 							)}
 						</form.Field>
-
-						<form.Field name="logo">
-							{(field) => (
-								<div className="flex flex-col gap-inline">
-									<p className="text-label font-medium">Logo</p>
-									<ImageUploadDemo
-										value={field.state.value}
-										onChange={field.handleChange}
-										aspectRatio="wide"
-									/>
-								</div>
-							)}
-						</form.Field>
 					</div>
 				)}
 
@@ -536,18 +498,6 @@ export default function OrganizationSignupForm({
 								/>
 							)}
 						</form.Field>
-
-						<form.Field name="bilde">
-							{(field) => (
-								<div className="flex flex-col gap-inline">
-									<p className="text-label font-medium">Profilbilde</p>
-									<ImageUploadDemo
-										value={field.state.value}
-										onChange={field.handleChange}
-									/>
-								</div>
-							)}
-						</form.Field>
 					</div>
 				)}
 
@@ -614,7 +564,7 @@ export default function OrganizationSignupForm({
 						{(field) => (
 							<div className="flex flex-col gap-inline">
 								<MultiSelect
-									options={bidragOptions}
+									options={kompetanseOptions}
 									selected={field.state.value}
 									setSelected={field.handleChange}
 								/>
@@ -715,9 +665,7 @@ export default function OrganizationSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at opplysningene kan publiseres på
-										fjordenvår.no i forbindelse med presentasjon av
-										organisasjonen og vårt partnerskap.{" "}
+										Jeg samtykker til at bedriften og min kontaktinformasjon kan deles med relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante koblinger.
 										<span className="text-error">*</span>
 									</span>
 								</label>
