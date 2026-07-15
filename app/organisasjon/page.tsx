@@ -9,7 +9,7 @@ import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationS
 import PartnershipSection from "@/app/organisasjon/_components/PartnershipSection";
 import { useJoinForm } from "@/lib/useJoinForm";
 
-const buttonLabel = "Meld inn organisasjonen";
+const buttonLabel = "Bli partner";
 
 const benefits = [
 	{
