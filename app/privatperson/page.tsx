@@ -2,6 +2,7 @@
 
 import BenefitsSection from "@/app/_components/BenefitsSection";
 import CtaSection from "@/app/_components/CtaSection";
+import Footer from "@/app/_components/Footer";
 import HeroSection from "@/app/_components/HeroSection";
 import Navigationbar from "@/app/_components/Navigationbar";
 import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
@@ -64,6 +65,7 @@ export default function Privatperson() {
 					{showForm && <IndividualSignupForm onClose={onCloseForm} />}
 				</div>
 			</main>
+			<Footer variant="cream" />
 		</>
 	);
 }

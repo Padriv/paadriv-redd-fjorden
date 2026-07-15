@@ -2,6 +2,7 @@
 
 import BenefitsSection from "@/app/_components/BenefitsSection";
 import CtaSection from "@/app/_components/CtaSection";
+import Footer from "@/app/_components/Footer";
 import HeroSection from "@/app/_components/HeroSection";
 import Navigationbar from "@/app/_components/Navigationbar";
 import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
@@ -65,6 +66,7 @@ export default function Organisasjon() {
 					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
 				</div>
 			</main>
+			<Footer variant="cream" />
 		</>
 	);
 }
