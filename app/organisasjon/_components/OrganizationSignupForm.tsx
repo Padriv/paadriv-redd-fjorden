@@ -3,9 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import type { CreatePartnerRequest } from "@/lib/airtable";
-import { resolveImage } from "@/lib/Image";
-import { ImageUploadDemo } from "../../../components/ImageUpload";
+import type { Partner } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
 
 const bidragOptions = [
@@ -34,8 +32,7 @@ const steps = [
 	},
 	{
 		title: "Kontaktperson",
-		description:
-			"Hvem skal vi kontakte hos dere? Legg gjerne ved et bilde også.",
+		description: "Hvem skal vi kontakte hos dere?",
 		required: true,
 	},
 	{
@@ -149,11 +146,9 @@ export default function OrganizationSignupForm({
 			orgNummer: "",
 			orgEpost: "",
 			lokasjon: "",
-			logo: null as File | null,
 			kontaktNavn: "",
 			kontaktEpost: "",
 			kontaktTlf: "",
-			bilde: null as File | null,
 			motivasjon: "",
 			kompetanse: [] as string[],
 			okonomiskBidrag: "",
@@ -162,24 +157,6 @@ export default function OrganizationSignupForm({
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				const logo = await resolveImage(value.logo);
-				if (logo === undefined) {
-					toast.error("Noe gikk galt med logoen", {
-						description:
-							"Vi klarte ikke å behandle logoen du lastet opp. Prøv en annen fil, eller gå tilbake og fjern den.",
-					});
-					return;
-				}
-
-				const bilde = await resolveImage(value.bilde);
-				if (bilde === undefined) {
-					toast.error("Noe gikk galt med bildet", {
-						description:
-							"Vi klarte ikke å behandle bildet du lastet opp. Prøv et annet bilde, eller gå tilbake og fjern det.",
-					});
-					return;
-				}
-
 				const response = await fetch("/api/partnere", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -204,9 +181,7 @@ export default function OrganizationSignupForm({
 								},
 							},
 						],
-						logo,
-						bilde,
-					} satisfies CreatePartnerRequest),
+					} satisfies Partner),
 				});
 
 				if (response.status !== 201) {
@@ -444,19 +419,6 @@ export default function OrganizationSignupForm({
 								/>
 							)}
 						</form.Field>
-
-						<form.Field name="logo">
-							{(field) => (
-								<div className="flex flex-col gap-inline">
-									<p className="text-label font-medium">Logo</p>
-									<ImageUploadDemo
-										value={field.state.value}
-										onChange={field.handleChange}
-										aspectRatio="wide"
-									/>
-								</div>
-							)}
-						</form.Field>
 					</div>
 				)}
 
@@ -534,18 +496,6 @@ export default function OrganizationSignupForm({
 									error={field.state.meta.errorMap.onBlur as string | undefined}
 									placeholder="+47 123 45 678"
 								/>
-							)}
-						</form.Field>
-
-						<form.Field name="bilde">
-							{(field) => (
-								<div className="flex flex-col gap-inline">
-									<p className="text-label font-medium">Profilbilde</p>
-									<ImageUploadDemo
-										value={field.state.value}
-										onChange={field.handleChange}
-									/>
-								</div>
 							)}
 						</form.Field>
 					</div>
