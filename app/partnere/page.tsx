@@ -1,3 +1,4 @@
+import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
 
 export default function Partnere() {
@@ -12,6 +13,7 @@ export default function Partnere() {
 					</p>
 				</div>
 			</main>
+			<Footer variant="green" />
 		</>
 	);
 }

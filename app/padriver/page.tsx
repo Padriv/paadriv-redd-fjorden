@@ -1,5 +1,7 @@
-import Navigationbar from "@/app/_components/Navigationbar";
 import { client } from "@/lib/client";
+
+import Footer from "@/app/_components/Footer";
+import Navigationbar from "@/app/_components/Navigationbar";
 
 export default async function Padrivere() {
 	let records: Awaited<
@@ -69,6 +71,7 @@ export default async function Padrivere() {
 					</div>
 				</div>
 			</main>
+			<Footer variant="green" />
 		</>
 	);
 }

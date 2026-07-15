@@ -1,4 +1,5 @@
 import AboutSection from "./_components/AboutSection";
+import Footer from "./_components/Footer";
 import HomeHeroSection from "./_components/HomeHeroSection";
 import JoinSection from "./_components/JoinSection";
 import Navigationbar from "./_components/Navigationbar";
@@ -7,13 +8,16 @@ import PartnereSection from "./_components/PartnereSection";
 
 export default function Home() {
 	return (
-		<main className="flex min-h-screen flex-col items-center bg-deep-green text-cream">
-			<Navigationbar />
-			<HomeHeroSection />
-			<AboutSection />
-			<JoinSection />
-			<PaadriverSection />
-			<PartnereSection />
-		</main>
+		<>
+			<main className="flex min-h-screen flex-col items-center bg-deep-green text-cream">
+				<Navigationbar />
+				<HomeHeroSection />
+				<AboutSection />
+				<JoinSection />
+				<PaadriverSection />
+				<PartnereSection />
+			</main>
+			<Footer variant="cream" />
+		</>
 	);
 }
