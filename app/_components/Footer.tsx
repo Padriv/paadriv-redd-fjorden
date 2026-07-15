@@ -29,7 +29,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					rel="noopener noreferrer"
 					className="md:col-start-1 md:row-start-1"
 				>
-					<Image src={logoSrc} alt="Påadriv" width={150} height={47} />
+					<Image src={logoSrc} alt="Pådriv" width={150} height={47} />
 				</a>
 				<p
 					className={`text-body max-w-xs md:col-start-1 md:row-start-2 ${
@@ -49,7 +49,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/instagram_${socialIconColor}_icon.svg`}
-							alt=""
+							alt="Instagram icon"
 							className="size-6"
 						/>
 					</a>
@@ -62,7 +62,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/facebook_${socialIconColor}_icon.svg`}
-							alt=""
+							alt="Facebook icon"
 							className="size-6"
 						/>
 					</a>
@@ -75,7 +75,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/linkedin_${socialIconColor}_icon.svg`}
-							alt=""
+							alt="LinkedIn icon"
 							className="size-6"
 						/>
 					</a>
@@ -88,7 +88,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/youtube_${socialIconColor}_icon.svg`}
-							alt=""
+							alt="YouTube icon"
 							className="size-6"
 						/>
 					</a>
@@ -105,7 +105,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/mail_${contactIconColor}_icon.svg`}
-							alt=""
+							alt="Email icon"
 							className="size-5"
 						/>
 						post@paadriv.no
@@ -116,7 +116,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					>
 						<img
 							src={`/svg/phone_${contactIconColor}_icon.svg`}
-							alt=""
+							alt="Phone icon"
 							className="size-5"
 						/>
 						+47 932 95 492
