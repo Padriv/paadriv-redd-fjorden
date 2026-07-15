@@ -4,19 +4,19 @@ import Wave from "./Wave";
 const cards = [
 	{
 		tag: "Privatperson",
-		title: "Bli pådriver",
+		title: "Bli med som frivillig",
 		description:
 			"Bidra med din tid, kompetanse eller engasjement. Bli en del av nettverket som driver arbeidet for en frisk Oslofjord fremover.",
 		href: "/privatperson",
-		linkLabel: "Meld deg som pådriver",
+		linkLabel: "Les mer og meld deg på",
 	},
 	{
 		tag: "Organisasjon",
-		title: "Bli partner",
+		title: "Bli med som partner",
 		description:
 			"Representerer du en kommune, en bedrift eller en frivillig organisasjon? Bli med i partnerskapet og bidra med ressurser og kompetanse.",
 		href: "/organisasjon",
-		linkLabel: "Meld inn din organisasjon",
+		linkLabel: "Les mer og meld deg på",
 	},
 ];
 
