@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import type { Partner } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
 
-const bidragOptions = [
+const kompetanseOptions = [
 	"Naturrestaurering",
 	"Marin økologi og biologisk mangfold",
 	"Vannkvalitet og vannmiljø",
@@ -42,7 +42,7 @@ const steps = [
 		required: true,
 	},
 	{
-		title: "Bidrag",
+		title: "Kompetanse",
 		description:
 			"Hvilken kompetanse eller ressurser ønsker dere å bidra med? Velg gjerne flere.",
 		required: true,
@@ -564,7 +564,7 @@ export default function OrganizationSignupForm({
 						{(field) => (
 							<div className="flex flex-col gap-inline">
 								<MultiSelect
-									options={bidragOptions}
+									options={kompetanseOptions}
 									selected={field.state.value}
 									setSelected={field.handleChange}
 								/>
