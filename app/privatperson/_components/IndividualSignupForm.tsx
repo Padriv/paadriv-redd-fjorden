@@ -41,7 +41,7 @@ const steps = [
 	},
 	{
 		title: "Din motivasjon",
-		description: "Hvorfor vil du bli pådriver? Svaret publiseres på nettsiden.",
+		description: "Hvorfor vil du bli pådriver?",
 		required: true,
 	},
 	{
@@ -462,9 +462,9 @@ export default function IndividualSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at opplysningene kan publiseres på
-										fjordenvår.no i forbindelse med presentasjon av meg som
-										pådriver. <span className="text-error">*</span>
+										Jeg samtykker til at min kontaktinformasjon kan deles med andre
+										relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante
+										koblinger. <span className="text-error">*</span>
 									</span>
 								</label>
 								{(field.state.meta.errorMap.onBlur ||
