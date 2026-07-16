@@ -82,7 +82,7 @@ export default async function PaadriverSection() {
 			<div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
 				<div className="flex flex-col gap-group">
 					<h2 className="text-section font-semibold text-green">
-						Frivillige = pådrivere
+						Frivillige = Pådrivere
 					</h2>
 					<p className="text-body text-copy">
 						Ildsjeler, fagfolk og naboer som allerede har tatt tak. Bla i
@@ -93,8 +93,8 @@ export default async function PaadriverSection() {
 						className="text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 					>
 						{loadFailed
-							? "Se alle pådrivere →"
-							: `Se alle ${records.length} pådrivere →`}
+							? "Se alle Pådrivere →"
+							: `Se alle ${records.length} Pådrivere →`}
 					</Link>
 				</div>
 
