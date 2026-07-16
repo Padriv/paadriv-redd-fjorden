@@ -1,7 +1,6 @@
 "use client";
 
 import BenefitsSection from "@/app/_components/BenefitsSection";
-import CtaSection from "@/app/_components/CtaSection";
 import Footer from "@/app/_components/Footer";
 import HeroSection from "@/app/_components/HeroSection";
 import Navigationbar from "@/app/_components/Navigationbar";
@@ -50,21 +49,15 @@ export default function Organisasjon() {
 					buttonLabel={buttonLabel}
 					onJoinClick={onJoinClick}
 				/>
+				<div id={anchorId} className="w-full scroll-mt-24">
+					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
+				</div>
 				<BenefitsSection
 					heading="Hvorfor bli partner for Oppdrag: Fjorden Vår?"
 					intro="Som partner blir dere del av et fellesskap av bedrifter, kommuner og organisasjoner som går sammen om å gjøre Oslofjorden frisk. Partnerskapet gir verdi for både virksomheten, de ansatte og fjorden dere er en del av."
 					benefits={benefits}
 				/>
 				<PartnershipSection />
-				<CtaSection
-					heading="Klar til å bli med?"
-					description="Det tar bare noen minutter. Fyll ut skjemaet, så tar vi kontakt for å avtale hvordan dere kan bidra."
-					buttonLabel={buttonLabel}
-					onJoinClick={onJoinClick}
-				/>
-				<div id={anchorId} className="w-full scroll-mt-24">
-					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
-				</div>
 			</main>
 			<Footer variant="cream" />
 		</>

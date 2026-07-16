@@ -16,20 +16,20 @@ export default function HeroSection({
 	onJoinClick,
 }: HeroSectionProps) {
 	return (
-		<section className="flex w-full flex-col items-center bg-background px-16 py-32">
+		<section className="flex w-full flex-col items-center bg-deep-green px-16 py-32">
 			<div className="flex max-w-2xl flex-col gap-group">
-				<span className="text-caption font-semibold uppercase tracking-wide text-muted">
+				<span className="text-caption font-semibold uppercase tracking-wide text-muted-inverse">
 					{overline}
 				</span>
-				<h1 className="text-hero font-bold text-ink">{heading}</h1>
+				<h1 className="text-hero font-bold text-cream">{heading}</h1>
 				{subheading && (
-					<p className="text-lead font-semibold text-green">{subheading}</p>
+					<p className="text-lead font-semibold text-cream">{subheading}</p>
 				)}
-				<p className="text-lead text-copy">{description}</p>
+				<p className="text-lead text-cream/90">{description}</p>
 				<button
 					type="button"
 					onClick={onJoinClick}
-					className="flex h-10 w-fit items-center justify-center self-start rounded-full bg-deep-green px-6 text-label font-medium text-white transition-colors hover:bg-green"
+					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-medium text-deep-green transition-colors hover:bg-green-light-moss"
 				>
 					{buttonLabel} →
 				</button>

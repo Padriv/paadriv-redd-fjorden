@@ -1,7 +1,6 @@
 "use client";
 
 import BenefitsSection from "@/app/_components/BenefitsSection";
-import CtaSection from "@/app/_components/CtaSection";
 import Footer from "@/app/_components/Footer";
 import HeroSection from "@/app/_components/HeroSection";
 import Navigationbar from "@/app/_components/Navigationbar";
@@ -50,21 +49,15 @@ export default function Privatperson() {
 					buttonLabel={buttonLabel}
 					onJoinClick={onJoinClick}
 				/>
+				<div id={anchorId} className="w-full scroll-mt-24">
+					{showForm && <IndividualSignupForm onClose={onCloseForm} />}
+				</div>
 				<BenefitsSection
 					heading="Hvorfor bli pådriver?"
 					intro="Som pådriver blir du en del av et fellesskap som deler kunnskap, idéer og engasjement for Oslofjorden. Ingen kan gjøre fjorden frisk alene, derfor samler vi mennesker som vil bidra. Gjennom samlinger og prosjekter møter du mennesker med ulik bakgrunn, lærer av andre og bidrar til konkrete resultater for fjorden. Samtidig blir du en del av et nettverk som kobler mennesker, kompetanse og muligheter. Vi tror det er enklere å skape mer sammen. Du bidrar med det du har tid og lyst til – stort eller smått."
 					benefits={benefits}
 				/>
 				<QuotesSection />
-				<CtaSection
-					heading="Klar til å bli med?"
-					description="Det tar bare to minutter. Fyll ut skjemaet, så tar vi kontakt for å finne ut hvor du kan gjøre størst forskjell."
-					buttonLabel={buttonLabel}
-					onJoinClick={onJoinClick}
-				/>
-				<div id={anchorId} className="w-full scroll-mt-24">
-					{showForm && <IndividualSignupForm onClose={onCloseForm} />}
-				</div>
 			</main>
 			<Footer variant="cream" />
 		</>
