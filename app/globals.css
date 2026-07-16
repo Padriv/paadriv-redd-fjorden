@@ -67,17 +67,19 @@
 	/* Typography sizes — mobile-first base, bumped up at md/lg below */
 	--text-caption: var(--text-xs);
 	--text-label: var(--text-xs);
-	--text-body: var(--text-sm);
+	--text-body: 0.9375rem; /* 15px */
 	--text-link: var(--text-sm);
 	--text-button: var(--text-sm);
-	--text-subheading: var(--text-base); /* h3 / card & form section titles */
+	--text-subheading: var(--text-lg); /* h3 / card & form section titles */
 	--text-section: var(--text-lg); /* h2 / section titles */
 	--text-heading: var(--text-xl); /* h1 / page titles */
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
-	--text-lead: var(
-		--text-lg
-	); /* intro paragraph under a page title, fixed size */
+
+	/* Small, separate scale for the BenefitsSection cards (privatperson &
+	   organisasjon) — kept apart from --text-subheading/--text-body above. */
+	--text-card-heading: var(--text-sm);
+	--text-card-body: 0.875rem; /* 14px */
 
 	/* Raw brand palette — single source of truth the semantic surface/on-surface
        variables above are pulled from. Kept in @theme (not plain :root) so Tailwind
@@ -122,20 +124,21 @@
 @media (width >= theme(--breakpoint-md)) {
 	:root {
 		--text-label: var(--text-sm);
-		--text-body: var(--text-base);
+		--text-body: var(--text-xl);
 		--text-link: var(--text-base);
 		--text-button: var(--text-base);
-		--text-section: var(--text-xl);
+		--text-section: var(--text-3xl);
+		--text-subheading: 1.5rem; /* 24px */
 		--text-heading: var(--text-2xl);
 		--text-hero: var(--text-5xl);
 		--text-display: var(--text-6xl);
+		--text-card-heading: 1.125rem; /* 18px */
+		--text-card-body: 1.0625rem; /* 17px */
 	}
 }
 
 @media (width >= theme(--breakpoint-lg)) {
 	:root {
-		--text-subheading: var(--text-lg);
-		--text-section: var(--text-2xl);
 		--text-heading: var(--text-3xl);
 		--text-hero: var(--text-6xl);
 		--text-display: var(--text-7xl);

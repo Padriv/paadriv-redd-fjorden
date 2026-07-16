@@ -18,8 +18,8 @@ export default async function Padrivere() {
 	return (
 		<>
 			<Navigationbar solid />
-			<main className="flex min-h-screen flex-col items-center bg-background px-16 py-32">
-				<div className="flex w-full max-w-2xl flex-col gap-loose">
+			<main className="flex min-h-screen flex-col items-center bg-background px-4 py-32 md:px-28">
+				<div className="flex w-full max-w-5xl flex-col gap-loose">
 					<h1 className="text-heading font-semibold text-ink">Pådrivere</h1>
 					{loadFailed && (
 						<p className="text-body text-muted">
@@ -46,7 +46,7 @@ export default async function Padrivere() {
 										className="h-24 w-24 rounded-full object-cover"
 									/>
 								)}
-								<h3 className="text-subheading font-semibold text-ink">
+								<h3 className="text-subheading font-semibold text-green">
 									{record.fields.Navn}
 								</h3>
 								{record.fields.Motivasjon && (
