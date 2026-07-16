@@ -41,7 +41,7 @@ const steps = [
 	},
 	{
 		title: "Din motivasjon",
-		description: "Hvorfor vil du bli pådriver?",
+		description: "Hvorfor vil du bli Pådriver?",
 		required: true,
 	},
 	{
@@ -168,7 +168,7 @@ export default function IndividualSignupForm({
 					return;
 				}
 
-				toast.success("Takk for at du meldte deg som pådriver!");
+				toast.success("Takk for at du meldte deg som Pådriver!");
 				onClose?.();
 			} catch {
 				toast.error("Noe gikk galt", {
@@ -380,7 +380,7 @@ export default function IndividualSignupForm({
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Jeg ønsker å bli pådriver fordi... "
+									placeholder="Jeg ønsker å bli Pådriver fordi... "
 									rows={4}
 									maxLength={400}
 									aria-invalid={!!field.state.meta.errorMap.onSubmit}

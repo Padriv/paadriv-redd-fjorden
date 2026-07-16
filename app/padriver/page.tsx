@@ -23,12 +23,12 @@ export default async function Padrivere() {
 					<h1 className="text-heading font-semibold text-ink">Pådrivere</h1>
 					{loadFailed && (
 						<p className="text-body text-muted">
-							Beklager, vi klarer dessverre ikke å laste pådrivere akkurat nå.
+							Beklager, vi klarer dessverre ikke å laste Pådrivere akkurat nå.
 							Prøv igjen om litt.
 						</p>
 					)}
 					{!loadFailed && records.length === 0 && (
-						<p className="text-body text-muted">Ingen pådrivere å vise ennå.</p>
+						<p className="text-body text-muted">Ingen Pådrivere å vise ennå.</p>
 					)}
 					<div className="flex flex-col gap-group">
 						{records.map((record) => (

@@ -27,7 +27,7 @@ export default function QuotesSection() {
 
 			<div className="flex max-w-2xl flex-col gap-group">
 				<h2 className="text-section font-semibold">
-					Hva sier pådriverne selv?
+					Hva sier Pådriverne selv?
 				</h2>
 				<div className="flex flex-col gap-group sm:flex-row">
 					{quotes.map((person) => (
