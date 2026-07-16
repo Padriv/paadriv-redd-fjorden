@@ -22,10 +22,10 @@ const quotes = [
 
 export default function QuotesSection() {
 	return (
-		<section className="relative flex w-full flex-col items-center bg-deep-green px-16 pb-cluster pt-40 text-cream">
+		<section className="relative flex w-full flex-col items-center bg-deep-green px-4 pb-cluster pt-40 text-cream md:px-28">
 			<Wave fillClassName="fill-cream" />
 
-			<div className="flex max-w-2xl flex-col gap-group">
+			<div className="flex max-w-5xl flex-col gap-group">
 				<h2 className="text-section font-semibold">
 					Hva sier pådriverne selv?
 				</h2>

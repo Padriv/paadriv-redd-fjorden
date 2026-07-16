@@ -19,12 +19,12 @@ const benefits = [
 	{
 		title: "Fellesskap og nettverk",
 		description:
-			"Vi bygger nettverk der privatpersoner, fagfolk og organisasjoner finner hverandre.",
+			"Vi bygger nettverk der privatpersoner, fagfolk og organisasjoner finner hverandre",
 	},
 	{
 		title: "Kunnskap i praksis",
 		description:
-			"Hos oss deles kunnskap gjennom samarbeid og handling, slik at gode idéer blir til løsninger.",
+			"Hos oss deles kunnskap gjennom samarbeid og handling, slik at gode idéer blir til løsninger",
 	},
 	{
 		title: "Stort engasjement",

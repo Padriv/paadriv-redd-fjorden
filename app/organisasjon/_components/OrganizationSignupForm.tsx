@@ -65,7 +65,10 @@ const samtykkeError = (value: boolean) =>
 
 function isValidOrganisasjonsnummer(digits: string): boolean {
 	const weights = [3, 2, 7, 6, 5, 4, 3, 2];
-	const sum = weights.reduce((acc, weight, i) => acc + weight * Number(digits[i]), 0);
+	const sum = weights.reduce(
+		(acc, weight, i) => acc + weight * Number(digits[i]),
+		0,
+	);
 	const remainder = sum % 11;
 	if (remainder === 1) return false;
 	const controlDigit = remainder === 0 ? 0 : 11 - remainder;
@@ -144,7 +147,6 @@ export default function OrganizationSignupForm({
 		defaultValues: {
 			orgNavn: "",
 			orgNummer: "",
-			orgEpost: "",
 			lokasjon: "",
 			kontaktNavn: "",
 			kontaktEpost: "",
@@ -168,7 +170,6 @@ export default function OrganizationSignupForm({
 									Organisasjonsnummer: Number(
 										value.orgNummer.replace(/\s/g, ""),
 									),
-									"Epost Organisasjon": value.orgEpost,
 									Lokasjon: value.lokasjon,
 									"Navn kontaktperson": value.kontaktNavn,
 									"Epost kontaktperson": value.kontaktEpost,
@@ -208,7 +209,6 @@ export default function OrganizationSignupForm({
 			name:
 				| "orgNavn"
 				| "orgNummer"
-				| "orgEpost"
 				| "lokasjon"
 				| "kontaktNavn"
 				| "kontaktEpost"
@@ -221,7 +221,6 @@ export default function OrganizationSignupForm({
 		1: [
 			{ name: "orgNavn", cause: "blur" },
 			{ name: "orgNummer", cause: "blur" },
-			{ name: "orgEpost", cause: "blur" },
 			{ name: "lokasjon", cause: "blur" },
 		],
 		2: [
@@ -262,7 +261,7 @@ export default function OrganizationSignupForm({
 				form.handleSubmit();
 			}}
 			noValidate
-			className="w-full bg-deep-green px-6 pb-16 pt-group md:px-16"
+			className="w-full bg-deep-green px-4 pb-16 pt-group md:px-16"
 		>
 			<div
 				ref={cardRef}
@@ -287,7 +286,7 @@ export default function OrganizationSignupForm({
 							<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-label font-semibold text-green">
 								{step}
 							</span>
-							<h3 className="text-subheading font-semibold text-ink">
+							<h3 className="text-subheading font-semibold text-green">
 								{current.title}
 								{current.required && <span className="text-error"> *</span>}
 							</h3>
@@ -368,33 +367,6 @@ export default function OrganizationSignupForm({
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
 									placeholder="123 456 789"
-								/>
-							)}
-						</form.Field>
-
-						<form.Field
-							name="orgEpost"
-							validators={{
-								onBlur: ({ value }) => {
-									if (!value.trim())
-										return "Epost til organisasjonen er påkrevd";
-									if (!/\S+@\S+\.\S+/.test(value))
-										return "Ugyldig e-postadresse";
-									return undefined;
-								},
-							}}
-						>
-							{(field) => (
-								<TextField
-									id="orgEpost"
-									label="Epost til organisasjonen"
-									type="email"
-									required
-									value={field.state.value}
-									onChange={field.handleChange}
-									onBlur={field.handleBlur}
-									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="post@fjordenvår.no"
 								/>
 							)}
 						</form.Field>
