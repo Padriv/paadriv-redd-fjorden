@@ -29,7 +29,7 @@ export default function HeroSection({
 				<button
 					type="button"
 					onClick={onJoinClick}
-					className="flex h-10 w-fit items-center justify-center self-start rounded-full bg-cream px-6 text-label font-medium text-deep-green transition-colors hover:bg-tan"
+					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-medium text-deep-green transition-colors hover:bg-green-light-moss"
 				>
 					{buttonLabel} →
 				</button>
