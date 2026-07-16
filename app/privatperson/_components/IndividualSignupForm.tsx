@@ -463,7 +463,7 @@ export default function IndividualSignupForm({
 									/>
 									<span>
 										Jeg samtykker til at min kontaktinformasjon kan deles med andre
-										relevante aktører i prosjektet, slik at prosjektledelsen kan gjøre relevante
+										relevante aktører i «Oppdrag: Fjorden vår», slik at prosjektledelsen kan gjøre relevante
 										koblinger. <span className="text-error">*</span>
 									</span>
 								</label>
