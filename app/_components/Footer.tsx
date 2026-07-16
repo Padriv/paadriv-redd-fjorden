@@ -110,17 +110,26 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						/>
 						post@paadriv.no
 					</a>
-					<a
-						href="tel:+4793295492"
-						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
-					>
-						<img
-							src={`/svg/phone_${contactIconColor}_icon.svg`}
-							alt="Phone icon"
-							className="size-5"
-						/>
-						+47 932 95 492
-					</a>
+					<div className="flex flex-col">
+						<a
+							href="tel:+4790787982"
+							className={`flex items-center gap-inline font-medium ${contactTextColor}`}
+						>
+							<img
+								src={`/svg/phone_${contactIconColor}_icon.svg`}
+								alt="Phone icon"
+								className="size-5"
+							/>
+							+47 907 87 982
+						</a>
+						<span
+							className={`pl-7 font-normal ${
+								isGreen ? "text-muted-inverse" : "text-muted"
+							}`}
+						>
+							Thomas Berman
+						</span>
+					</div>
 				</div>
 			</div>
 		</footer>
