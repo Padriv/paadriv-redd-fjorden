@@ -50,6 +50,9 @@ export default function Organisasjon() {
 					buttonLabel={buttonLabel}
 					onJoinClick={onJoinClick}
 				/>
+				<div id={anchorId} className="w-full scroll-mt-24">
+					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
+				</div>
 				<BenefitsSection
 					heading="Hvorfor bli partner for Oppdrag: Fjorden Vår?"
 					intro="Som partner blir dere del av et fellesskap av bedrifter, kommuner og organisasjoner som går sammen om å gjøre Oslofjorden frisk. Partnerskapet gir verdi for både virksomheten, de ansatte og fjorden dere er en del av."
@@ -62,9 +65,6 @@ export default function Organisasjon() {
 					buttonLabel={buttonLabel}
 					onJoinClick={onJoinClick}
 				/>
-				<div id={anchorId} className="w-full scroll-mt-24">
-					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
-				</div>
 			</main>
 			<Footer variant="green" />
 		</>
