@@ -144,7 +144,6 @@ export default function OrganizationSignupForm({
 		defaultValues: {
 			orgNavn: "",
 			orgNummer: "",
-			orgEpost: "",
 			lokasjon: "",
 			kontaktNavn: "",
 			kontaktEpost: "",
@@ -168,7 +167,6 @@ export default function OrganizationSignupForm({
 									Organisasjonsnummer: Number(
 										value.orgNummer.replace(/\s/g, ""),
 									),
-									"Epost Organisasjon": value.orgEpost,
 									Lokasjon: value.lokasjon,
 									"Navn kontaktperson": value.kontaktNavn,
 									"Epost kontaktperson": value.kontaktEpost,
@@ -208,7 +206,6 @@ export default function OrganizationSignupForm({
 			name:
 				| "orgNavn"
 				| "orgNummer"
-				| "orgEpost"
 				| "lokasjon"
 				| "kontaktNavn"
 				| "kontaktEpost"
@@ -221,7 +218,6 @@ export default function OrganizationSignupForm({
 		1: [
 			{ name: "orgNavn", cause: "blur" },
 			{ name: "orgNummer", cause: "blur" },
-			{ name: "orgEpost", cause: "blur" },
 			{ name: "lokasjon", cause: "blur" },
 		],
 		2: [
@@ -368,33 +364,6 @@ export default function OrganizationSignupForm({
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
 									placeholder="123 456 789"
-								/>
-							)}
-						</form.Field>
-
-						<form.Field
-							name="orgEpost"
-							validators={{
-								onBlur: ({ value }) => {
-									if (!value.trim())
-										return "Epost til organisasjonen er påkrevd";
-									if (!/\S+@\S+\.\S+/.test(value))
-										return "Ugyldig e-postadresse";
-									return undefined;
-								},
-							}}
-						>
-							{(field) => (
-								<TextField
-									id="orgEpost"
-									label="Epost til organisasjonen"
-									type="email"
-									required
-									value={field.state.value}
-									onChange={field.handleChange}
-									onBlur={field.handleBlur}
-									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="post@fjordenvår.no"
 								/>
 							)}
 						</form.Field>

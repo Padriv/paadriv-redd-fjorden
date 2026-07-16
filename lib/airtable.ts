@@ -36,7 +36,6 @@ export type Partner = {
 			fields: {
 				"Navn på organisasjon": string;
 				Organisasjonsnummer: number;
-				"Epost Organisasjon": string;
 				Lokasjon: string;
 				"Navn kontaktperson": string;
 				"Epost kontaktperson": string;
