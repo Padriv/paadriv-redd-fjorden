@@ -66,7 +66,7 @@ export default function Privatperson() {
 					{showForm && <IndividualSignupForm onClose={onCloseForm} />}
 				</div>
 			</main>
-			<Footer variant="cream" />
+			<Footer variant="green" />
 		</>
 	);
 }

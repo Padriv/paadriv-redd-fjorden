@@ -66,7 +66,7 @@ export default function Organisasjon() {
 					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
 				</div>
 			</main>
-			<Footer variant="cream" />
+			<Footer variant="green" />
 		</>
 	);
 }
