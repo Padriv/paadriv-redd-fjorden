@@ -65,7 +65,10 @@ const samtykkeError = (value: boolean) =>
 
 function isValidOrganisasjonsnummer(digits: string): boolean {
 	const weights = [3, 2, 7, 6, 5, 4, 3, 2];
-	const sum = weights.reduce((acc, weight, i) => acc + weight * Number(digits[i]), 0);
+	const sum = weights.reduce(
+		(acc, weight, i) => acc + weight * Number(digits[i]),
+		0,
+	);
 	const remainder = sum % 11;
 	if (remainder === 1) return false;
 	const controlDigit = remainder === 0 ? 0 : 11 - remainder;
@@ -262,7 +265,7 @@ export default function OrganizationSignupForm({
 				form.handleSubmit();
 			}}
 			noValidate
-			className="w-full bg-deep-green px-6 pb-16 pt-group md:px-16"
+			className="w-full bg-deep-green px-4 pb-16 pt-group md:px-16"
 		>
 			<div
 				ref={cardRef}
@@ -287,7 +290,7 @@ export default function OrganizationSignupForm({
 							<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-label font-semibold text-green">
 								{step}
 							</span>
-							<h3 className="text-subheading font-semibold text-ink">
+							<h3 className="text-subheading font-semibold text-green">
 								{current.title}
 								{current.required && <span className="text-error"> *</span>}
 							</h3>

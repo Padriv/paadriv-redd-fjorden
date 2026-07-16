@@ -75,7 +75,7 @@ export default async function PaadriverSection() {
 	const grid = buildGrid(withPhoto);
 
 	return (
-		<section className="relative w-full bg-cream px-10 pb-56 pt-56 md:px-28">
+		<section className="relative w-full bg-cream px-4 pb-56 pt-56 md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 			<Wave fillClassName="fill-deep-green" position="bottom" />
 
@@ -90,7 +90,7 @@ export default async function PaadriverSection() {
 					</p>
 					<Link
 						href="/padriver"
-						className="text-link font-medium text-ink transition-colors hover:text-green"
+						className="text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 					>
 						{loadFailed
 							? "Se alle pådrivere →"

@@ -85,13 +85,13 @@ export default async function PartnereSection() {
 	const secondRow = partnere.slice(halfwayPoint);
 
 	return (
-		<section className="relative w-full bg-cream px-10 pb-40 pt-40 md:px-28">
+		<section className="relative w-full bg-cream px-4 pb-40 pt-40 md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 			<Wave fillClassName="fill-deep-green" position="bottom" />
 
-			<div className="flex w-full flex-col gap-cluster">
+			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
 				<div className="flex flex-col gap-tight">
-					<h2 className="text-section font-semibold text-ink">
+					<h2 className="text-section font-semibold text-green">
 						Samarbeid med våre {partnere.length} partnere
 					</h2>
 					<p className="text-body text-copy">
@@ -107,7 +107,7 @@ export default async function PartnereSection() {
 
 				<Link
 					href="/partnere"
-					className="self-end text-link font-medium text-green transition-colors hover:text-ink"
+					className="self-end text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 				>
 					Se alle {partnere.length} partnere →
 				</Link>

@@ -14,22 +14,22 @@ const benefits = [
 	{
 		title: "Konkret samfunnsansvar",
 		description:
-			"Vis samfunnsansvar i praksis gjennom deltakelse i et prosjekt som gjør en reell forskjell for Oslofjorden.",
+			"Vis samfunnsansvar i praksis gjennom deltakelse i et prosjekt som gjør en reell forskjell for Oslofjorden",
 	},
 	{
 		title: "Attraktiv arbeidsplass",
 		description:
-			"Gi ansatte en meningsfull arena for engasjement og utvikling gjennom arbeidet for fjorden.",
+			"Gi ansatte en meningsfull arena for engasjement og utvikling gjennom arbeidet for fjorden",
 	},
 	{
 		title: "Sterkere lokal forankring",
 		description:
-			"Styrk deres posisjon i nærmiljøet gjennom synlig deltakelse i arbeidet for en frisk Oslofjord.",
+			"Styrk deres posisjon i nærmiljøet gjennom synlig deltakelse i arbeidet for en frisk Oslofjord",
 	},
 	{
 		title: "Nettverk som gir verdi",
 		description:
-			"Bli del av et tverrfaglig nettverk av kommuner, bedrifter og frivillige som samarbeider om fjorden.",
+			"Bli del av et tverrfaglig nettverk av kommuner, bedrifter og frivillige som samarbeider om fjorden",
 	},
 ];
 
@@ -53,7 +53,7 @@ export default function Organisasjon() {
 					{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
 				</div>
 				<BenefitsSection
-					heading="Hvorfor bli partner for Oppdrag: Fjorden Vår?"
+					heading="Hvorfor bli partner?"
 					intro="Som partner blir dere del av et fellesskap av bedrifter, kommuner og organisasjoner som går sammen om å gjøre Oslofjorden frisk. Partnerskapet gir verdi for både virksomheten, de ansatte og fjorden dere er en del av."
 					benefits={benefits}
 				/>

@@ -24,7 +24,7 @@ export default function JoinSection() {
 	return (
 		<section
 			id="bli-med"
-			className="relative w-full bg-deep-green px-10 pb-24 pt-40 md:px-28"
+			className="relative w-full bg-deep-green px-4 pb-24 pt-40 md:px-28"
 		>
 			<Wave fillClassName="fill-cream" />
 
@@ -34,7 +34,7 @@ export default function JoinSection() {
 						key={card.href}
 						className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 					>
-						<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
+						<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-link font-medium text-green">
 							{card.tag}
 						</span>
 						<h3 className="text-subheading font-semibold text-ink">
@@ -43,7 +43,7 @@ export default function JoinSection() {
 						<p className="text-body text-copy">{card.description}</p>
 						<Link
 							href={card.href}
-							className="text-link font-medium text-green transition-colors hover:text-ink"
+							className="text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 						>
 							{card.linkLabel} →
 						</Link>

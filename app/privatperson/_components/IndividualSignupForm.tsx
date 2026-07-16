@@ -7,7 +7,7 @@ import type { Padriver } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
 
 const skillOptions = [
-		"Sosialt entreprenørskap/samfunnsinnovasjon",
+	"Sosialt entreprenørskap/samfunnsinnovasjon",
 	"Forretningsutvikling",
 	"Sirkulær økonomi",
 	"Ombruk",
@@ -57,9 +57,7 @@ const steps = [
 ];
 
 const samtykkeError = (value: boolean) =>
-	!value
-		? "Du må krysse av for samtykke før du kan melde deg inn."
-		: undefined;
+	!value ? "Du må krysse av for samtykke før du kan melde deg inn." : undefined;
 
 function TextField({
 	id,
@@ -223,7 +221,7 @@ export default function IndividualSignupForm({
 				form.handleSubmit();
 			}}
 			noValidate
-			className="w-full bg-deep-green px-6 pb-16 pt-group md:px-16"
+			className="w-full bg-deep-green px-4 pb-16 pt-group md:px-16"
 		>
 			<div
 				ref={cardRef}
@@ -248,11 +246,9 @@ export default function IndividualSignupForm({
 							<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-label font-semibold text-green">
 								{step}
 							</span>
-							<h3 className="text-subheading font-semibold text-ink">
+							<h3 className="text-subheading font-semibold text-green">
 								{current.title}
-								{current.required && (
-									<span className="text-error"> *</span>
-								)}
+								{current.required && <span className="text-error"> *</span>}
 							</h3>
 						</div>
 						{step === 3 && (
