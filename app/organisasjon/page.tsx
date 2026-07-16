@@ -1,7 +1,6 @@
 "use client";
 
 import BenefitsSection from "@/app/_components/BenefitsSection";
-import CtaSection from "@/app/_components/CtaSection";
 import Footer from "@/app/_components/Footer";
 import HeroSection from "@/app/_components/HeroSection";
 import Navigationbar from "@/app/_components/Navigationbar";
@@ -59,14 +58,8 @@ export default function Organisasjon() {
 					benefits={benefits}
 				/>
 				<PartnershipSection />
-				<CtaSection
-					heading="Klar til å bli med?"
-					description="Det tar bare noen minutter. Fyll ut skjemaet, så tar vi kontakt for å avtale hvordan dere kan bidra."
-					buttonLabel={buttonLabel}
-					onJoinClick={onJoinClick}
-				/>
 			</main>
-			<Footer variant="green" />
+			<Footer variant="cream" />
 		</>
 	);
 }
