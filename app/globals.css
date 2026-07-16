@@ -81,10 +81,6 @@
 	--text-card-heading: var(--text-sm);
 	--text-card-body: 0.875rem; /* 14px */
 
-	/* h1 for the privatperson/organisasjon HeroSection — smaller than
-	   --text-hero since there's no full-bleed image behind it. */
-	--text-page-hero: var(--text-2xl);
-
 	/* Raw brand palette — single source of truth the semantic surface/on-surface
        variables above are pulled from. Kept in @theme (not plain :root) so Tailwind
        still generates bg-/text-/fill-/from-/via-/to- utilities straight off these,
@@ -136,7 +132,6 @@
 		--text-heading: var(--text-2xl);
 		--text-hero: var(--text-5xl);
 		--text-display: var(--text-6xl);
-		--text-page-hero: var(--text-4xl);
 		--text-card-heading: 1.125rem; /* 18px */
 		--text-card-body: 1.0625rem; /* 17px */
 	}
@@ -147,7 +142,6 @@
 		--text-heading: var(--text-3xl);
 		--text-hero: var(--text-6xl);
 		--text-display: var(--text-7xl);
-		--text-page-hero: var(--text-5xl);
 	}
 }
 

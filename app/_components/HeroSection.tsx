@@ -21,9 +21,9 @@ export default function HeroSection({
 				<span className="text-caption font-semibold uppercase tracking-wide text-muted-inverse">
 					{overline}
 				</span>
-				<h1 className="text-page-hero font-bold text-cream">{heading}</h1>
+				<h1 className="text-hero font-bold text-cream">{heading}</h1>
 				{subheading && (
-					<p className="text-body font-semibold text-cream">{subheading}</p>
+					<p className="text-subheading font-semibold text-cream">{subheading}</p>
 				)}
 				<p className="text-body text-cream/90">{description}</p>
 				<button
