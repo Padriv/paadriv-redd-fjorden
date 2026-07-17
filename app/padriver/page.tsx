@@ -60,12 +60,10 @@ export default async function Padrivere() {
 											Kompetanse: {record.fields.Kompetanse.join(", ")}
 										</p>
 									)}
-								{record.fields["Samtykke offentliggjøre kontaktinfo"] && (
-									<div className="text-body text-muted">
-										<p>{record.fields.Epost}</p>
-										<p>{record.fields.Telefon}</p>
-									</div>
-								)}
+								<div className="text-body text-muted">
+									<p>{record.fields.Epost}</p>
+									<p>{record.fields.Telefon}</p>
+								</div>
 							</div>
 						))}
 					</div>

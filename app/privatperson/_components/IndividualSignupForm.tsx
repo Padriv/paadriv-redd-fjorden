@@ -123,6 +123,7 @@ export default function IndividualSignupForm({
 	const cardRef = useRef<HTMLDivElement>(null);
 	const prevStepRef = useRef(step);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: step is intentionally used to re-trigger the scroll on step change
 	useEffect(() => {
 		// Skip the scroll on the initial render, only trigger on real step changes.
 		if (prevStepRef.current !== step) {
@@ -154,8 +155,7 @@ export default function IndividualSignupForm({
 									Epost: value.epost,
 									Motivasjon: value.motivasjon,
 									Kompetanse: value.kompetanse,
-									Samtykke: "Jeg samtykker",
-									"Samtykke offentliggjøre kontaktinfo": value.samtykke,
+									Samtykke: value.samtykke ? "Jeg samtykker" : "",
 								},
 							},
 						],
@@ -379,7 +379,7 @@ export default function IndividualSignupForm({
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Jeg ønsker å bli Pådriver fordi... "
+									placeholder="Fortell litt om hvorfor du ønsker å bli Pådriver, og hva du håper å oppnå."
 									rows={4}
 									maxLength={400}
 									aria-invalid={!!field.state.meta.errorMap.onSubmit}
