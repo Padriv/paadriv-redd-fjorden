@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { Partner } from "@/lib/airtable";
 import MultiSelect from "../../../components/MultiSelect";
+import SignupSuccessModal from "../../../components/SignupSuccessModal";
 
 const kompetanseOptions = [
 	"Naturrestaurering",
@@ -132,6 +133,7 @@ export default function OrganizationSignupForm({
 }) {
 	const [step, setStep] = useState(1);
 	const [isValidating, setIsValidating] = useState(false);
+	const [showSuccess, setShowSuccess] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
 	const prevStepRef = useRef(step);
 
@@ -192,8 +194,7 @@ export default function OrganizationSignupForm({
 					return;
 				}
 
-				toast.success("Takk for at dere meldte dere som partner!");
-				onClose?.();
+				setShowSuccess(true);
 			} catch {
 				toast.error("Noe gikk galt", {
 					description:
@@ -736,6 +737,15 @@ export default function OrganizationSignupForm({
 					)}
 				</div>
 			</div>
+			{showSuccess && (
+				<SignupSuccessModal
+					audience="partner"
+					onClose={() => {
+						setShowSuccess(false);
+						onClose?.();
+					}}
+				/>
+			)}
 		</form>
 	);
 }
