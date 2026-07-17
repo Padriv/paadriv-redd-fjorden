@@ -23,7 +23,6 @@ export type Padriver = {
 				Motivasjon: string;
 				Kompetanse: string[];
 				Samtykke: string;
-				"Samtykke offentliggjøre kontaktinfo": boolean;
 				Profilbilde?: AirtableAttachment[];
 			};
 		},
@@ -181,7 +180,6 @@ type PadriverResponseRecord = {
 		Motivasjon?: string;
 		Kompetanse?: string[];
 		Samtykke?: string;
-		"Samtykke offentliggjøre kontaktinfo"?: boolean;
 		Profilbilde?: AirtableAttachment[];
 	};
 };
@@ -200,7 +198,7 @@ export type PadriverListResponse = {
 };
 
 const getPadriver = async (): Promise<PadriverListResponse> => {
-	const filterByFormula = `FIND("Oppdrag Fjorden vår", ARRAYJOIN({Prosjekt}))`;
+	const filterByFormula = `AND(FIND("Oppdrag Fjorden vår", ARRAYJOIN({Prosjekt})), {Godkjent profil til å publiseres})`;
 	const url = `${baseUrl}/${app}/${table}?filterByFormula=${encodeURIComponent(filterByFormula)}`;
 
 	const response = await fetch(url, {
