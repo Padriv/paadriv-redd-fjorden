@@ -119,6 +119,7 @@ export default function IndividualSignupForm({
 	const cardRef = useRef<HTMLDivElement>(null);
 	const isFirstRender = useRef(true);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: step is intentionally used to re-trigger the scroll on step change
 	useEffect(() => {
 		if (isFirstRender.current) {
 			isFirstRender.current = false;
@@ -376,7 +377,7 @@ export default function IndividualSignupForm({
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Jeg ønsker å bli Pådriver fordi... "
+									placeholder="Fortell litt om hvorfor du ønsker å bli pådriver, og hva du håper å oppnå."
 									rows={4}
 									maxLength={400}
 									aria-invalid={!!field.state.meta.errorMap.onSubmit}

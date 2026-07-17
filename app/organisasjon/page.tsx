@@ -8,7 +8,7 @@ import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationS
 import PartnershipSection from "@/app/organisasjon/_components/PartnershipSection";
 import { useJoinForm } from "@/lib/useJoinForm";
 
-const buttonLabel = "Bli partner";
+const buttonLabel = "Meld interesse for å bli partner";
 
 const benefits = [
 	{
