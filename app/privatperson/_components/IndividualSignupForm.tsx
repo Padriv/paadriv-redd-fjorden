@@ -379,7 +379,7 @@ export default function IndividualSignupForm({
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Fortell litt om hvorfor du ønsker å bli pådriver, og hva du håper å oppnå."
+									placeholder="Fortell litt om hvorfor du ønsker å bli Pådriver, og hva du håper å oppnå."
 									rows={4}
 									maxLength={400}
 									aria-invalid={!!field.state.meta.errorMap.onSubmit}
