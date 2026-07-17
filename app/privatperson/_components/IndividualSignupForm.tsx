@@ -36,12 +36,14 @@ const skillOptions = [
 const steps = [
 	{
 		title: "Om deg",
-		description: "Så vi vet hvem du er og hvordan vi når deg.",
+		description:
+			"Informasjonen brukes for å sette deg i kontakt med andre Pådrivere og partnere.",
 		required: true,
 	},
 	{
 		title: "Din motivasjon",
-		description: "Hvorfor vil du bli Pådriver?",
+		description:
+			"Hvorfor vil du bli en Pådriver som bidrar til en friskere Oslofjord?",
 		required: true,
 	},
 	{
@@ -51,7 +53,7 @@ const steps = [
 	},
 	{
 		title: "Samtykke",
-		description: "Nesten i mål – ett siste kryss.",
+		description: "Bekreft samtykket ditt og bli en Pådriver.",
 		required: true,
 	},
 ];
@@ -117,15 +119,15 @@ export default function IndividualSignupForm({
 	const [step, setStep] = useState(1);
 	const [isValidating, setIsValidating] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
-	const isFirstRender = useRef(true);
+	const prevStepRef = useRef(step);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: step is intentionally used to re-trigger the scroll on step change
 	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
+		// Skip the scroll on the initial render, only trigger on real step changes.
+		if (prevStepRef.current !== step) {
+			cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+			prevStepRef.current = step;
 		}
-		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}, [step]);
 
 	const form = useForm({
@@ -459,9 +461,9 @@ export default function IndividualSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at min kontaktinformasjon kan deles med andre
-										relevante aktører i «Oppdrag: Fjorden vår», slik at prosjektledelsen kan gjøre relevante
-										koblinger. <span className="text-error">*</span>
+										Jeg samtykker til at oppgitt informasjon brukes til å sette
+										meg i kontakt med andre i nettverket.{" "}
+										<span className="text-error">*</span>
 									</span>
 								</label>
 								{(field.state.meta.errorMap.onBlur ||

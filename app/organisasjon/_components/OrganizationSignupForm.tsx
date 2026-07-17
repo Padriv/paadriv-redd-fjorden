@@ -27,7 +27,8 @@ const kompetanseOptions = [
 const steps = [
 	{
 		title: "Om organisasjonen",
-		description: "Så vi vet hvem dere er og hvordan vi når dere.",
+		description:
+			"Informasjonen brukes for å sette dere i kontakt med andre Pådrivere og partnere.",
 		required: true,
 	},
 	{
@@ -38,7 +39,7 @@ const steps = [
 	{
 		title: "Deres motivasjon",
 		description:
-			"Hvorfor ønsker dere å bli partner?",
+			"Hvorfor ønsker dere å bli partner som bidrar til en friskere Oslofjord?",
 		required: true,
 	},
 	{
@@ -49,13 +50,12 @@ const steps = [
 	},
 	{
 		title: "Økonomisk bidrag",
-		description:
-			"Valgfritt – innsatsgruppen er avhengig av langsiktig finansiering.",
-		required: false,
+		description: "Innsatsgruppen er avhengig av langsiktig finansiering.",
+		required: true,
 	},
 	{
 		title: "Samtykke",
-		description: "Nesten i mål – ett siste kryss.",
+		description: "Bekreft samtykket og bli partner.",
 		required: true,
 	},
 ];
@@ -133,14 +133,14 @@ export default function OrganizationSignupForm({
 	const [step, setStep] = useState(1);
 	const [isValidating, setIsValidating] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
-	const isFirstRender = useRef(true);
+	const prevStepRef = useRef(step);
 
 	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
+		// Skip the scroll on the initial render, only trigger on real step changes.
+		if (prevStepRef.current !== step) {
+			cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+			prevStepRef.current = step;
 		}
-		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}, [step]);
 
 	const form = useForm({
@@ -214,7 +214,9 @@ export default function OrganizationSignupForm({
 				| "kontaktEpost"
 				| "kontaktTlf"
 				| "motivasjon"
-				| "kompetanse";
+				| "kompetanse"
+				| "okonomiskBidrag"
+				| "annetBidrag";
 			cause: "submit" | "blur";
 		}[]
 	> = {
@@ -230,7 +232,10 @@ export default function OrganizationSignupForm({
 		],
 		3: [{ name: "motivasjon", cause: "blur" }],
 		4: [{ name: "kompetanse", cause: "submit" }],
-		5: [],
+		5: [
+			{ name: "okonomiskBidrag", cause: "blur" },
+			{ name: "annetBidrag", cause: "blur" },
+		],
 		6: [],
 	};
 
@@ -552,54 +557,94 @@ export default function OrganizationSignupForm({
 
 				{step === 5 && (
 					<div className="flex flex-col gap-cluster">
-						<form.Field name="okonomiskBidrag">
+						<form.Field
+							name="okonomiskBidrag"
+							validators={{
+								onBlur: ({ value }) =>
+									!value.trim() ? "Dette feltet er påkrevd" : undefined,
+							}}
+						>
 							{(field) => (
 								<div className="flex flex-col gap-inline">
 									<label
 										htmlFor="okonomiskBidrag"
 										className="text-label font-medium"
 									>
-										Beløp
+										Beløp <span className="text-error">*</span>
 									</label>
 									<p className="text-body italic text-copy">
-										Kan dere bidra med et beløp, sponsormidler eller annen
-										økonomisk støtte?
+										Beskriv beløp, sponsormidler eller annen økonomisk støtte
+										dere kan bidra med.
 									</p>
 									<textarea
 										id="okonomiskBidrag"
 										value={field.state.value}
 										onChange={(e) => field.handleChange(e.target.value)}
 										onBlur={field.handleBlur}
-										placeholder="F.eks. et gitt beløp per år, eller sponsormidler"
+										placeholder="Et gitt beløp per år, eller sponsormidler"
 										rows={3}
+										aria-invalid={!!field.state.meta.errorMap.onBlur}
+										aria-describedby={
+											field.state.meta.errorMap.onBlur
+												? "okonomiskBidrag-error"
+												: undefined
+										}
 										className="w-full resize-none rounded-lg border border-border bg-cream px-3 py-2 text-body outline-none focus:border-ink"
 									/>
+									{field.state.meta.errorMap.onBlur && (
+										<p
+											id="okonomiskBidrag-error"
+											className="text-error text-caption"
+										>
+											{field.state.meta.errorMap.onBlur}
+										</p>
+									)}
 								</div>
 							)}
 						</form.Field>
 
-						<form.Field name="annetBidrag">
+						<form.Field
+							name="annetBidrag"
+							validators={{
+								onBlur: ({ value }) =>
+									!value.trim() ? "Dette feltet er påkrevd" : undefined,
+							}}
+						>
 							{(field) => (
 								<div className="flex flex-col gap-inline">
 									<label
 										htmlFor="annetBidrag"
 										className="text-label font-medium"
 									>
-										Annet bidrag
+										Annet bidrag <span className="text-error">*</span>
 									</label>
 									<p className="text-body italic text-copy">
-										Kan dere allokere personer/stillingsbrøker til
-										innsatsgruppen, eller bidra på andre måter?
+										Beskriv personer, stillingsbrøker eller annet dere kan bidra
+										med til innsatsgruppen.
 									</p>
 									<textarea
 										id="annetBidrag"
 										value={field.state.value}
 										onChange={(e) => field.handleChange(e.target.value)}
 										onBlur={field.handleBlur}
-										placeholder="F.eks. egeninnsats, utstyr, lokaler eller nettverk"
+										placeholder="Egeninnsats, utstyr, lokaler eller nettverk"
 										rows={3}
+										aria-invalid={!!field.state.meta.errorMap.onBlur}
+										aria-describedby={
+											field.state.meta.errorMap.onBlur
+												? "annetBidrag-error"
+												: undefined
+										}
 										className="w-full resize-none rounded-lg border border-border bg-cream px-3 py-2 text-body outline-none focus:border-ink"
 									/>
+									{field.state.meta.errorMap.onBlur && (
+										<p
+											id="annetBidrag-error"
+											className="text-error text-caption"
+										>
+											{field.state.meta.errorMap.onBlur}
+										</p>
+									)}
 								</div>
 							)}
 						</form.Field>
@@ -637,7 +682,8 @@ export default function OrganizationSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at kontaktinformasjonen om meg og bedriften kan deles med relevante aktører i «Oppdrag: Fjorden vår», slik at prosjektledelsen kan gjøre relevante koblinger.
+										Jeg samtykker til at oppgitt informasjon brukes til å sette
+										oss i kontakt med andre i nettverket.{" "}
 										<span className="text-error">*</span>
 									</span>
 								</label>
