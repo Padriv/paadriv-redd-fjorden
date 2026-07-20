@@ -100,7 +100,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						Kontakt
 					</h3>
 					<a
-						href="https://landing.mailerlite.com/webforms/landing/x9d2r2"
+						href="https://landing.mailerlite.com/webforms/landing/q6z8z9"
 						target="_blank"
 						rel="noopener noreferrer"
 						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
