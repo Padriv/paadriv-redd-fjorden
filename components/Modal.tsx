@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import CloseButton from "./CloseButton";
 
 export default function Modal({
 	onClose,
@@ -36,6 +37,7 @@ export default function Modal({
 				aria-modal="true"
 				className="relative w-full max-w-md rounded-2xl bg-cream p-8 shadow-xl"
 			>
+				<CloseButton onClick={onClose} />
 				{children}
 			</div>
 		</div>,

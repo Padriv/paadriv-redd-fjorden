@@ -4,35 +4,12 @@ import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { Padriver } from "@/lib/airtable";
+import { NONE_APPLY_SKILL, SKILL_OPTIONS } from "@/lib/skills";
+import CloseButton from "../../../components/CloseButton";
 import MultiSelect from "../../../components/MultiSelect";
 import SignupSuccessModal from "../../../components/SignupSuccessModal";
 
-const skillOptions = [
-	"Sosialt entreprenørskap/samfunnsinnovasjon",
-	"Forretningsutvikling",
-	"Sirkulær økonomi",
-	"Ombruk",
-	"Arkitektur ",
-	"Byplanlegging",
-	"Nærmiljøutvikling",
-	"Naturvern og biologisk mangfold",
-	"Offentlig forvaltning",
-	"IT",
-	"Økonomi",
-	"Lovverk",
-	"Prosjektutvikling",
-	"Kommunikasjon",
-	"Forskningsarbeid",
-	"Energi",
-	"Klimaløsninger",
-	"Byggteknisk",
-	"Utdanning og opplæring",
-	"Sosialt arbeid og inkludering",
-	"Eiendom",
-	"Frivillig arbeid",
-	"Demokrati",
-	"Ingen av disse gjelder for meg, men jeg er likefullt en Pådriver!",
-];
+const skillOptions = [...SKILL_OPTIONS, NONE_APPLY_SKILL];
 
 const steps = [
 	{
@@ -230,16 +207,7 @@ export default function IndividualSignupForm({
 				ref={cardRef}
 				className="relative mx-auto flex w-full max-w-2xl scroll-mt-24 flex-col gap-cluster rounded-2xl bg-cream p-8"
 			>
-				{onClose && (
-					<button
-						type="button"
-						onClick={onClose}
-						aria-label="Lukk skjema"
-						className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full text-copy transition-colors hover:bg-green/10 hover:text-ink"
-					>
-						✕
-					</button>
-				)}
+				{onClose && <CloseButton onClick={onClose} label="Lukk skjema" />}
 				<div className="flex flex-col gap-inline">
 					<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
 						Steg {step} av {steps.length}
