@@ -22,7 +22,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 				isGreen ? "bg-deep-green text-cream" : "bg-cream text-ink"
 			}`}
 		>
-			<div className="grid w-full grid-cols-1 items-start gap-loose md:grid-cols-2 md:grid-rows-3 md:gap-x-loose md:gap-y-group">
+			<div className="grid w-full grid-cols-1 items-start gap-loose md:grid-cols-2 md:grid-rows-[auto_auto] md:gap-x-loose md:gap-y-cluster">
 				<a
 					href="https://paadriv.no"
 					target="_blank"
@@ -31,74 +31,87 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 				>
 					<Image src={logoSrc} alt="Pådriv" width={150} height={47} />
 				</a>
-				<p
-					className={`text-body max-w-xs md:col-start-1 md:row-start-2 ${
-						isGreen ? "text-muted-inverse" : "text-muted"
-					}`}
-				>
-					For alle som vil finne gode løsninger og en mer bærekraftig retning –
-					sammen!
-				</p>
-				<div className="flex items-center gap-inline md:col-start-1 md:row-start-3">
-					<a
-						href="https://www.instagram.com/paadriv/"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
-						aria-label="Instagram"
+				<div className="flex flex-col gap-loose md:col-start-1 md:row-start-2">
+					<p
+						className={`text-body max-w-xs ${
+							isGreen ? "text-muted-inverse" : "text-muted"
+						}`}
 					>
-						<img
-							src={`/svg/instagram_${socialIconColor}_icon.svg`}
-							alt="Instagram icon"
-							className="size-6"
-						/>
-					</a>
-					<a
-						href="https://www.facebook.com/paadriv/?locale=nb_NO"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
-						aria-label="Facebook"
-					>
-						<img
-							src={`/svg/facebook_${socialIconColor}_icon.svg`}
-							alt="Facebook icon"
-							className="size-6"
-						/>
-					</a>
-					<a
-						href="https://no.linkedin.com/company/padriv"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
-						aria-label="LinkedIn"
-					>
-						<img
-							src={`/svg/linkedin_${socialIconColor}_icon.svg`}
-							alt="LinkedIn icon"
-							className="size-6"
-						/>
-					</a>
-					<a
-						href="https://www.youtube.com/channel/UCEMshnOPR6yhexEF38ywkOA/videos"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
-						aria-label="YouTube"
-					>
-						<img
-							src={`/svg/youtube_${socialIconColor}_icon.svg`}
-							alt="YouTube icon"
-							className="size-6"
-						/>
-					</a>
+						For alle som vil finne gode løsninger og en mer bærekraftig retning
+						– sammen!
+					</p>
+					<div className="flex items-center gap-inline">
+						<a
+							href="https://www.instagram.com/paadriv/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							aria-label="Instagram"
+						>
+							<img
+								src={`/svg/instagram_${socialIconColor}_icon.svg`}
+								alt="Instagram icon"
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://www.facebook.com/paadriv/?locale=nb_NO"
+							target="_blank"
+							rel="noopener noreferrer"
+							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							aria-label="Facebook"
+						>
+							<img
+								src={`/svg/facebook_${socialIconColor}_icon.svg`}
+								alt="Facebook icon"
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://no.linkedin.com/company/padriv"
+							target="_blank"
+							rel="noopener noreferrer"
+							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							aria-label="LinkedIn"
+						>
+							<img
+								src={`/svg/linkedin_${socialIconColor}_icon.svg`}
+								alt="LinkedIn icon"
+								className="size-6"
+							/>
+						</a>
+						<a
+							href="https://www.youtube.com/channel/UCEMshnOPR6yhexEF38ywkOA/videos"
+							target="_blank"
+							rel="noopener noreferrer"
+							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							aria-label="YouTube"
+						>
+							<img
+								src={`/svg/youtube_${socialIconColor}_icon.svg`}
+								alt="YouTube icon"
+								className="size-6"
+							/>
+						</a>
+					</div>
 				</div>
-				<h3
-					className={`text-section font-bold md:col-start-2 md:row-start-1 ${headingColor}`}
-				>
-					Kontakt
-				</h3>
 				<div className="flex flex-col gap-inline md:col-start-2 md:row-start-2">
+					<h3 className={`text-subheading font-semibold ${headingColor}`}>
+						Kontakt
+					</h3>
+					<a
+						href="https://landing.mailerlite.com/webforms/landing/q6z8z9"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
+					>
+						<img
+							src={`/svg/family_${contactIconColor}_icon.svg`}
+							alt="Nyhetsbrev icon"
+							className="size-5"
+						/>
+						Motta nyhetsbrev
+					</a>
 					<a
 						href="mailto:post@paadriv.no"
 						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
