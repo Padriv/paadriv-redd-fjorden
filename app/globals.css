@@ -70,16 +70,16 @@
 	--text-body: 0.9375rem; /* 15px */
 	--text-link: var(--text-sm);
 	--text-button: var(--text-sm);
-	--text-subheading: var(--text-lg); /* h3 / card & form section titles */
-	--text-section: var(--text-lg); /* h2 / section titles */
+	--text-subheading: 1.5rem; /* h3 / card & form section titles, 24px */
+	--text-section: 1.625rem; /* h2 / section titles, 26px */
 	--text-heading: var(--text-xl); /* h1 / page titles */
 	--text-hero: var(--text-3xl);
 	--text-display: var(--text-4xl);
 
 	/* Small, separate scale for the BenefitsSection cards (privatperson &
 	   organisasjon) — kept apart from --text-subheading/--text-body above. */
-	--text-card-heading: var(--text-sm);
-	--text-card-body: 0.875rem; /* 14px */
+	--text-card-heading: 1rem; /* 16px */
+	--text-card-body: 0.9375rem; /* 15px */
 
 	/* Raw brand palette — single source of truth the semantic surface/on-surface
        variables above are pulled from. Kept in @theme (not plain :root) so Tailwind
@@ -181,8 +181,9 @@
 	--color-border: var(--border-color);
 	--color-border-subtle: var(--border-subtle-color);
 
-	--font-sans: var(--font-geist-sans);
+	--font-sans: var(--font-manrope);
 	--font-mono: var(--font-geist-mono);
+	--font-syne: var(--font-syne);
 	--animate-marquee: marquee 145s linear infinite;
 	@keyframes marquee {
 		from {

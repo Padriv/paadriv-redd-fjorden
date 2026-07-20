@@ -71,7 +71,7 @@ export default function AnimatedStat({
 
 	return (
 		<div className="flex flex-col items-center gap-tight text-center">
-			<span ref={spanRef} className="text-heading font-semibold text-ink">
+			<span ref={spanRef} className="text-section md:text-heading font-extrabold text-ink">
 				{display}
 				{suffix}
 			</span>

@@ -22,7 +22,7 @@ export default function BenefitsSection({
 
 			<div className="grid w-full max-w-6xl grid-cols-1 gap-cluster lg:grid-cols-2">
 				<div className="flex flex-col justify-center gap-group">
-					<h2 className="text-section font-semibold">{heading}</h2>
+					<h2 className="text-section font-bold">{heading}</h2>
 					<p className="text-body text-copy">{intro}</p>
 				</div>
 
