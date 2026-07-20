@@ -32,7 +32,7 @@ export default async function Padrivere() {
 							Ingen Pådrivere å vise ennå.
 						</p>
 					)}
-					<div className="flex flex-col gap-group">
+					<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
 						{records.map((record) => (
 							<PadriverCard key={record.id} record={record} />
 						))}

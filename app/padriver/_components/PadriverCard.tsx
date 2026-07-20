@@ -19,7 +19,7 @@ export default function PadriverCard({ record }: PadriverCardProps) {
 	const photo = record.fields.Profilbilde?.[0];
 
 	return (
-		<div className="flex flex-col gap-inline rounded-2xl border border-border-subtle bg-surface p-6">
+		<div className="flex flex-col items-center gap-inline rounded-2xl border border-border-subtle bg-cream p-6 text-center">
 			{photo ? (
 				<img
 					src={photo.thumbnails?.large.url ?? photo.url}
