@@ -17,7 +17,7 @@ export default function Home() {
 				<PaadriverSection />
 				<PartnereSection />
 			</main>
-			<Footer variant="cream" />
+			<Footer variant="green" />
 		</>
 	);
 }

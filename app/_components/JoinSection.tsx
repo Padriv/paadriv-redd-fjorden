@@ -43,7 +43,7 @@ export default function JoinSection() {
 						<p className="text-body text-copy">{card.description}</p>
 						<Link
 							href={card.href}
-							className="text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
+							className="text-base font-semibold text-green transition-colors hover:text-ink md:text-lg"
 						>
 							{card.linkLabel} →
 						</Link>

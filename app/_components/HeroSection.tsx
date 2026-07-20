@@ -23,13 +23,15 @@ export default function HeroSection({
 				</span>
 				<h1 className="text-hero font-bold text-cream">{heading}</h1>
 				{subheading && (
-					<p className="text-subheading font-semibold text-cream">{subheading}</p>
+					<p className="mt-group text-subheading font-semibold text-cream">
+						{subheading}
+					</p>
 				)}
 				<p className="text-body text-cream/90">{description}</p>
 				<button
 					type="button"
 					onClick={onJoinClick}
-					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-medium text-deep-green transition-colors hover:bg-green-light-moss"
+					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-semibold text-deep-green transition-colors hover:bg-green-light-moss"
 				>
 					{buttonLabel} →
 				</button>

@@ -81,7 +81,7 @@ export default async function PaadriverSection() {
 
 			<div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
 				<div className="flex flex-col gap-group">
-					<h2 className="text-section font-semibold text-green">
+					<h2 className="text-section font-bold text-green">
 						Frivillige = Pådrivere
 					</h2>
 					<p className="text-body text-copy">

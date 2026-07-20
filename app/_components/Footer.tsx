@@ -94,7 +94,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					</a>
 				</div>
 				<h3
-					className={`text-section font-semibold md:col-start-2 md:row-start-1 ${headingColor}`}
+					className={`text-section font-bold md:col-start-2 md:row-start-1 ${headingColor}`}
 				>
 					Kontakt
 				</h3>

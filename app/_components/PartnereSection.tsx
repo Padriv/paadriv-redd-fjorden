@@ -91,7 +91,7 @@ export default async function PartnereSection() {
 
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
 				<div className="flex flex-col gap-tight">
-					<h2 className="text-section font-semibold text-green">
+					<h2 className="text-section font-bold text-green">
 						Samarbeid med våre {partnere.length} partnere
 					</h2>
 					<p className="text-body text-copy">

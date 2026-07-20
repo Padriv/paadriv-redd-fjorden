@@ -40,7 +40,7 @@ export default async function AboutSection() {
 	return (
 		<section className="w-full bg-cream px-4 py-24 md:px-28">
 			<div className="mx-auto flex max-w-5xl flex-col gap-loose">
-				<h2 className="text-section font-semibold text-ink">
+				<h2 className="text-section font-bold text-ink">
 					Sammen for Oslofjorden
 				</h2>
 				<p className="text-body text-copy">

@@ -6,7 +6,7 @@ export default function PartnershipSection() {
 			<Wave fillClassName="fill-cream" />
 
 			<div className="flex max-w-5xl flex-col gap-group">
-				<h2 className="text-section font-semibold">
+				<h2 className="text-section font-bold">
 					Et spleiselag for fjorden
 				</h2>
 				<p className="text-body text-cream/90">

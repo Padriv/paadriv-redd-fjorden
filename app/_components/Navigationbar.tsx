@@ -55,7 +55,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 
 	return (
 		<header
-			className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-all duration-300 sm:px-6 md:px-16 md:py-5 ${
+			className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between pl-2 pr-4 py-4 transition-all duration-300 sm:pl-3 sm:pr-6 md:pl-8 md:pr-16 md:py-5 ${
 				visible ? "translate-y-0" : "-translate-y-full"
 			} ${
 				solid || scrolled
@@ -66,7 +66,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 			<Link
 				href="/"
 				onClick={handleLogoClick}
-				className="text-label font-bold leading-tight text-cream"
+				className="text-label font-syne font-bold leading-tight text-cream"
 			>
 				Oppdrag
 				<br />
@@ -80,7 +80,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 					<Link
 						key={link.href}
 						href={link.href}
-						className="text-link whitespace-nowrap font-medium text-cream transition-opacity hover:opacity-80"
+						className="text-link whitespace-nowrap font-semibold text-cream transition-opacity hover:opacity-80"
 					>
 						{link.label}
 					</Link>
