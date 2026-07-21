@@ -66,7 +66,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 			<Link
 				href="/"
 				onClick={handleLogoClick}
-				className="text-label font-syne font-bold leading-tight text-cream"
+				className="text-label font-syne font-bold leading-tight text-cream transition-transform hover:scale-[var(--hover-navigasjonsbar)]"
 			>
 				Oppdrag
 				<br />
@@ -80,7 +80,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 					<Link
 						key={link.href}
 						href={link.href}
-						className="text-link whitespace-nowrap font-semibold text-cream transition-opacity hover:opacity-80"
+						className="text-link whitespace-nowrap font-semibold text-cream transition-transform hover:scale-[var(--hover-navigasjonsbar)]"
 					>
 						{link.label}
 					</Link>
