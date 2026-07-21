@@ -15,9 +15,10 @@ export default function PartnereHero({
 		"meld-interesse-partner",
 	);
 
-	const intro = loadFailed
-		? "Møt våre partnere."
-		: `Møt våre ${partnerCount} partnere.`;
+	const intro =
+		loadFailed || partnerCount === 0
+			? "Møt våre partnere."
+			: `Møt våre ${partnerCount} partnere.`;
 
 	return (
 		<>
