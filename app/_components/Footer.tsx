@@ -4,12 +4,18 @@ type FooterProps = {
 	variant?: "cream" | "green";
 };
 
+const LOGO_INTRINSIC_SIZE = {
+	"/images/paadriv-logo-hvit.png": { width: 1800, height: 483 },
+	"/images/paadriv-logo-sort.png": { width: 1800, height: 471 },
+} as const;
+
 export default function Footer({ variant = "cream" }: FooterProps) {
 	const isGreen = variant === "green";
 
 	const logoSrc = isGreen
 		? "/images/paadriv-logo-hvit.png"
 		: "/images/paadriv-logo-sort.png";
+	const logoSize = LOGO_INTRINSIC_SIZE[logoSrc];
 	const socialIconColor = isGreen ? "green" : "cream";
 	const socialIconBg = isGreen ? "bg-cream" : "bg-deep-green";
 	const contactIconColor = isGreen ? "cream" : "green";
@@ -29,7 +35,13 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					rel="noopener noreferrer"
 					className="md:col-start-1 md:row-start-1"
 				>
-					<Image src={logoSrc} alt="Pådriv" width={150} height={47} />
+					<Image
+						src={logoSrc}
+						alt="Pådriv"
+						width={logoSize.width}
+						height={logoSize.height}
+						style={{ width: "150px", height: "auto" }}
+					/>
 				</a>
 				<div className="flex flex-col gap-loose md:col-start-1 md:row-start-2">
 					<p
