@@ -119,6 +119,9 @@
 	--spacing-loose: calc(var(--spacing) * 6);
 	--spacing-cluster: calc(var(--spacing) * 10);
 	--spacing-section: calc(var(--spacing) * 16);
+
+	--hover-footer: 1.08;
+	--hover-navigasjonsbar: 1.06;
 }
 
 @media (width >= theme(--breakpoint-md)) {
