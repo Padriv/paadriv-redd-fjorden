@@ -89,7 +89,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 				<Link
 					href="/#bli-med"
 					onClick={handleJoinClick}
-					className="text-button whitespace-nowrap rounded-full bg-cream px-3 py-1.5 font-semibold text-deep-green transition-transform hover:scale-105 md:px-5 md:py-2"
+					className="text-button whitespace-nowrap rounded-full bg-cream px-3 py-1.5 font-semibold text-deep-green transition-transform hover:scale-[var(--hover-navigasjonsbar)] md:px-5 md:py-2"
 				>
 					Bli med
 				</Link>

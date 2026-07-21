@@ -27,7 +27,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					href="https://paadriv.no"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="w-fit transition-transform hover:scale-[1.06] md:col-start-1 md:row-start-1"
+					className="w-fit transition-transform hover:scale-[var(--hover-footer)] md:col-start-1 md:row-start-1"
 				>
 					<Image src={logoSrc} alt="Pådriv" width={150} height={47} />
 				</a>
@@ -41,7 +41,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.instagram.com/paadriv/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[var(--hover-footer)] ${socialIconBg}`}
 							aria-label="Instagram"
 						>
 							<img
@@ -54,7 +54,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.facebook.com/paadriv/?locale=nb_NO"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[var(--hover-footer)] ${socialIconBg}`}
 							aria-label="Facebook"
 						>
 							<img
@@ -67,7 +67,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://no.linkedin.com/company/padriv"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[var(--hover-footer)] ${socialIconBg}`}
 							aria-label="LinkedIn"
 						>
 							<img
@@ -80,7 +80,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.youtube.com/channel/UCEMshnOPR6yhexEF38ywkOA/videos"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[var(--hover-footer)] ${socialIconBg}`}
 							aria-label="YouTube"
 						>
 							<img
@@ -99,7 +99,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						href="https://landing.mailerlite.com/webforms/landing/q6z8z9"
 						target="_blank"
 						rel="noopener noreferrer"
-						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
+						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[var(--hover-footer)] ${contactTextColor}`}
 					>
 						<img
 							src={`/svg/family_${contactIconColor}_icon.svg`}
@@ -110,7 +110,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					</a>
 					<a
 						href="mailto:fjorden@paadriv.no"
-						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
+						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[var(--hover-footer)] ${contactTextColor}`}
 					>
 						<img
 							src={`/svg/mail_${contactIconColor}_icon.svg`}
@@ -122,7 +122,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					<div className="flex flex-col">
 						<a
 							href="tel:+4790787982"
-							className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
+							className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[var(--hover-footer)] ${contactTextColor}`}
 						>
 							<img
 								src={`/svg/phone_${contactIconColor}_icon.svg`}
