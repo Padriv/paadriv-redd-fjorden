@@ -24,7 +24,7 @@ export default function PartnereHero({
 		<>
 			<HeroSection
 				heading="Partnere som drar i samme retning"
-				description={`${intro} De representerer bedrifter, kommuner og organisasjoner som bidrar med ressurser, kompetanse og nettverk i arbeidet for en frisk Oslofjord. Som partner er de en synlig del av løsningen. Samtidig gir de sine ansatte noe å engasjere seg i, og blir del av et nettverk som gir verdi tilbake. Vi trenger flere på laget, kanskje er det dere?`}
+				description={`${intro} De representerer bedrifter, kommuner og organisasjoner som bidrar med ressurser, kompetanse og nettverk i arbeidet for en frisk Oslofjord. Som partner er de en synlig del av løsningen. Samtidig gir de sine ansatte noe å engasjere seg i, og blir del av et nettverk som gir verdi tilbake. Vi trenger flere på laget. Kanskje er det dere?`}
 				buttonLabel="Meld interesse for å bli partner"
 				onJoinClick={onJoinClick}
 			/>
