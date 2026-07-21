@@ -174,7 +174,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 			<span
 				key={skill}
 				data-skill
-				className={`rounded-full px-3 py-1 text-label text-cream ${color.bg}`}
+				className={`rounded-full px-2.5 py-1 text-[13px] text-cream ${color.bg}`}
 			>
 				{skill}
 			</span>
@@ -193,7 +193,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				<button
 					type="button"
 					onClick={() => dialogRef.current?.showModal()}
-					className="relative rounded-full border border-green/30 px-3 py-1 text-label font-medium text-green transition-colors hover:bg-green/10"
+					className="relative rounded-full border border-green/30 px-2.5 py-1 text-[13px] font-medium text-green transition-colors hover:bg-green/10"
 				>
 					+{hiddenSkillCount} flere
 				</button>
@@ -208,16 +208,21 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 			className="pointer-events-none absolute left-0 top-0 flex -translate-y-full flex-nowrap gap-inline opacity-0"
 		>
 			{skillsByLength.map((skill) => (
-				<span key={skill} data-skill className="px-3 py-1 text-label">
+				<span
+					key={skill}
+					data-skill
+					className="whitespace-nowrap px-2.5 py-1 text-[13px]"
+				>
 					{skill}
 				</span>
 			))}
-			<span
+			<button
+				type="button"
 				data-more-button
-				className="border px-3 py-1 text-label font-medium"
+				className="relative whitespace-nowrap rounded-full border border-green/30 px-2.5 py-1 text-[13px] font-medium text-green transition-colors hover:bg-green/10"
 			>
 				+99 flere
-			</span>
+			</button>
 		</div>
 	);
 
