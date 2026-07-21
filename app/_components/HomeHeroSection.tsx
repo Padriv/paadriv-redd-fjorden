@@ -3,7 +3,10 @@ import Wave from "./Wave";
 
 export default function HomeHeroSection() {
 	return (
-		<section className="relative flex h-dvh min-h-150 w-full flex-col justify-end overflow-hidden bg-deep-green pb-32 pl-10 pr-6 pt-10 md:pb-40 md:pl-28 md:pr-16">
+		<section
+			id="home-hero"
+			className="relative flex h-dvh min-h-150 w-full flex-col justify-end overflow-hidden bg-deep-green pb-32 pl-10 pr-6 pt-10 md:pb-40 md:pl-28 md:pr-16"
+		>
 			<Image
 				src="/images/Forsidebilde.jpg"
 				alt="Dykker som undersøker dekk og skrot på fjordbunnen"
