@@ -41,7 +41,7 @@ export default function DepthScale() {
 				.getElementById("home-hero")
 				?.getBoundingClientRect();
 			const heroBottomAbsolute = (heroRect?.bottom ?? 0) + window.scrollY;
-			const activationPoint = heroBottomAbsolute - window.innerHeight * 0.65;
+			const activationPoint = heroBottomAbsolute - window.innerHeight * 0.85;
 
 			setVisible(window.scrollY >= activationPoint);
 
