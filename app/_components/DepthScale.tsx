@@ -100,7 +100,7 @@ export default function DepthScale() {
 			aria-hidden="true"
 		>
 			<DiverIcon
-				className={`pointer-events-auto absolute right-3 w-9 -translate-y-1/2 touch-none transition-transform hover:scale-[1.12] ${
+				className={`pointer-events-auto absolute right-3 w-9 -translate-y-1/2 touch-none transition-transform hover:scale-(--hover-dykker) ${
 					dragging ? "cursor-grabbing" : "cursor-grab"
 				}`}
 				style={{ top: `${progress * 100}%` }}

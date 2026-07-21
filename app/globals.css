@@ -122,6 +122,7 @@
 
 	--hover-footer: 1.08;
 	--hover-navigasjonsbar: 1.06;
+	--hover-dykker: 1.13;
 }
 
 @media (width >= theme(--breakpoint-md)) {
