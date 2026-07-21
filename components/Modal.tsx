@@ -1,46 +1,48 @@
 "use client";
 
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef } from "react";
 import CloseButton from "./CloseButton";
 
 export default function Modal({
 	onClose,
 	children,
+	ariaLabelledBy,
+	className = "m-auto w-[calc(100vw-2rem)] max-w-md rounded-2xl bg-cream p-8 shadow-xl backdrop:bg-black/50",
+	closeButtonClassName = "absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full text-copy transition-colors hover:bg-green/10 hover:text-ink",
 }: {
 	onClose: () => void;
 	children: React.ReactNode;
+	ariaLabelledBy?: string;
+	className?: string;
+	closeButtonClassName?: string;
 }) {
-	useEffect(() => {
-		function onKeyDown(e: KeyboardEvent) {
-			if (e.key === "Escape") onClose();
-		}
-		document.addEventListener("keydown", onKeyDown);
-		const { overflow } = document.body.style;
-		document.body.style.overflow = "hidden";
-		return () => {
-			document.removeEventListener("keydown", onKeyDown);
-			document.body.style.overflow = overflow;
-		};
-	}, [onClose]);
+	const dialogRef = useRef<HTMLDialogElement>(null);
 
-	return createPortal(
-		<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-			<button
-				type="button"
-				aria-label="Lukk"
-				onClick={onClose}
-				className="absolute inset-0 bg-black/50"
-			/>
-			<div
-				role="dialog"
-				aria-modal="true"
-				className="relative w-full max-w-md rounded-2xl bg-cream p-8 shadow-xl"
-			>
-				<CloseButton onClick={onClose} />
+	useEffect(() => {
+		const dialog = dialogRef.current;
+		if (!dialog) return;
+
+		dialog.showModal();
+		return () => dialog.close();
+	}, []);
+
+	return (
+		<dialog
+			ref={dialogRef}
+			aria-labelledby={ariaLabelledBy}
+			onCancel={(event) => {
+				event.preventDefault();
+				onClose();
+			}}
+			onClick={(event) => {
+				if (event.target === dialogRef.current) onClose();
+			}}
+			className={className}
+		>
+			<div className="relative">
+				<CloseButton onClick={onClose} className={closeButtonClassName} />
 				{children}
 			</div>
-		</div>,
-		document.body,
+		</dialog>
 	);
 }

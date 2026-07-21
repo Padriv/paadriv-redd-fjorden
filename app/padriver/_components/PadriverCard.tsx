@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import CloseButton from "@/components/CloseButton";
+import Modal from "@/components/Modal";
 import type { PadriverListResponse } from "@/lib/airtable";
 import { getFallbackSkillColor, SKILL_COLORS } from "@/lib/skillColors";
 import { NONE_APPLY_SKILL } from "@/lib/skills";
@@ -60,11 +60,11 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const [lineClamp, setLineClamp] = useState(3);
 	const [maxTextHeight, setMaxTextHeight] = useState<number | null>(null);
 	const [showShortName, setShowShortName] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const textContainerRef = useRef<HTMLDivElement>(null);
 	const readMoreButtonRef = useRef<HTMLButtonElement>(null);
-	const dialogRef = useRef<HTMLDialogElement>(null);
 	const skillsContainerRef = useRef<HTMLDivElement>(null);
 	const skillMeasureRef = useRef<HTMLDivElement>(null);
 	const nameContainerRef = useRef<HTMLDivElement>(null);
@@ -187,7 +187,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 			{hiddenSkillCount > 0 && (
 				<button
 					type="button"
-					onClick={() => dialogRef.current?.showModal()}
+					onClick={() => setIsModalOpen(true)}
 					className="relative rounded-full border border-green/30 px-2.5 py-1 text-[13px] font-medium text-green transition-colors hover:bg-green/10"
 				>
 					+{hiddenSkillCount} flere
@@ -254,7 +254,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		<div className="relative flex h-[29rem] flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center">
 			<button
 				type="button"
-				onClick={() => dialogRef.current?.showModal()}
+				onClick={() => setIsModalOpen(true)}
 				aria-label={`Se mer om ${fields.Navn}`}
 				className="absolute inset-0 cursor-pointer"
 			/>
@@ -303,7 +303,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 						type="button"
 						tabIndex={isTruncated ? 0 : -1}
 						aria-hidden={!isTruncated}
-						onClick={() => dialogRef.current?.showModal()}
+						onClick={() => setIsModalOpen(true)}
 						className={`relative text-link font-medium text-green transition-colors hover:text-ink ${
 							isTruncated ? "" : "invisible"
 						}`}
@@ -317,41 +317,35 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				{contactLinks}
 			</div>
 
-		
-			<dialog
-				ref={dialogRef}
-				aria-labelledby={`padriver-navn-${record.id}`}
-				onClick={(event) => {
-					if (event.target === dialogRef.current) dialogRef.current?.close();
-				}}
-				className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
-			>
-				<div className="relative flex flex-col items-center gap-group">
-					<CloseButton
-						onClick={() => dialogRef.current?.close()}
-						className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full text-copy transition-colors hover:bg-green/10 hover:text-ink"
-					/>
-					{avatar}
-					<h3
-						id={`padriver-navn-${record.id}`}
-						className="text-subheading font-semibold text-green"
-					>
-						{fields.Navn}
-					</h3>
-					{logo && (
-						<img
-							src={logo.url}
-							alt=""
-							className="h-6 w-auto object-contain"
-						/>
-					)}
-					{motivasjon && (
-						<p className="text-card-body text-copy">“{motivasjon}”</p>
-					)}
-					{fullSkillPills}
-					{contactLinks}
-				</div>
-			</dialog>
+			{isModalOpen && (
+				<Modal
+					onClose={() => setIsModalOpen(false)}
+					ariaLabelledBy={`padriver-navn-${record.id}`}
+					className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
+				>
+					<div className="flex flex-col items-center gap-group">
+						{avatar}
+						<h3
+							id={`padriver-navn-${record.id}`}
+							className="text-subheading font-semibold text-green"
+						>
+							{fields.Navn}
+						</h3>
+						{logo && (
+							<img
+								src={logo.url}
+								alt=""
+								className="h-6 w-auto object-contain"
+							/>
+						)}
+						{motivasjon && (
+							<p className="text-card-body text-copy">“{motivasjon}”</p>
+						)}
+						{fullSkillPills}
+						{contactLinks}
+					</div>
+				</Modal>
+			)}
 		</div>
 	);
 }
