@@ -27,16 +27,12 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					href="https://paadriv.no"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="md:col-start-1 md:row-start-1"
+					className="w-fit transition-transform hover:scale-[1.06] md:col-start-1 md:row-start-1"
 				>
 					<Image src={logoSrc} alt="Pådriv" width={150} height={47} />
 				</a>
 				<div className="flex flex-col gap-loose md:col-start-1 md:row-start-2">
-					<p
-						className={`text-body max-w-xs ${
-							isGreen ? "text-muted-inverse" : "text-muted"
-						}`}
-					>
+					<p className={`text-body max-w-xs ${contactTextColor}`}>
 						For alle som vil finne gode løsninger og en mer bærekraftig retning
 						– sammen!
 					</p>
@@ -45,7 +41,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.instagram.com/paadriv/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
 							aria-label="Instagram"
 						>
 							<img
@@ -58,7 +54,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.facebook.com/paadriv/?locale=nb_NO"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
 							aria-label="Facebook"
 						>
 							<img
@@ -71,7 +67,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://no.linkedin.com/company/padriv"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
 							aria-label="LinkedIn"
 						>
 							<img
@@ -84,7 +80,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							href="https://www.youtube.com/channel/UCEMshnOPR6yhexEF38ywkOA/videos"
 							target="_blank"
 							rel="noopener noreferrer"
-							className={`flex size-10 items-center justify-center rounded-md ${socialIconBg}`}
+							className={`flex size-10 items-center justify-center rounded-md transition-transform hover:scale-[1.06] ${socialIconBg}`}
 							aria-label="YouTube"
 						>
 							<img
@@ -103,7 +99,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						href="https://landing.mailerlite.com/webforms/landing/q6z8z9"
 						target="_blank"
 						rel="noopener noreferrer"
-						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
+						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
 					>
 						<img
 							src={`/svg/family_${contactIconColor}_icon.svg`}
@@ -113,20 +109,20 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						Motta nyhetsbrev
 					</a>
 					<a
-						href="mailto:post@paadriv.no"
-						className={`flex items-center gap-inline font-medium ${contactTextColor}`}
+						href="mailto:fjorden@paadriv.no"
+						className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
 					>
 						<img
 							src={`/svg/mail_${contactIconColor}_icon.svg`}
 							alt="Email icon"
 							className="size-5"
 						/>
-						post@paadriv.no
+						fjorden@paadriv.no
 					</a>
 					<div className="flex flex-col">
 						<a
 							href="tel:+4790787982"
-							className={`flex items-center gap-inline font-medium ${contactTextColor}`}
+							className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-[1.06] ${contactTextColor}`}
 						>
 							<img
 								src={`/svg/phone_${contactIconColor}_icon.svg`}
