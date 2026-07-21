@@ -1,7 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { getFallbackSkillColor, SKILL_COLORS } from "@/lib/skillColors";
+import { useResizeObserver } from "@/lib/useResizeObserver";
 
 type MultiSelectProps = {
 	options: string[];
@@ -77,38 +78,28 @@ export default function MultiSelect({
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [orderedOptions, setOrderedOptions] = useState(chipOptions);
 
-	useLayoutEffect(() => {
-		const container = containerRef.current;
-		if (!container) return;
+	useResizeObserver(containerRef, () => {
+		const containerEl = containerRef.current;
+		if (!containerEl) return;
 
-		function recalculate() {
-			const containerEl = containerRef.current;
-			if (!containerEl) return;
-
-			const widths = new Map<string, number>();
-			for (const button of containerEl.querySelectorAll<HTMLButtonElement>(
-				"[data-chip]",
-			)) {
-				const key = button.dataset.chip;
-				if (key) widths.set(key, button.offsetWidth);
-			}
-			if (widths.size === 0) return;
-
-			const gap = parseFloat(getComputedStyle(containerEl).columnGap);
-			setOrderedOptions(
-				packRows(
-					chipOptions,
-					widths,
-					containerEl.clientWidth,
-					Number.isNaN(gap) ? 0 : gap,
-				),
-			);
+		const widths = new Map<string, number>();
+		for (const button of containerEl.querySelectorAll<HTMLButtonElement>(
+			"[data-chip]",
+		)) {
+			const key = button.dataset.chip;
+			if (key) widths.set(key, button.offsetWidth);
 		}
+		if (widths.size === 0) return;
 
-		recalculate();
-		const observer = new ResizeObserver(recalculate);
-		observer.observe(container);
-		return () => observer.disconnect();
+		const gap = parseFloat(getComputedStyle(containerEl).columnGap);
+		setOrderedOptions(
+			packRows(
+				chipOptions,
+				widths,
+				containerEl.clientWidth,
+				Number.isNaN(gap) ? 0 : gap,
+			),
+		);
 	}, [chipOptions]);
 
 	function toggleSkill(option: string) {
