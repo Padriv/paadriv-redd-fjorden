@@ -52,6 +52,7 @@ function countFitting(
 export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const [isTruncated, setIsTruncated] = useState(false);
 	const [lineClamp, setLineClamp] = useState(3);
+	const [maxTextHeight, setMaxTextHeight] = useState<number | null>(null);
 	const [nameFontSize, setNameFontSize] = useState<number | null>(null);
 
 	const textRef = useRef<HTMLParagraphElement>(null);
@@ -88,7 +89,13 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		if (!el) return;
 
 		const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
-		setLineClamp(Math.max(1, Math.floor(el.clientHeight / lineHeight)));
+		const lines = Math.max(1, Math.floor(el.clientHeight / lineHeight));
+		setLineClamp(lines);
+		// -webkit-line-clamp kan feile å faktisk klippe overflyt når elementet
+		// samtidig er et flex-item med flex-1 (flex-basis: 0%) — ellipsen
+		// tegnes, men resten av teksten flyter likevel gjennom under. En
+		// eksplisitt maxHeight er et sikkert, ikke-webkit-spesifikt sikkerhetsnett.
+		setMaxTextHeight(lines * lineHeight);
 		setIsTruncated(el.scrollHeight > el.clientHeight + 1);
 	});
 
@@ -174,7 +181,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const cardSkillPills = (
 		<div
 			ref={skillsContainerRef}
-			className="flex min-h-20 flex-wrap content-start items-start justify-center gap-inline"
+			className="flex h-[5.5rem] flex-wrap content-start items-start justify-center gap-inline overflow-hidden"
 		>
 			{skillsByLength.slice(0, visibleSkillCount).map(renderSkillPill)}
 			{hiddenSkillCount > 0 && (
@@ -248,7 +255,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		// biome-ignore lint/a11y/noStaticElementInteractions: see above
 		<div
 			onClick={() => dialogRef.current?.showModal()}
-			className="relative flex h-full cursor-pointer flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center"
+			className="relative flex h-[29rem] cursor-pointer flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center"
 		>
 			{skillMeasurer}
 			{avatar}
@@ -263,8 +270,11 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				<div className="flex min-h-0 flex-1 flex-col items-center gap-tight">
 					<p
 						ref={textRef}
-						className="line-clamp-3 min-h-0 flex-1 text-body text-copy"
-						style={{ WebkitLineClamp: lineClamp }}
+						className="line-clamp-3 min-h-0 flex-1 text-card-body text-copy"
+						style={{
+							WebkitLineClamp: lineClamp,
+							maxHeight: maxTextHeight ?? undefined,
+						}}
 					>
 						“{motivasjon}”
 					</p>
@@ -287,6 +297,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				{contactLinks}
 			</div>
 
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: native <dialog> already closes on Escape */}
 			<dialog
 				ref={dialogRef}
 				aria-labelledby={`padriver-navn-${record.id}`}
@@ -308,7 +319,9 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 					>
 						{fields.Navn}
 					</h3>
-					{motivasjon && <p className="text-body text-copy">“{motivasjon}”</p>}
+					{motivasjon && (
+						<p className="text-card-body text-copy">“{motivasjon}”</p>
+					)}
 					{fullSkillPills}
 					{contactLinks}
 				</div>
