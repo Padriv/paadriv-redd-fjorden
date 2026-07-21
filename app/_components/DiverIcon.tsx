@@ -1,9 +1,11 @@
 export default function DiverIcon({
 	className,
 	style,
+	onPointerDown,
 }: {
 	className: string;
 	style?: React.CSSProperties;
+	onPointerDown?: (event: React.PointerEvent<SVGSVGElement>) => void;
 }) {
 	return (
 		<svg
@@ -12,6 +14,7 @@ export default function DiverIcon({
 			aria-hidden="true"
 			className={className}
 			style={style}
+			onPointerDown={onPointerDown}
 		>
 			<path d="M39.588,405.243c-14.315,14.762-17.943,35.878-11.157,53.916l-13.79,18.515L60.751,512l14.558-19.565l-0.094-0.062c13.837,0.337,27.776-4.819,38.182-15.537c19.761-20.388,19.26-52.928-1.129-72.704C91.889,384.37,59.349,384.864,39.588,405.243z" />
 			<path d="M232.032,227.946c7.162-6.355,7.836-17.418,1.481-24.58l-33.527-37.79c-6.354-7.161-17.418-7.828-24.58-1.473L151.249,185.4l56.634,63.835L232.032,227.946z" />
