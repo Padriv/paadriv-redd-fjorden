@@ -451,7 +451,7 @@ export default function IndividualSignupForm({
 						<button
 							type="button"
 							onClick={goBack}
-							className="text-button font-medium text-ink transition-colors hover:text-copy"
+							className="text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
 							← Tilbake
 						</button>
@@ -464,7 +464,7 @@ export default function IndividualSignupForm({
 							type="button"
 							onClick={goNext}
 							disabled={isValidating}
-							className="text-link font-medium text-green transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
+							className="text-link font-semibold text-green transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
 						>
 							{isValidating ? "Sjekker..." : "Neste →"}
 						</button>
@@ -474,7 +474,7 @@ export default function IndividualSignupForm({
 								<button
 									type="submit"
 									disabled={isSubmitting}
-									className="flex h-12 items-center justify-center rounded-full bg-accent px-8 text-button font-medium text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+									className="flex h-12 items-center justify-center rounded-full bg-accent px-8 text-button font-semibold text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
 								>
 									{isSubmitting ? "Sender..." : "Send inn"}
 								</button>
