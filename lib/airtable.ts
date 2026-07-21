@@ -181,6 +181,7 @@ type PadriverResponseRecord = {
 		Kompetanse?: string[];
 		Samtykke?: string;
 		Profilbilde?: AirtableAttachment[];
+		Logo?: AirtableAttachment[];
 	};
 };
 
