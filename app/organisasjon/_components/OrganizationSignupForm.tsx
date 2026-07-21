@@ -4,6 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { Partner } from "@/lib/airtable";
+import CloseButton from "../../../components/CloseButton";
 import MultiSelect from "../../../components/MultiSelect";
 import SignupSuccessModal from "../../../components/SignupSuccessModal";
 
@@ -273,16 +274,7 @@ export default function OrganizationSignupForm({
 				ref={cardRef}
 				className="relative mx-auto flex w-full max-w-2xl scroll-mt-24 flex-col gap-cluster rounded-2xl bg-cream p-8"
 			>
-				{onClose && (
-					<button
-						type="button"
-						onClick={onClose}
-						aria-label="Lukk skjema"
-						className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full text-copy transition-colors hover:bg-green/10 hover:text-ink"
-					>
-						✕
-					</button>
-				)}
+				{onClose && <CloseButton onClick={onClose} label="Lukk skjema" />}
 				<div className="flex flex-col gap-inline">
 					<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
 						Steg {step} av {steps.length}
