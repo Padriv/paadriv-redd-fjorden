@@ -69,14 +69,15 @@ function MarqueeRow({
 
 export default async function PartnereSection() {
 	let partnere: Awaited<ReturnType<typeof client.airtable.partnere.list>> = [];
+	let loadFailed = false;
 
 	try {
 		partnere = await client.airtable.partnere.list();
 	} catch {
-		return null;
+		loadFailed = true;
 	}
 
-	if (partnere.length === 0) {
+	if (!loadFailed && partnere.length === 0) {
 		return null;
 	}
 
@@ -92,7 +93,9 @@ export default async function PartnereSection() {
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
 				<div className="flex flex-col gap-tight">
 					<h2 className="text-section font-bold text-green">
-						Samarbeid med våre {partnere.length} partnere
+						{loadFailed
+							? "Samarbeid med våre partnere"
+							: `Samarbeid med våre ${partnere.length} partnere`}
 					</h2>
 					<p className="text-body text-copy">
 						Kommuner, bedrifter og organisasjoner som bidrar med ressurser,
@@ -100,16 +103,20 @@ export default async function PartnereSection() {
 					</p>
 				</div>
 
-				<div className="flex flex-col gap-cluster">
-					<MarqueeRow partnere={firstRow} />
-					<MarqueeRow partnere={secondRow} reverse />
-				</div>
+				{!loadFailed && (
+					<div className="flex flex-col gap-cluster">
+						<MarqueeRow partnere={firstRow} />
+						<MarqueeRow partnere={secondRow} reverse />
+					</div>
+				)}
 
 				<Link
 					href="/partnere"
 					className="self-end text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 				>
-					Se alle {partnere.length} partnere →
+					{loadFailed
+						? "Se alle partnere →"
+						: `Se alle ${partnere.length} partnere →`}
 				</Link>
 			</div>
 		</section>

@@ -1,5 +1,5 @@
 type HeroSectionProps = {
-	overline: string;
+	overline?: string;
 	heading: string;
 	subheading?: string;
 	description: string;
@@ -18,9 +18,11 @@ export default function HeroSection({
 	return (
 		<section className="flex w-full flex-col items-center bg-deep-green px-4 py-32 md:px-28">
 			<div className="flex max-w-5xl flex-col gap-group">
-				<span className="text-caption font-semibold uppercase tracking-wide text-muted-inverse">
-					{overline}
-				</span>
+				{overline && (
+					<span className="text-caption font-semibold uppercase tracking-wide text-muted-inverse">
+						{overline}
+					</span>
+				)}
 				<h1 className="text-hero font-bold text-cream">{heading}</h1>
 				{subheading && (
 					<p className="mt-group text-subheading font-semibold text-cream">
