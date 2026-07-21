@@ -311,7 +311,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				onClick={(event) => {
 					if (event.target === dialogRef.current) dialogRef.current?.close();
 				}}
-				className="m-auto w-[calc(100vw-2rem)] max-w-2xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
+				className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
 			>
 				<div className="relative flex flex-col items-center gap-group">
 					<CloseButton
