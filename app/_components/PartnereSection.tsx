@@ -4,21 +4,12 @@ import { client } from "@/lib/client";
 import Wave from "./Wave";
 
 function PartnerLogo({ partner }: { partner: PartnerListItem }) {
-	if (partner.logoUrl) {
-		return (
-			<img
-				src={partner.logoUrl}
-				alt={partner.navn}
-				className="max-h-10 max-w-full object-contain"
-			/>
-		);
-	}
-
-	// Hvis det ikke er lastet opp logo, vises organisasjonsnavnet som tekst
 	return (
-		<span className="text-center text-caption font-semibold leading-tight text-copy">
-			{partner.navn}
-		</span>
+		<img
+			src={partner.logoUrl}
+			alt={partner.navn}
+			className="max-h-10 max-w-full object-contain"
+		/>
 	);
 }
 
