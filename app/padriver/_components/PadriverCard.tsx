@@ -338,6 +338,13 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 					>
 						{fields.Navn}
 					</h3>
+					{logo && (
+						<img
+							src={logo.url}
+							alt=""
+							className="h-6 w-auto object-contain"
+						/>
+					)}
 					{motivasjon && (
 						<p className="text-card-body text-copy">“{motivasjon}”</p>
 					)}
