@@ -223,7 +223,7 @@ const getPadriver = async (): Promise<PadriverListResponse> => {
 export type PartnerListItem = {
 	id: string;
 	navn: string;
-	logoUrl?: string;
+	logoUrl: string;
 };
 
 type PartnerResponse = {
@@ -231,20 +231,26 @@ type PartnerResponse = {
 	fields: {
 		"Navn på organisasjon"?: string;
 		Logo?: { url: string }[];
+		"Godkjent av Pådriv"?: boolean;
 	};
 };
 
-type PartnerResponseWithName = PartnerResponse & {
-	fields: { "Navn på organisasjon": string };
+type PartnerResponseWithNameAndLogo = PartnerResponse & {
+	fields: { "Navn på organisasjon": string; Logo: { url: string }[] };
 };
 
-const hasOrganizationName = (
+const hasNameAndLogo = (
 	record: PartnerResponse,
-): record is PartnerResponseWithName =>
-	typeof record.fields["Navn på organisasjon"] === "string";
+): record is PartnerResponseWithNameAndLogo =>
+	typeof record.fields["Navn på organisasjon"] === "string" &&
+	Array.isArray(record.fields.Logo) &&
+	record.fields.Logo.length > 0;
 
 const getPartnere = async (): Promise<PartnerListItem[]> => {
-	const response = await fetch(`${baseUrl}/${app}/${partnereTable}`, {
+	const filterByFormula = `{Godkjent av Pådriv}`;
+	const url = `${baseUrl}/${app}/${partnereTable}?filterByFormula=${encodeURIComponent(filterByFormula)}`;
+
+	const response = await fetch(url, {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 		},
@@ -260,10 +266,10 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	const json = await response.json();
 
 	const { records } = json as { records: PartnerResponse[] };
-	return records.filter(hasOrganizationName).map((record) => ({
+	return records.filter(hasNameAndLogo).map((record) => ({
 		id: record.id,
 		navn: record.fields["Navn på organisasjon"],
-		logoUrl: record.fields.Logo?.[0]?.url,
+		logoUrl: record.fields.Logo[0].url,
 	}));
 };
 
