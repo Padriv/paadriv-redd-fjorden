@@ -1,17 +1,23 @@
 import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
+import PartnereHero from "@/app/partnere/_components/PartnereHero";
+import { client } from "@/lib/client";
 
-export default function Partnere() {
+export default async function Partnere() {
+	let partnere: Awaited<ReturnType<typeof client.airtable.partnere.list>> = [];
+	let loadFailed = false;
+
+	try {
+		partnere = await client.airtable.partnere.list();
+	} catch {
+		loadFailed = true;
+	}
+
 	return (
 		<>
 			<Navigationbar solid />
-			<main className="relative flex min-h-screen flex-col items-center justify-center bg-background px-4 py-32 md:px-28">
-				<div className="flex max-w-5xl flex-col gap-loose">
-					<h1 className="text-heading font-semibold text-ink">Våre partnere</h1>
-					<p className="text-body leading-8 text-copy">
-						Oversikt over alle partnere
-					</p>
-				</div>
+			<main className="relative flex min-h-screen w-full flex-col items-center bg-deep-green">
+				<PartnereHero partnerCount={partnere.length} loadFailed={loadFailed} />
 			</main>
 			<Footer variant="green" />
 		</>

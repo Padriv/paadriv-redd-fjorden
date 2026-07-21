@@ -1,6 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { getFallbackSkillColor, SKILL_COLORS } from "@/lib/skillColors";
+import { useResizeObserver } from "@/lib/useResizeObserver";
 
 type MultiSelectProps = {
 	options: string[];
@@ -10,49 +12,6 @@ type MultiSelectProps = {
 
 const CHIP_CLASSNAME =
 	"rounded-full border px-4 py-2 text-label shadow-sm transition-all duration-150";
-
-const CHIP_COLORS = [
-	{
-		bg: "bg-green-dark-forest",
-		border: "border-green-dark-forest",
-	},
-	{
-		bg: "bg-green-deep-pine",
-		border: "border-green-deep-pine",
-	},
-	{
-		bg: "bg-green-forest",
-		border: "border-green-forest",
-	},
-	{
-		bg: "bg-green-birch-leaf",
-		border: "border-green-birch-leaf",
-	},
-	{
-		bg: "bg-green-deep-sea",
-		border: "border-green-deep-sea",
-	},
-	{
-		bg: "bg-green-sage",
-		border: "border-green-sage",
-	},
-	{
-		bg: "bg-green-moss",
-		border: "border-green-moss",
-	},
-	{
-		bg: "bg-green-light-moss",
-		border: "border-green-light-moss",
-	},
-	{
-		bg: "bg-green-sea",
-		border: "border-green-sea",
-	},
-	{
-		bg: "bg-green-olive",
-		border: "border-green-olive",
-	},
-] as const;
 
 function packRows(
 	chipOptions: string[],
@@ -109,7 +68,8 @@ export default function MultiSelect({
 			new Map(
 				chipOptions.map((option, i) => [
 					option,
-					CHIP_COLORS[i % CHIP_COLORS.length],
+					SKILL_COLORS[option as keyof typeof SKILL_COLORS] ??
+						getFallbackSkillColor(i),
 				]),
 			),
 		[chipOptions],
@@ -118,38 +78,28 @@ export default function MultiSelect({
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [orderedOptions, setOrderedOptions] = useState(chipOptions);
 
-	useLayoutEffect(() => {
-		const container = containerRef.current;
-		if (!container) return;
+	useResizeObserver(containerRef, () => {
+		const containerEl = containerRef.current;
+		if (!containerEl) return;
 
-		function recalculate() {
-			const containerEl = containerRef.current;
-			if (!containerEl) return;
-
-			const widths = new Map<string, number>();
-			for (const button of containerEl.querySelectorAll<HTMLButtonElement>(
-				"[data-chip]",
-			)) {
-				const key = button.dataset.chip;
-				if (key) widths.set(key, button.offsetWidth);
-			}
-			if (widths.size === 0) return;
-
-			const gap = parseFloat(getComputedStyle(containerEl).columnGap);
-			setOrderedOptions(
-				packRows(
-					chipOptions,
-					widths,
-					containerEl.clientWidth,
-					Number.isNaN(gap) ? 0 : gap,
-				),
-			);
+		const widths = new Map<string, number>();
+		for (const button of containerEl.querySelectorAll<HTMLButtonElement>(
+			"[data-chip]",
+		)) {
+			const key = button.dataset.chip;
+			if (key) widths.set(key, button.offsetWidth);
 		}
+		if (widths.size === 0) return;
 
-		recalculate();
-		const observer = new ResizeObserver(recalculate);
-		observer.observe(container);
-		return () => observer.disconnect();
+		const gap = parseFloat(getComputedStyle(containerEl).columnGap);
+		setOrderedOptions(
+			packRows(
+				chipOptions,
+				widths,
+				containerEl.clientWidth,
+				Number.isNaN(gap) ? 0 : gap,
+			),
+		);
 	}, [chipOptions]);
 
 	function toggleSkill(option: string) {
