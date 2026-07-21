@@ -18,6 +18,12 @@ function getInitials(name: string): string {
 	return `${first}${last}`.toUpperCase();
 }
 
+function getShortName(name: string): string {
+	const words = name.trim().split(/\s+/).filter(Boolean);
+	if (words.length <= 2) return name;
+	return `${words[0]} ${words[words.length - 1]}`;
+}
+
 function getSkillColor(label: string) {
 	const key = label as keyof typeof SKILL_COLORS;
 	return SKILL_COLORS[key] ?? getFallbackSkillColor(0);
@@ -53,7 +59,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const [isTruncated, setIsTruncated] = useState(false);
 	const [lineClamp, setLineClamp] = useState(3);
 	const [maxTextHeight, setMaxTextHeight] = useState<number | null>(null);
-	const [nameFontSize, setNameFontSize] = useState<number | null>(null);
+	const [showShortName, setShowShortName] = useState(false);
 
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const textContainerRef = useRef<HTMLDivElement>(null);
@@ -61,13 +67,14 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const skillsContainerRef = useRef<HTMLDivElement>(null);
 	const skillMeasureRef = useRef<HTMLDivElement>(null);
-	const nameRef = useRef<HTMLHeadingElement>(null);
-	const baseNameFontSizeRef = useRef<number | null>(null);
+	const nameContainerRef = useRef<HTMLDivElement>(null);
+	const nameMeasureRef = useRef<HTMLHeadingElement>(null);
 
 	const { fields } = record;
 	const photo = fields.Profilbilde?.[0];
 	const motivasjon = fields.Motivasjon;
 	const logo = fields.Logo?.[0];
+	const shortName = useMemo(() => getShortName(fields.Navn), [fields.Navn]);
 
 	const skills = useMemo(
 		() =>
@@ -136,26 +143,13 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		setVisibleSkillCount(fitCount);
 	}, [skillsByLength]);
 
-	useResizeObserver(nameRef, () => {
-		const el = nameRef.current;
-		if (!el) return;
+	useResizeObserver(nameContainerRef, () => {
+		const container = nameContainerRef.current;
+		const measure = nameMeasureRef.current;
+		if (!container || !measure) return;
 
-		if (baseNameFontSizeRef.current === null) {
-			baseNameFontSizeRef.current = parseFloat(getComputedStyle(el).fontSize);
-		}
-		const baseFontSize = baseNameFontSizeRef.current;
-
-		setNameFontSize((prev) => {
-			const currentFontSize = prev ?? baseFontSize;
-			const naturalWidth = el.scrollWidth * (baseFontSize / currentFontSize);
-			const scale = Math.min(1, (el.clientWidth / naturalWidth) * 0.98);
-			if (scale >= 0.999) return null;
-
-			const next = baseFontSize * scale;
-			if (prev !== null && Math.abs(prev - next) < 0.5) return prev;
-			return next;
-		});
-	});
+		setShowShortName(measure.scrollWidth > container.clientWidth);
+	}, [fields.Navn]);
 
 	const avatar = photo ? (
 		<img
@@ -272,14 +266,20 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				/>
 			)}
 			{skillMeasurer}
+			<h3
+				ref={nameMeasureRef}
+				aria-hidden
+				className="pointer-events-none absolute left-0 top-0 -translate-y-full whitespace-nowrap text-subheading font-semibold opacity-0"
+			>
+				{fields.Navn}
+			</h3>
 			{avatar}
-			<div className="flex h-7 w-full shrink-0 items-center justify-center overflow-hidden md:h-8">
-				<h3
-					ref={nameRef}
-					style={nameFontSize ? { fontSize: `${nameFontSize}px` } : undefined}
-					className="truncate text-subheading font-semibold text-green"
-				>
-					{fields.Navn}
+			<div
+				ref={nameContainerRef}
+				className="flex h-7 w-full shrink-0 items-center justify-center overflow-hidden md:h-8"
+			>
+				<h3 className="truncate text-subheading font-semibold text-green">
+					{showShortName ? shortName : fields.Navn}
 				</h3>
 			</div>
 			{motivasjon && (
