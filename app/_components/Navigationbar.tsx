@@ -66,7 +66,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 			<Link
 				href="/"
 				onClick={handleLogoClick}
-				className="text-label font-syne font-bold leading-tight text-cream transition-transform hover:scale-[1.08]"
+				className="text-label font-syne font-bold leading-tight text-cream transition-transform hover:scale-(--hover-navigasjonsbar)"
 			>
 				Oppdrag
 				<br />
@@ -80,7 +80,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 					<Link
 						key={link.href}
 						href={link.href}
-						className="text-link whitespace-nowrap font-semibold text-cream transition-transform hover:scale-[1.08]"
+						className="text-link whitespace-nowrap font-semibold text-cream transition-transform hover:scale-(--hover-navigasjonsbar)"
 					>
 						{link.label}
 					</Link>
@@ -89,7 +89,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 				<Link
 					href="/#bli-med"
 					onClick={handleJoinClick}
-					className="text-button whitespace-nowrap rounded-full bg-cream px-3 py-1.5 font-semibold text-deep-green transition-transform hover:scale-[1.08] md:px-5 md:py-2"
+					className="text-button whitespace-nowrap rounded-full bg-cream px-3 py-1.5 font-semibold text-deep-green transition-transform hover:scale-(--hover-navigasjonsbar) md:px-5 md:py-2"
 				>
 					Bli med
 				</Link>
