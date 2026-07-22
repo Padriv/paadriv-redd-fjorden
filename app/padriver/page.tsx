@@ -2,6 +2,7 @@ import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
 import { client } from "@/lib/client";
 import PadriverCard from "./_components/PadriverCard";
+import PadriverHero from "./_components/PadriverHero";
 
 export default async function Padrivere() {
 	let records: Awaited<
@@ -18,24 +19,26 @@ export default async function Padrivere() {
 	return (
 		<>
 			<Navigationbar solid />
-			<main className="flex min-h-screen flex-col items-center bg-deep-green px-4 py-32 md:px-28">
-				<div className="flex w-full max-w-5xl flex-col gap-loose">
-					<h1 className="text-heading font-semibold text-cream">Pådrivere</h1>
-					{loadFailed && (
-						<p className="text-body text-muted-inverse">
-							Beklager, vi klarer dessverre ikke å laste Pådrivere akkurat nå.
-							Prøv igjen om litt.
-						</p>
-					)}
-					{!loadFailed && records.length === 0 && (
-						<p className="text-body text-muted-inverse">
-							Ingen Pådrivere å vise ennå.
-						</p>
-					)}
-					<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
-						{records.map((record) => (
-							<PadriverCard key={record.id} record={record} />
-						))}
+			<main className="relative flex min-h-screen w-full flex-col items-center bg-deep-green">
+				<PadriverHero padriverCount={records.length} loadFailed={loadFailed} />
+				<div className="flex w-full flex-col items-center px-4 pb-32 md:px-28">
+					<div className="flex w-full max-w-5xl flex-col gap-loose">
+						{loadFailed && (
+							<p className="text-body text-muted-inverse">
+								Beklager, vi klarer dessverre ikke å laste Pådrivere akkurat nå.
+								Prøv igjen om litt.
+							</p>
+						)}
+						{!loadFailed && records.length === 0 && (
+							<p className="text-body text-muted-inverse">
+								Ingen Pådrivere å vise ennå.
+							</p>
+						)}
+						<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
+							{records.map((record) => (
+								<PadriverCard key={record.id} record={record} />
+							))}
+						</div>
 					</div>
 				</div>
 			</main>
