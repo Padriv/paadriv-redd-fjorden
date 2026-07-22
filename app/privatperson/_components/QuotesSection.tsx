@@ -1,26 +1,13 @@
 import Wave from "@/app/_components/Wave";
+import type { QuoteListItem } from "@/lib/airtable";
 
-const quotes = [
-	{
-		quote: "Jeg trodde jeg måtte være ekspert. Det holdt å møte opp.",
-		name: "Mette Hansen",
-		role: "Pådriver, Nesodden",
-	},
-	{
-		quote:
-			"Plutselig var vi femten stykker på stranda en lørdag. Det er sånt som forandrer et nabolag.",
-		name: "Lars Odden",
-		role: "Pådriver, Drøbak",
-	},
-	{
-		quote:
-			"Som marinbiolog får jeg endelig brukt fagkunnskapen til noe helt konkret.",
-		name: "Jonas Berg",
-		role: "Pådriver, Oslo",
-	},
-];
+export const MIN_QUOTES = 3;
 
-export default function QuotesSection() {
+type QuotesSectionProps = {
+	quotes: QuoteListItem[];
+};
+
+export default function QuotesSection({ quotes }: QuotesSectionProps) {
 	return (
 		<section className="relative flex w-full flex-col items-center bg-deep-green px-4 pb-cluster pt-40 text-cream md:px-28">
 			<Wave fillClassName="fill-cream" />
@@ -32,7 +19,7 @@ export default function QuotesSection() {
 				<div className="flex flex-col gap-group sm:flex-row">
 					{quotes.map((person) => (
 						<div
-							key={person.name}
+							key={person.id}
 							className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 						>
 							<p className="text-body italic text-copy">"{person.quote}"</p>
@@ -42,7 +29,6 @@ export default function QuotesSection() {
 									<span className="text-label font-semibold text-ink">
 										{person.name}
 									</span>
-									<span className="text-caption text-muted">{person.role}</span>
 								</div>
 							</div>
 						</div>
