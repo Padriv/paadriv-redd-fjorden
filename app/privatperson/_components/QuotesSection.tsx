@@ -23,14 +23,9 @@ export default function QuotesSection({ quotes }: QuotesSectionProps) {
 							className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 						>
 							<p className="text-body italic text-copy">"{person.quote}"</p>
-							<div className="flex items-center gap-inline">
-								<span className="h-8 w-8 shrink-0 rounded-full bg-tan" />
-								<div className="flex flex-col">
-									<span className="text-label font-semibold text-ink">
-										{person.name}
-									</span>
-								</div>
-							</div>
+							<span className="mt-auto text-label font-semibold text-ink">
+								{person.name}
+							</span>
 						</div>
 					))}
 				</div>
