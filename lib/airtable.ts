@@ -200,7 +200,7 @@ export type PadriverListResponse = {
 };
 
 const getPadriver = async (): Promise<PadriverListResponse> => {
-	const filterByFormula = `AND(FIND("Oppdrag Fjorden vår", ARRAYJOIN({Prosjekt})), {Godkjent profil til å publiseres})`;
+	const filterByFormula = `AND(FIND("Oppdrag Fjorden vår", ARRAYJOIN({Prosjekt})), {Godkjent av Pådriv})`;
 	const url = `${baseUrl}/${app}/${table}?filterByFormula=${encodeURIComponent(filterByFormula)}`;
 
 	const response = await fetch(url, {
