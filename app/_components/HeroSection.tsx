@@ -19,7 +19,7 @@ export default function HeroSection({
 		<section className="flex w-full flex-col items-center bg-deep-green px-4 py-32 md:px-28">
 			<div className="flex max-w-5xl flex-col gap-group">
 				{overline && (
-					<span className="text-caption font-semibold uppercase tracking-wide text-muted-inverse">
+					<span className="text-sm font-semibold uppercase tracking-wide text-muted-inverse">
 						{overline}
 					</span>
 				)}
