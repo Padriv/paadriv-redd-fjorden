@@ -5,6 +5,7 @@ const project = process.env.AIRTABLE_PROSJEKT_RECORD_ID;
 const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
+const quotesTable = process.env.AIRTABLE_SITAT_TABLE_ID;
 
 export type AirtableAttachment = {
 	url: string;
@@ -274,6 +275,54 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	}));
 };
 
+export type QuoteListItem = {
+	id: string;
+	name: string;
+	quote: string;
+};
+
+type QuoteResponse = {
+	id: string;
+	fields: {
+		Navn?: string;
+		Sitat?: string;
+	};
+};
+
+type QuoteResponseWithNameAndQuote = QuoteResponse & {
+	fields: { Navn: string; Sitat: string };
+};
+
+const hasNameAndQuote = (
+	record: QuoteResponse,
+): record is QuoteResponseWithNameAndQuote =>
+	typeof record.fields.Navn === "string" &&
+	typeof record.fields.Sitat === "string";
+
+const getQuotes = async (): Promise<QuoteListItem[]> => {
+	const response = await fetch(`${baseUrl}/${app}/${quotesTable}`, {
+		headers: {
+			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+		},
+	});
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(
+			`Airtable svarte med status ${response.status}: ${errorText}`,
+		);
+	}
+
+	const json = await response.json();
+
+	const { records } = json as { records: QuoteResponse[] };
+	return records.filter(hasNameAndQuote).map((record) => ({
+		id: record.id,
+		name: record.fields.Navn,
+		quote: record.fields.Sitat,
+	}));
+};
+
 export const airtableClient = {
 	padriver: {
 		create: createPadriver,
@@ -282,5 +331,8 @@ export const airtableClient = {
 	partnere: {
 		create: createPartner,
 		list: getPartnere,
+	},
+	quotes: {
+		list: getQuotes,
 	},
 };

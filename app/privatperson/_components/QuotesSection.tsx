@@ -1,50 +1,34 @@
 import Wave from "@/app/_components/Wave";
+import type { QuoteListItem } from "@/lib/airtable";
 
-const quotes = [
-	{
-		quote: "Jeg trodde jeg måtte være ekspert. Det holdt å møte opp.",
-		name: "Mette Hansen",
-		role: "Pådriver, Nesodden",
-	},
-	{
-		quote:
-			"Plutselig var vi femten stykker på stranda en lørdag. Det er sånt som forandrer et nabolag.",
-		name: "Lars Odden",
-		role: "Pådriver, Drøbak",
-	},
-	{
-		quote:
-			"Som marinbiolog får jeg endelig brukt fagkunnskapen til noe helt konkret.",
-		name: "Jonas Berg",
-		role: "Pådriver, Oslo",
-	},
-];
+export const MIN_QUOTES = 3;
+const MAX_QUOTES = 3;
 
-export default function QuotesSection() {
+type QuotesSectionProps = {
+	quotes: QuoteListItem[];
+};
+
+export default function QuotesSection({ quotes }: QuotesSectionProps) {
+	const visibleQuotes = quotes.slice(0, MAX_QUOTES);
+
 	return (
 		<section className="relative flex w-full flex-col items-center bg-deep-green px-4 pb-cluster pt-40 text-cream md:px-28">
 			<Wave fillClassName="fill-cream" />
 
-			<div className="flex max-w-5xl flex-col gap-group">
+			<div className="flex w-full max-w-5xl flex-col gap-group">
 				<h2 className="text-section font-bold">
 					Hva sier Pådriverne selv?
 				</h2>
 				<div className="flex flex-col gap-group sm:flex-row">
-					{quotes.map((person) => (
+					{visibleQuotes.map((person) => (
 						<div
-							key={person.name}
+							key={person.id}
 							className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 						>
 							<p className="text-body italic text-copy">"{person.quote}"</p>
-							<div className="flex items-center gap-inline">
-								<span className="h-8 w-8 shrink-0 rounded-full bg-tan" />
-								<div className="flex flex-col">
-									<span className="text-label font-semibold text-ink">
-										{person.name}
-									</span>
-									<span className="text-caption text-muted">{person.role}</span>
-								</div>
-							</div>
+							<span className="mt-auto text-label font-semibold text-ink">
+								{person.name}
+							</span>
 						</div>
 					))}
 				</div>
