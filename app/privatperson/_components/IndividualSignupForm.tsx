@@ -94,7 +94,7 @@ export default function IndividualSignupForm({
 }: {
 	onClose?: () => void;
 }) {
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(0);
 	const [isValidating, setIsValidating] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
@@ -190,7 +190,7 @@ export default function IndividualSignupForm({
 		}
 	};
 
-	const goBack = () => setStep((s) => Math.max(s - 1, 1));
+	const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
 	const current = steps[step - 1];
 
@@ -218,8 +218,10 @@ export default function IndividualSignupForm({
 								{step}
 							</span>
 							<h3 className="text-subheading font-semibold text-green">
-								{current.title}
-								{current.required && <span className="text-error"> *</span>}
+								{step === 0 ? "Meld interesse som pådriver" : current.title}
+								{step > 0 && current.required && (
+									<span className="text-error"> *</span>
+								)}
 							</h3>
 						</div>
 						{step === 3 && (
@@ -238,7 +240,9 @@ export default function IndividualSignupForm({
 							</form.Field>
 						)}
 					</div>
-					<p className="text-body text-copy">{current.description}</p>
+					{step > 0 && (
+						<p className="text-body text-copy">{current.description}</p>
+					)}
 					<div className="h-1.5 w-full rounded-full bg-green/10">
 						<div
 							className="h-full rounded-full bg-green transition-all"
@@ -246,6 +250,23 @@ export default function IndividualSignupForm({
 						/>
 					</div>
 				</div>
+
+				{step === 0 && (
+					<div className="flex flex-col gap-group text-body text-copy">
+						<p>Dette skjemaet er en interesseregistrering.</p>
+						<p>
+							Informasjonen du oppgir brukes til å følge deg opp og koble deg
+							med relevante pådrivere og partnere.{" "}
+							<strong className="font-semibold">
+								Ingenting av det du sender inn her publiseres på nettsiden.
+							</strong>
+						</p>
+						<p>
+							Etter registrering får du en e-post der du selv kan velge om du
+							ønsker å bli synlig som pådriver på fjordenvår.no.
+						</p>
+					</div>
+				)}
 
 				{step === 1 && (
 					<div className="flex flex-col gap-cluster">
@@ -447,7 +468,7 @@ export default function IndividualSignupForm({
 				)}
 
 				<div className="flex items-center justify-between border-t border-border-subtle pt-6">
-					{step > 1 ? (
+					{step > 0 ? (
 						<button
 							type="button"
 							onClick={goBack}
