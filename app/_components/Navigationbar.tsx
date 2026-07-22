@@ -37,10 +37,11 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 	useEffect(() => {
 		function handleScroll() {
 			const currentScrollY = window.scrollY;
+			const scrollingDown = currentScrollY > lastScrollY.current;
 
-			setScrolled(currentScrollY > 10);
+			setScrolled(currentScrollY > 10 && !scrollingDown);
 
-			if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+			if (scrollingDown && currentScrollY > 80) {
 				setVisible(false);
 			} else {
 				setVisible(true);

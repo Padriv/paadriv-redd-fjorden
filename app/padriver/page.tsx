@@ -18,7 +18,7 @@ export default async function Padrivere() {
 
 	return (
 		<>
-			<Navigationbar solid />
+			<Navigationbar />
 			<main className="relative flex min-h-screen w-full flex-col items-center bg-deep-green">
 				<PadriverHero padriverCount={records.length} loadFailed={loadFailed} />
 				<div className="flex w-full flex-col items-center px-4 pb-32 md:px-28">

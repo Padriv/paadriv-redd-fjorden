@@ -15,7 +15,7 @@ export default async function Partnere() {
 
 	return (
 		<>
-			<Navigationbar solid />
+			<Navigationbar />
 			<main className="relative flex min-h-screen w-full flex-col items-center bg-deep-green">
 				<PartnereHero partnerCount={partnere.length} loadFailed={loadFailed} />
 			</main>
