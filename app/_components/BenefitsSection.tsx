@@ -20,7 +20,7 @@ export default function BenefitsSection({
 		<section className="relative flex w-full flex-col items-center bg-cream px-4 pb-cluster pt-40 text-ink md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 
-			<div className="grid w-full max-w-6xl grid-cols-1 gap-cluster lg:grid-cols-2">
+			<div className="grid w-full max-w-5xl grid-cols-1 gap-cluster lg:grid-cols-[2fr_3fr]">
 				<div className="flex flex-col justify-center gap-group">
 					<h2 className="text-section font-bold">{heading}</h2>
 					<p className="text-body text-copy">{intro}</p>
