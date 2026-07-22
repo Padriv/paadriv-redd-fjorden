@@ -73,7 +73,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const { fields } = record;
 	const photo = fields.Profilbilde?.[0];
 	const motivasjon = fields.Motivasjon;
-	const logo = fields.Logo?.[0];
 	const shortName = useMemo(() => getShortName(fields.Navn), [fields.Navn]);
 
 	const skills = useMemo(
@@ -258,13 +257,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 				aria-label={`Se mer om ${fields.Navn}`}
 				className="absolute inset-0 cursor-pointer"
 			/>
-			{logo && (
-				<img
-					src={logo.url}
-					alt=""
-					className="absolute right-4 top-4 h-6 w-auto object-contain"
-				/>
-			)}
 			{skillMeasurer}
 			<h3
 				ref={nameMeasureRef}
@@ -331,13 +323,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 						>
 							{fields.Navn}
 						</h3>
-						{logo && (
-							<img
-								src={logo.url}
-								alt=""
-								className="h-6 w-auto object-contain"
-							/>
-						)}
 						{motivasjon && (
 							<p className="text-card-body text-copy">“{motivasjon}”</p>
 						)}
