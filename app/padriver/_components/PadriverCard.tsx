@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Modal from "@/components/Modal";
 import type { PadriverListResponse } from "@/lib/airtable";
 import { getFallbackSkillColor, SKILL_COLORS } from "@/lib/skillColors";
@@ -27,6 +27,79 @@ function getShortName(name: string): string {
 function getSkillColor(label: string) {
 	const key = label as keyof typeof SKILL_COLORS;
 	return SKILL_COLORS[key] ?? getFallbackSkillColor(0);
+}
+
+function ContactLinks({
+	epost,
+	telefon,
+}: {
+	epost?: string;
+	telefon?: string;
+}) {
+	const [isPhoneRevealed, setIsPhoneRevealed] = useState(false);
+	const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+	useEffect(() => {
+		setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+	}, []);
+
+	if (!epost && !telefon) return null;
+
+	return (
+		<div className="flex w-full divide-x divide-border-subtle border-t border-border-subtle pt-group">
+			{epost && (
+				<a
+					href={`mailto:${epost}`}
+					className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
+				>
+					<img src="/svg/mail_green_icon.svg" alt="" className="size-4" />
+					E-post
+				</a>
+			)}
+			{telefon &&
+				(isPhoneRevealed ? (
+					isTouchDevice ? (
+						<a
+							href={`tel:${telefon.replace(/\s+/g, "")}`}
+							className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
+						>
+							<img
+								src="/svg/phone_green_icon.svg"
+								alt=""
+								className="size-4"
+							/>
+							{telefon}
+						</a>
+					) : (
+						<button
+							type="button"
+							onClick={() => setIsPhoneRevealed(false)}
+							className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
+						>
+							<img
+								src="/svg/phone_green_icon.svg"
+								alt=""
+								className="size-4"
+							/>
+							{telefon}
+						</button>
+					)
+				) : (
+					<button
+						type="button"
+						onClick={() => setIsPhoneRevealed(true)}
+						className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
+					>
+						<img
+							src="/svg/phone_green_icon.svg"
+							alt=""
+							className="size-4"
+						/>
+						Telefon
+					</button>
+				))}
+		</div>
+	);
 }
 
 function countFitting(
@@ -88,7 +161,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	);
 
 	const hasSkills = skills.length > 0;
-	const hasContact = Boolean(fields.Epost || fields.Telefon);
 
 	const [visibleSkillCount, setVisibleSkillCount] = useState(
 		skillsByLength.length,
@@ -227,29 +299,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		</div>
 	);
 
-	const contactLinks = hasContact && (
-		<div className="flex w-full divide-x divide-border-subtle border-t border-border-subtle pt-group">
-			{fields.Epost && (
-				<a
-					href={`mailto:${fields.Epost}`}
-					className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-				>
-					<img src="/svg/mail_green_icon.svg" alt="" className="size-4" />
-					E-post
-				</a>
-			)}
-			{fields.Telefon && (
-				<a
-					href={`tel:${fields.Telefon.replace(/\s+/g, "")}`}
-					className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-				>
-					<img src="/svg/phone_green_icon.svg" alt="" className="size-4" />
-					Ring
-				</a>
-			)}
-		</div>
-	);
-
 	return (
 		<div className="relative flex h-[29rem] flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center">
 			<button
@@ -314,7 +363,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 			)}
 			<div className="mt-auto flex w-full flex-col items-center gap-inline">
 				{cardSkillPills}
-				{contactLinks}
+				<ContactLinks epost={fields.Epost} telefon={fields.Telefon} />
 			</div>
 
 			{isModalOpen && (
@@ -342,7 +391,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 							<p className="text-card-body text-copy">“{motivasjon}”</p>
 						)}
 						{fullSkillPills}
-						{contactLinks}
+						<ContactLinks epost={fields.Epost} telefon={fields.Telefon} />
 					</div>
 				</Modal>
 			)}
