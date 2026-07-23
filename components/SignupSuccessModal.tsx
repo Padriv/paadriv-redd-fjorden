@@ -20,8 +20,8 @@ export default function SignupSuccessModal({
 					Tusen takk for interessen!
 				</h2>
 				<p className="text-body text-copy">
-					Vi har mottatt registreringen din om å bli {audience} for Oppdrag:
-					Fjorden Vår.
+					Vi har mottatt registreringen din om å bli {audience} for{" "}
+					<em>Oppdrag: Fjorden Vår</em>.
 				</p>
 				<p className="text-body text-copy">
 					Du vil snart motta en e-post med informasjon om prosessen videre.
