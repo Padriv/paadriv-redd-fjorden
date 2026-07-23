@@ -1,6 +1,7 @@
 import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
 import PartnereHero from "@/app/partnere/_components/PartnereHero";
+import { RevealGroup, RevealItem } from "@/components/RevealGroup";
 import { client } from "@/lib/client";
 import PartnerCard from "./_components/PartnerCard";
 
@@ -32,11 +33,16 @@ export default async function Partnere() {
 								Ingen partnere å vise ennå.
 							</p>
 						)}
-						<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-4">
-							{partnere.map((partner) => (
-								<PartnerCard key={partner.id} partner={partner} />
+						<RevealGroup className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-4">
+							{partnere.map((partner, index) => (
+								<RevealItem
+									key={partner.id}
+									delayMs={Math.min(index * 60, 600)}
+								>
+									<PartnerCard partner={partner} />
+								</RevealItem>
 							))}
-						</div>
+						</RevealGroup>
 					</div>
 				</div>
 			</main>

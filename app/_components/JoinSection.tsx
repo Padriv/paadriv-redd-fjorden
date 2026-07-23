@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollReveal from "@/components/ScrollReveal";
 import Wave from "./Wave";
 
 const cards = [
@@ -29,9 +30,10 @@ export default function JoinSection() {
 			<Wave fillClassName="fill-cream" />
 
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-loose sm:flex-row">
-				{cards.map((card) => (
-					<div
+				{cards.map((card, index) => (
+					<ScrollReveal
 						key={card.href}
+						delayMs={index * 150}
 						className="flex flex-1 flex-col gap-group rounded-2xl bg-cream p-6"
 					>
 						<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-link font-medium text-green">
@@ -43,11 +45,11 @@ export default function JoinSection() {
 						<p className="text-body text-copy">{card.description}</p>
 						<Link
 							href={card.href}
-							className="text-base font-semibold text-green transition-colors hover:text-ink md:text-lg"
+							className="self-end text-base font-semibold text-green transition-colors hover:text-ink md:text-lg"
 						>
 							{card.linkLabel} →
 						</Link>
-					</div>
+					</ScrollReveal>
 				))}
 			</div>
 		</section>

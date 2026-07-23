@@ -1,4 +1,5 @@
 import AnimatedStat from "@/app/_components/AnimatedStat";
+import ScrollReveal from "@/components/ScrollReveal";
 import { client } from "@/lib/client";
 
 async function getPartnerCount() {
@@ -40,31 +41,34 @@ export default async function AboutSection() {
 	return (
 		<section className="w-full bg-cream px-4 py-24 md:px-28">
 			<div className="mx-auto flex max-w-5xl flex-col gap-loose">
-				<h2 className="text-section font-bold text-ink">
-					Sammen for Oslofjorden
-				</h2>
-				<p className="text-body text-copy">
-					Oslofjorden er Norges mest belastede fjord. Fiskebestandene har
-					kollapset, ålegressengene forsvinner, og den økologiske tilstanden har
-					vist få tegn til bedring på over ti år. Til tross for stor innsats fra
-					forskere, myndigheter, næringsliv og frivillige, går arbeidet for
-					sakte fordi kunnskap, ressurser og initiativer ofte er spredt.
-					Prosjektet <em className="mr-1">Oppdrag: Fjorden Vår</em> er et
-					fellesskap som samler mennesker, virksomheter og organisasjoner på
-					tvers av sektorer. Sammen kobler vi gode ideer, erfaringer og
-					handlekraft, slik at flere løsninger blir til konkret handling for en
-					friskere Oslofjord.
-				</p>
+				<ScrollReveal>
+					<h2 className="text-section font-bold text-ink">
+						Sammen for Oslofjorden
+					</h2>
+					<p className="mt-group text-body text-copy">
+						Oslofjorden er Norges mest belastede fjord. Fiskebestandene har
+						kollapset, ålegressengene forsvinner, og den økologiske tilstanden
+						har vist få tegn til bedring på over ti år. Til tross for stor
+						innsats fra forskere, myndigheter, næringsliv og frivillige, går
+						arbeidet for sakte fordi kunnskap, ressurser og initiativer ofte er
+						spredt. Prosjektet <em className="mr-1">Oppdrag: Fjorden Vår</em> er
+						et fellesskap som samler mennesker, virksomheter og organisasjoner
+						på tvers av sektorer. Sammen kobler vi gode ideer, erfaringer og
+						handlekraft, slik at flere løsninger blir til konkret handling for
+						en friskere Oslofjord.
+					</p>
+				</ScrollReveal>
 
 				<div className="grid grid-cols-2 gap-group md:grid-cols-4">
-					{stats.map((stat) => (
-						<AnimatedStat
-							key={stat.label}
-							target={stat.target}
-							label={stat.label}
-							decimals={stat.decimals}
-							suffix={stat.suffix}
-						/>
+					{stats.map((stat, index) => (
+						<ScrollReveal key={stat.label} delayMs={index * 100}>
+							<AnimatedStat
+								target={stat.target}
+								label={stat.label}
+								decimals={stat.decimals}
+								suffix={stat.suffix}
+							/>
+						</ScrollReveal>
 					))}
 				</div>
 			</div>
