@@ -306,15 +306,20 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							← Tilbake
 						</button>
 					)}
-					<div className="flex min-h-72 flex-col items-center justify-between pt-13">
-						<div className="flex flex-col items-center gap-group">
+					<div className="flex min-h-72 flex-col items-center">
+						<div className="flex flex-1 flex-col items-center justify-center gap-group">
 							{kontaktAvatar("lg")}
-							<h3
-								id={`partner-kontakt-${partner.id}`}
-								className="text-subheading font-semibold text-green"
-							>
-								{kontaktperson.navn}
-							</h3>
+							<div className="flex flex-col items-center gap-tight">
+								<h3
+									id={`partner-kontakt-${partner.id}`}
+									className="text-subheading font-semibold text-green"
+								>
+									{kontaktperson.navn}
+								</h3>
+								<p className="text-caption text-muted">
+									Kontaktperson for {navn}
+								</p>
+							</div>
 						</div>
 						<ContactLinks
 							epost={kontaktperson.epost}
