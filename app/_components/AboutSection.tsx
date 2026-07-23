@@ -49,10 +49,11 @@ export default async function AboutSection() {
 					vist få tegn til bedring på over ti år. Til tross for stor innsats fra
 					forskere, myndigheter, næringsliv og frivillige, går arbeidet for
 					sakte fordi kunnskap, ressurser og initiativer ofte er spredt.
-					Oppdrag: Fjorden Vår er et fellesskap som samler mennesker,
-					virksomheter og organisasjoner på tvers av sektorer. Sammen kobler vi
-					gode ideer, erfaringer og handlekraft, slik at flere løsninger blir
-					til konkret handling for en friskere Oslofjord.
+					Prosjektet <em className="mr-1">Oppdrag: Fjorden Vår</em> er et
+					fellesskap som samler mennesker, virksomheter og organisasjoner på
+					tvers av sektorer. Sammen kobler vi gode ideer, erfaringer og
+					handlekraft, slik at flere løsninger blir til konkret handling for en
+					friskere Oslofjord.
 				</p>
 
 				<div className="grid grid-cols-2 gap-group md:grid-cols-4">

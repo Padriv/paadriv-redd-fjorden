@@ -49,12 +49,12 @@ export default async function Privatperson() {
 					overline="For privatpersoner"
 					heading="Bli frivillig for Oslofjorden"
 					subheading="Frivillige = Pådrivere"
-					description="Du trenger ikke være ekspert eller ha massevis av tid. Du trenger bare å ville noe for fjorden. Da blir du det vi kaller en Pådriver: en frivillig som bidrar aktivt til å skape gode nærmiljøer og mer bærekraftige samfunn. Du bidrar med din kompetanse og dine erfaringer på samlinger og arrangementer, og blir del av et nettverk av mennesker som drar i samme retning. Enten du har mye eller lite tid, er det alltid en måte å bidra på"
+					description="Du trenger ikke være ekspert eller ha massevis av tid. Du trenger bare å ville noe for fjorden. Da blir du det vi kaller en Pådriver. Det er en frivillig som bidrar aktivt til å skape gode nærmiljøer og mer bærekraftige samfunn. Du bidrar med din kompetanse og dine erfaringer på samlinger og arrangementer, og blir del av et nettverk av mennesker som drar i samme retning. Enten du har mye eller lite tid, er det alltid en måte å bidra på."
 					buttonLabel={buttonLabel}
 				/>
 				<BenefitsSection
 					heading="Hvorfor bli Pådriver?"
-					intro="Som Pådriver blir du en del av et fellesskap som deler kunnskap, idéer og engasjement for Oslofjorden. Ingen kan gjøre fjorden frisk alene, derfor samler vi mennesker som vil bidra. Gjennom samlinger og prosjekter møter du mennesker med ulik bakgrunn, lærer av andre og bidrar til konkrete resultater for fjorden. Samtidig blir du en del av et nettverk som kobler mennesker, kompetanse og muligheter. Vi tror det er enklere å skape mer sammen. Du bidrar med det du har tid og lyst til – stort eller smått."
+					intro="Som Pådriver blir du en del av et fellesskap som deler kunnskap, idéer og engasjement for Oslofjorden. Ingen kan gjøre fjorden frisk alene, derfor samler vi mennesker som vil bidra. Gjennom samlinger og prosjekter møter du mennesker med ulik bakgrunn, lærer av andre og bidrar til konkrete resultater for fjorden. Samtidig blir du en del av et nettverk som kobler mennesker, kompetanse og muligheter."
 					benefits={benefits}
 				/>
 				{showQuotes && <QuotesSection quotes={quotes} />}
