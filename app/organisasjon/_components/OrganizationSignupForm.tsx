@@ -136,15 +136,10 @@ export default function OrganizationSignupForm({
 	const [isValidating, setIsValidating] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
-	const prevStepRef = useRef(step);
 
 	useEffect(() => {
-		// Skip the scroll on the initial render, only trigger on real step changes.
-		if (prevStepRef.current !== step) {
-			cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-			prevStepRef.current = step;
-		}
-	}, [step]);
+		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+	}, []);
 
 	const form = useForm({
 		defaultValues: {
@@ -425,7 +420,7 @@ export default function OrganizationSignupForm({
 							{(field) => (
 								<TextField
 									id="kontaktNavn"
-									label="Navn"
+									label="Fullt navn"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}

@@ -7,10 +7,6 @@ export function useJoinForm(anchorId: string) {
 	function onJoinClick() {
 		scrollPositionRef.current = window.scrollY;
 		setShowForm(true);
-		document.getElementById(anchorId)?.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-		});
 	}
 
 	function onCloseForm() {

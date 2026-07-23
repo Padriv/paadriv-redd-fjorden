@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type FooterProps = {
 	variant?: "cream" | "green";
@@ -10,6 +13,12 @@ const LOGO_INTRINSIC_SIZE = {
 } as const;
 
 export default function Footer({ variant = "cream" }: FooterProps) {
+	const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+	useEffect(() => {
+		setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+	}, []);
+
 	const isGreen = variant === "green";
 
 	const logoSrc = isGreen
@@ -132,17 +141,30 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 						fjorden@paadriv.no
 					</a>
 					<div className="flex flex-col">
-						<a
-							href="tel:+4790787982"
-							className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-(--hover-footer) ${contactTextColor}`}
-						>
-							<img
-								src={`/svg/phone_${contactIconColor}_icon.svg`}
-								alt="Phone icon"
-								className="size-5"
-							/>
-							+47 907 87 982
-						</a>
+						{isTouchDevice ? (
+							<a
+								href="tel:+4790787982"
+								className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-(--hover-footer) ${contactTextColor}`}
+							>
+								<img
+									src={`/svg/phone_${contactIconColor}_icon.svg`}
+									alt="Phone icon"
+									className="size-5"
+								/>
+								+47 907 87 982
+							</a>
+						) : (
+							<span
+								className={`flex w-fit items-center gap-inline font-medium ${contactTextColor}`}
+							>
+								<img
+									src={`/svg/phone_${contactIconColor}_icon.svg`}
+									alt="Phone icon"
+									className="size-5"
+								/>
+								+47 907 87 982
+							</span>
+						)}
 						<span
 							className={`pl-7 font-normal ${
 								isGreen ? "text-muted-inverse" : "text-muted"

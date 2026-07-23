@@ -98,16 +98,10 @@ export default function IndividualSignupForm({
 	const [isValidating, setIsValidating] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const cardRef = useRef<HTMLDivElement>(null);
-	const prevStepRef = useRef(step);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: step is intentionally used to re-trigger the scroll on step change
 	useEffect(() => {
-		// Skip the scroll on the initial render, only trigger on real step changes.
-		if (prevStepRef.current !== step) {
-			cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-			prevStepRef.current = step;
-		}
-	}, [step]);
+		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+	}, []);
 
 	const form = useForm({
 		defaultValues: {
@@ -280,7 +274,7 @@ export default function IndividualSignupForm({
 							{(field) => (
 								<TextField
 									id="navn"
-									label="Navn"
+									label="Fullt navn"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
