@@ -25,9 +25,8 @@ function renderSkillPill(skill: string) {
 }
 
 export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
-	const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 	const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-	const [contactModalHasBack, setContactModalHasBack] = useState(false);
+	const [isNoContactModalOpen, setIsNoContactModalOpen] = useState(false);
 	const { navn, logoUrl, lokasjon, kompetanse, kontaktperson } = partner;
 	const hasSkills = kompetanse.length > 0;
 
@@ -42,7 +41,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 		visibleCount: visibleSkillCount,
 	} = useSkillFitting(kompetanseByLength, MAX_SKILL_ROWS);
 
-	const kontaktAvatar = (size: "sm" | "lg") => {
+	const kontaktAvatar = () => {
 		if (!kontaktperson) return null;
 		const photoUrl =
 			kontaktperson.bilde &&
@@ -53,52 +52,17 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 				<img
 					src={photoUrl}
 					alt=""
-					className={
-						size === "sm"
-							? "size-9 shrink-0 rounded-full object-cover"
-							: "size-24 rounded-full object-cover"
-					}
+					className="size-24 rounded-full object-cover"
 				/>
 			);
 		}
 
 		return (
-			<div
-				className={
-					size === "sm"
-						? "flex size-9 shrink-0 items-center justify-center rounded-full bg-green/15 text-caption font-semibold text-green"
-						: "flex size-24 items-center justify-center rounded-full bg-green/15 text-xl font-semibold text-green"
-				}
-			>
+			<div className="flex size-24 items-center justify-center rounded-full bg-green/15 text-xl font-semibold text-green">
 				{getInitials(kontaktperson.navn)}
 			</div>
 		);
 	};
-
-	const renderKontaktRad = (fromCardModal: boolean) =>
-		kontaktperson && (
-			<button
-				type="button"
-				onClick={() => {
-					if (fromCardModal) setIsCardModalOpen(false);
-					setContactModalHasBack(fromCardModal);
-					setIsContactModalOpen(true);
-				}}
-				aria-haspopup="dialog"
-				className="group relative flex w-full items-center gap-inline text-left"
-			>
-				{kontaktAvatar("sm")}
-				<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
-					{kontaktperson.navn}
-				</span>
-				<span
-					aria-hidden="true"
-					className="text-muted transition-colors group-hover:text-ink"
-				>
-					›
-				</span>
-			</button>
-		);
 
 	const hiddenSkillCount = kompetanseByLength.length - visibleSkillCount;
 
@@ -109,14 +73,12 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 		>
 			{kompetanseByLength.slice(0, visibleSkillCount).map(renderSkillPill)}
 			{hiddenSkillCount > 0 && (
-				<button
-					type="button"
-					onClick={() => setIsCardModalOpen(true)}
+				<span
 					data-more-button
-					className="relative shrink-0 whitespace-nowrap rounded-full border border-green/30 px-2 py-0.5 text-caption font-medium text-green transition-colors hover:bg-green/10"
+					className="relative shrink-0 whitespace-nowrap rounded-full border border-green/30 px-2 py-0.5 text-caption font-medium text-green"
 				>
 					+{hiddenSkillCount} flere
-				</button>
+				</span>
 			)}
 		</div>
 	);
@@ -136,30 +98,17 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 					{skill}
 				</span>
 			))}
-			<button
-				type="button"
+			<span
 				data-more-button
 				className="relative shrink-0 whitespace-nowrap rounded-full border border-green/30 px-2 py-0.5 text-caption font-medium text-green"
 			>
 				+99 flere
-			</button>
-		</div>
-	);
-
-	const fullSkillPills = hasSkills && (
-		<div className="flex flex-wrap gap-inline">
-			{kompetanse.map(renderSkillPill)}
+			</span>
 		</div>
 	);
 
 	return (
-		<div className="relative flex h-88 flex-col overflow-hidden rounded-2xl border border-border bg-cream transition-transform duration-200 hover:scale-[1.03]">
-			<button
-				type="button"
-				onClick={() => setIsCardModalOpen(true)}
-				aria-label={`Se mer om ${navn}`}
-				className="absolute inset-0 cursor-pointer"
-			/>
+		<div className="relative flex h-88 flex-col overflow-hidden rounded-2xl border border-border bg-cream">
 			{skillMeasurer}
 
 			<div className="flex min-h-0 flex-1 items-center justify-center px-6 py-4">
@@ -182,46 +131,29 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 			</div>
 
 			<div className="flex h-14 min-h-0 shrink-0 items-center overflow-hidden border-t border-border-subtle px-4">
-				{renderKontaktRad(false)}
-			</div>
-
-			{isCardModalOpen && (
-				<Modal
-					onClose={() => setIsCardModalOpen(false)}
-					ariaLabelledBy={`partner-navn-${partner.id}`}
-					className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
+				<button
+					type="button"
+					onClick={() =>
+						kontaktperson
+							? setIsContactModalOpen(true)
+							: setIsNoContactModalOpen(true)
+					}
+					aria-haspopup="dialog"
+					className="relative flex w-full items-center gap-inline text-left transition-transform duration-200 hover:scale-[1.02]"
 				>
-					<div className="flex flex-col items-center">
-						<img
-							src={logoUrl}
-							alt={navn}
-							className="h-32 w-auto max-w-[70%] object-contain md:h-40"
-						/>
-						<div className="mt-group flex w-full flex-col items-start gap-tight text-left">
-							<h3
-								id={`partner-navn-${partner.id}`}
-								className="text-card-body font-semibold text-green"
-							>
-								{navn}
-							</h3>
-							{lokasjon && (
-								<div className="flex items-center gap-tight text-caption text-muted">
-									<LocationPinIcon className="size-3.5" />
-									{lokasjon}
-								</div>
-							)}
-							{fullSkillPills && (
-								<div className="pt-tight">{fullSkillPills}</div>
-							)}
-						</div>
-						{kontaktperson && (
-							<div className="mt-group w-full border-t border-border-subtle pt-group">
-								{renderKontaktRad(true)}
-							</div>
-						)}
-					</div>
-				</Modal>
-			)}
+					<img
+						src="/svg/mail_green_icon.svg"
+						alt=""
+						className="size-5 shrink-0"
+					/>
+					<span className="flex-1 truncate text-button font-medium text-green">
+						Ta kontakt
+					</span>
+					<span aria-hidden="true" className="text-muted">
+						›
+					</span>
+				</button>
+			</div>
 
 			{isContactModalOpen && kontaktperson && (
 				<Modal
@@ -229,20 +161,8 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 					ariaLabelledBy={`partner-kontakt-${partner.id}`}
 					className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-6 text-center backdrop:bg-deep-green/70"
 				>
-					{contactModalHasBack && (
-						<button
-							type="button"
-							onClick={() => {
-								setIsContactModalOpen(false);
-								setIsCardModalOpen(true);
-							}}
-							className="absolute left-0 top-0 text-button font-semibold text-ink transition-colors hover:text-copy"
-						>
-							← Tilbake
-						</button>
-					)}
 					<div className="flex flex-col items-center gap-group">
-						{kontaktAvatar("lg")}
+						{kontaktAvatar()}
 						<h3
 							id={`partner-kontakt-${partner.id}`}
 							className="text-subheading font-semibold text-green"
@@ -253,6 +173,29 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							epost={kontaktperson.epost}
 							telefon={kontaktperson.telefon}
 						/>
+					</div>
+				</Modal>
+			)}
+
+			{isNoContactModalOpen && (
+				<Modal
+					onClose={() => setIsNoContactModalOpen(false)}
+					className="m-auto w-[calc(100vw-2rem)] max-w-xl rounded-2xl bg-cream p-8 text-center backdrop:bg-deep-green/70"
+				>
+					<div className="flex flex-col gap-group">
+						<p className="text-body text-ink">
+							Organisasjonen har ingen synlig kontaktperson.
+						</p>
+						<p className="text-body text-ink">
+							Ta kontakt på{" "}
+							<a
+								href="mailto:fjorden@paadriv.no"
+								className="font-semibold text-green transition-colors hover:text-ink"
+							>
+								fjorden@paadriv.no
+							</a>{" "}
+							dersom du ønsker å komme i kontakt med dem.
+						</p>
 					</div>
 				</Modal>
 			)}
