@@ -11,13 +11,17 @@ import { useSkillFitting } from "@/lib/useSkillFitting";
 
 const MAX_SKILL_ROWS = 1;
 
-function renderSkillPill(skill: string) {
+function renderSkillPill(skill: string, options?: { truncate?: boolean }) {
 	const color = getSkillColor(skill);
 	return (
 		<span
 			key={skill}
 			data-skill
-			className={`rounded-full px-2 py-0.5 text-caption text-cream ${color.bg}`}
+			className={`rounded-full px-2 py-0.5 text-caption text-cream ${color.bg} ${
+				options?.truncate
+					? "min-w-0 flex-1 truncate"
+					: "shrink-0 whitespace-nowrap"
+			}`}
 		>
 			{skill}
 		</span>
@@ -101,14 +105,20 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 			</button>
 		);
 
-	const hiddenSkillCount = kompetanseByLength.length - visibleSkillCount;
+	const showTruncatedFallback = hasSkills && visibleSkillCount === 0;
+	const visibleSkills = showTruncatedFallback
+		? kompetanseByLength.slice(0, 1)
+		: kompetanseByLength.slice(0, visibleSkillCount);
+	const hiddenSkillCount = kompetanseByLength.length - visibleSkills.length;
 
 	const cardSkillPills = hasSkills && (
 		<div
 			ref={skillsContainerRef}
 			className="flex h-6 shrink-0 flex-nowrap items-center gap-tight overflow-hidden"
 		>
-			{kompetanseByLength.slice(0, visibleSkillCount).map(renderSkillPill)}
+			{visibleSkills.map((skill) =>
+				renderSkillPill(skill, { truncate: showTruncatedFallback }),
+			)}
 			{hiddenSkillCount > 0 && (
 				<button
 					type="button"
@@ -149,7 +159,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 
 	const fullSkillPills = hasSkills && (
 		<div className="flex flex-wrap gap-inline">
-			{kompetanse.map(renderSkillPill)}
+			{kompetanse.map((skill) => renderSkillPill(skill))}
 		</div>
 	);
 
