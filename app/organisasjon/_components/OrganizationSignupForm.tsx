@@ -425,7 +425,7 @@ export default function OrganizationSignupForm({
 							{(field) => (
 								<TextField
 									id="kontaktNavn"
-									label="Navn"
+									label="Fullt navn"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}

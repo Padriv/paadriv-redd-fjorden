@@ -280,7 +280,7 @@ export default function IndividualSignupForm({
 							{(field) => (
 								<TextField
 									id="navn"
-									label="Navn"
+									label="Fullt navn"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
