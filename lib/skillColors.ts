@@ -45,3 +45,8 @@ export const SKILL_COLORS: Record<(typeof SKILL_OPTIONS)[number], SkillColor> =
 export function getFallbackSkillColor(index: number): SkillColor {
 	return PALETTE[index % PALETTE.length];
 }
+
+export function getSkillColor(label: string): SkillColor {
+	const key = label as keyof typeof SKILL_COLORS;
+	return SKILL_COLORS[key] ?? getFallbackSkillColor(0);
+}
