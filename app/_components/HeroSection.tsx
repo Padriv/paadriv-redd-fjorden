@@ -33,9 +33,9 @@ export default function HeroSection({
 				<button
 					type="button"
 					onClick={onJoinClick}
-					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-semibold text-deep-green transition-colors hover:bg-green-light-moss"
+					className="flex h-12 w-fit items-center justify-center self-start rounded-full bg-cream px-8 text-button font-semibold text-deep-green transition-transform hover:scale-(--hover-navigasjonsbar)"
 				>
-					{buttonLabel} →
+					{buttonLabel}
 				</button>
 			</div>
 		</section>
