@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollReveal from "@/components/ScrollReveal";
 import { client } from "@/lib/client";
 import Wave from "./Wave";
 
@@ -80,7 +81,7 @@ export default async function PaadriverSection() {
 			<Wave fillClassName="fill-deep-green" position="bottom" />
 
 			<div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
-				<div className="flex flex-col gap-group">
+				<ScrollReveal className="flex flex-col gap-group">
 					<h2 className="text-section font-bold text-green">
 						Frivillige = Pådrivere
 					</h2>
@@ -96,9 +97,12 @@ export default async function PaadriverSection() {
 							? "Se alle Pådrivere →"
 							: `Se alle ${records.length} Pådrivere →`}
 					</Link>
-				</div>
+				</ScrollReveal>
 
-				<div className="mx-auto grid w-fit grid-cols-4 gap-group">
+				<ScrollReveal
+					delayMs={150}
+					className="mx-auto grid w-fit grid-cols-4 gap-group"
+				>
 					{grid.map((slot) => {
 						if (slot.kind === "photo") {
 							return (
@@ -123,7 +127,7 @@ export default async function PaadriverSection() {
 						}
 						return <div key={slot.key} className={CIRCLE_BASE} />;
 					})}
-				</div>
+				</ScrollReveal>
 			</div>
 		</section>
 	);

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ScrollReveal from "@/components/ScrollReveal";
 import Wave from "./Wave";
 
 export default function HomeHeroSection() {
@@ -23,7 +24,7 @@ export default function HomeHeroSection() {
 				heightClassName="h-28"
 			/>
 
-			<div className="relative z-10 flex max-w-2xl flex-col gap-inline text-cream sm:gap-group">
+			<ScrollReveal className="relative z-10 flex max-w-2xl flex-col gap-inline text-cream sm:gap-group">
 				<h1 className="text-hero text-balance font-extrabold leading-tight">
 					Bli med og gjør Oslofjorden frisk
 				</h1>
@@ -33,7 +34,7 @@ export default function HomeHeroSection() {
 					frivillig sektor. Vi tror de beste løsningene skapes når vi jobber
 					sammen, derfor trenger vi deg med på laget.
 				</p>
-			</div>
+			</ScrollReveal>
 		</section>
 	);
 }

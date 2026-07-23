@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollReveal from "@/components/ScrollReveal";
 import type { PartnerListItem } from "@/lib/airtable";
 import { client } from "@/lib/client";
 import Wave from "./Wave";
@@ -77,12 +78,12 @@ export default async function PartnereSection() {
 	const secondRow = partnere.slice(halfwayPoint);
 
 	return (
-		<section className="relative w-full bg-cream px-4 pb-40 pt-40 md:px-28">
+		<section className="relative w-full bg-cream px-4 pb-56 pt-56 md:px-28">
 			<Wave fillClassName="fill-deep-green" />
 			<Wave fillClassName="fill-deep-green" position="bottom" />
 
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
-				<div className="flex flex-col gap-tight">
+				<ScrollReveal className="flex flex-col gap-tight">
 					<h2 className="text-section font-bold text-green">
 						Samarbeid med våre partnere
 					</h2>
@@ -90,13 +91,13 @@ export default async function PartnereSection() {
 						Kommuner, bedrifter og organisasjoner som bidrar med ressurser,
 						kompetanse og nettverk for en frisk Oslofjord.
 					</p>
-				</div>
+				</ScrollReveal>
 
 				{!loadFailed && (
-					<div className="flex flex-col gap-cluster">
+					<ScrollReveal delayMs={150} className="flex flex-col gap-cluster">
 						<MarqueeRow partnere={firstRow} />
 						<MarqueeRow partnere={secondRow} reverse />
-					</div>
+					</ScrollReveal>
 				)}
 
 				<Link
