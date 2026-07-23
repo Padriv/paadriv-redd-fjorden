@@ -276,6 +276,7 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 		headers: {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 		},
+		next: { revalidate: 60 },
 	});
 
 	if (!response.ok) {
