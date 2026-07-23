@@ -181,7 +181,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 				/>
 			</div>
 
-			<div className="flex h-24 min-h-0 shrink-0 flex-col gap-tight overflow-hidden border-t border-border-subtle px-4 py-3">
+			<div className="flex h-26 min-h-0 shrink-0 flex-col gap-tight overflow-hidden border-t border-border-subtle px-4 py-3">
 				<h3 className="truncate text-card-body font-bold text-green">{navn}</h3>
 				{lokasjon && (
 					<div className="flex items-center gap-tight text-caption text-muted">
