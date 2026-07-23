@@ -218,13 +218,27 @@ const getPadriver = async (): Promise<PadriverListResponse> => {
 
 	const json = await response.json();
 	const { records } = json as { records: PadriverResponseRecord[] };
-	return { records: records.filter(hasNavn) };
+	return {
+		records: records
+			.filter(hasNavn)
+			.sort((a, b) => a.fields.Navn.localeCompare(b.fields.Navn, "nb")),
+	};
+};
+
+export type PartnerKontaktperson = {
+	navn: string;
+	bilde?: AirtableAttachment;
+	epost?: string;
+	telefon?: string;
 };
 
 export type PartnerListItem = {
 	id: string;
 	navn: string;
 	logoUrl: string;
+	kompetanse: string[];
+	lokasjon?: string;
+	kontaktperson?: PartnerKontaktperson;
 };
 
 type PartnerResponse = {
@@ -233,6 +247,13 @@ type PartnerResponse = {
 		"Navn på organisasjon"?: string;
 		Logo?: { url: string }[];
 		"Godkjent av Pådriv"?: boolean;
+		Kompetanse?: string[];
+		Lokasjon?: string;
+		"Navn kontaktperson"?: string;
+		"Epost kontaktperson"?: string;
+		"Tlf kontaktperson"?: string;
+		Bilde?: AirtableAttachment[];
+		"Samtykke synlig kontaktperson"?: boolean;
 	};
 };
 
@@ -267,11 +288,30 @@ const getPartnere = async (): Promise<PartnerListItem[]> => {
 	const json = await response.json();
 
 	const { records } = json as { records: PartnerResponse[] };
-	return records.filter(hasNameAndLogo).map((record) => ({
-		id: record.id,
-		navn: record.fields["Navn på organisasjon"],
-		logoUrl: record.fields.Logo[0].url,
-	}));
+	return records
+		.filter(hasNameAndLogo)
+		.map((record) => {
+			const kontaktpersonNavn = record.fields["Navn kontaktperson"];
+			const visKontaktperson =
+				record.fields["Samtykke synlig kontaktperson"] && kontaktpersonNavn;
+
+			return {
+				id: record.id,
+				navn: record.fields["Navn på organisasjon"],
+				logoUrl: record.fields.Logo[0].url,
+				kompetanse: record.fields.Kompetanse ?? [],
+				lokasjon: record.fields.Lokasjon,
+				kontaktperson: visKontaktperson
+					? {
+							navn: kontaktpersonNavn,
+							bilde: record.fields.Bilde?.[0],
+							epost: record.fields["Epost kontaktperson"],
+							telefon: record.fields["Tlf kontaktperson"],
+						}
+					: undefined,
+			};
+		})
+		.sort((a, b) => a.navn.localeCompare(b.navn, "nb"));
 };
 
 export type QuoteListItem = {

@@ -2,6 +2,7 @@ import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
 import PartnereHero from "@/app/partnere/_components/PartnereHero";
 import { client } from "@/lib/client";
+import PartnerCard from "./_components/PartnerCard";
 
 export default async function Partnere() {
 	let partnere: Awaited<ReturnType<typeof client.airtable.partnere.list>> = [];
@@ -18,8 +19,28 @@ export default async function Partnere() {
 			<Navigationbar />
 			<main className="relative flex min-h-screen w-full flex-col items-center bg-deep-green">
 				<PartnereHero partnerCount={partnere.length} loadFailed={loadFailed} />
+				<div className="flex w-full flex-col items-center px-4 pb-32 md:px-28">
+					<div className="flex w-full max-w-5xl flex-col gap-loose">
+						{loadFailed && (
+							<p className="text-body text-muted-inverse">
+								Beklager, vi klarer dessverre ikke å laste partnere akkurat nå.
+								Prøv igjen om litt.
+							</p>
+						)}
+						{!loadFailed && partnere.length === 0 && (
+							<p className="text-body text-muted-inverse">
+								Ingen partnere å vise ennå.
+							</p>
+						)}
+						<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-4">
+							{partnere.map((partner) => (
+								<PartnerCard key={partner.id} partner={partner} />
+							))}
+						</div>
+					</div>
+				</div>
 			</main>
-			<Footer variant="green" />
+			<Footer variant="cream" />
 		</>
 	);
 }

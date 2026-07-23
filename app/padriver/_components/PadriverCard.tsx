@@ -1,131 +1,31 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import ContactLinks from "@/components/ContactLinks";
 import Modal from "@/components/Modal";
 import type { PadriverListResponse } from "@/lib/airtable";
-import { getFallbackSkillColor, SKILL_COLORS } from "@/lib/skillColors";
+import { getInitials } from "@/lib/initials";
+import { getShortName } from "@/lib/shortName";
+import { getSkillColor } from "@/lib/skillColors";
 import { NONE_APPLY_SKILL } from "@/lib/skills";
 import { useResizeObserver } from "@/lib/useResizeObserver";
+import { useSkillFitting } from "@/lib/useSkillFitting";
 
 type PadriverRecord = PadriverListResponse["records"][number];
 
 const MAX_SKILL_ROWS = 2;
 
-function getInitials(name: string): string {
-	const words = name.trim().split(/\s+/).filter(Boolean);
-	const first = words[0]?.[0] ?? "";
-	const last = words.length > 1 ? words[words.length - 1][0] : "";
-	return `${first}${last}`.toUpperCase();
-}
-
-function getShortName(name: string): string {
-	const words = name.trim().split(/\s+/).filter(Boolean);
-	if (words.length <= 2) return name;
-	return `${words[0]} ${words[words.length - 1]}`;
-}
-
-function getSkillColor(label: string) {
-	const key = label as keyof typeof SKILL_COLORS;
-	return SKILL_COLORS[key] ?? getFallbackSkillColor(0);
-}
-
-function ContactLinks({
-	epost,
-	telefon,
-}: {
-	epost?: string;
-	telefon?: string;
-}) {
-	const [isPhoneRevealed, setIsPhoneRevealed] = useState(false);
-	const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-	useEffect(() => {
-		setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
-	}, []);
-
-	if (!epost && !telefon) return null;
-
+function renderSkillPill(skill: string) {
+	const color = getSkillColor(skill);
 	return (
-		<div className="flex w-full divide-x divide-border-subtle border-t border-border-subtle pt-group">
-			{epost && (
-				<a
-					href={`mailto:${epost}`}
-					className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-				>
-					<img src="/svg/mail_green_icon.svg" alt="" className="size-4" />
-					E-post
-				</a>
-			)}
-			{telefon &&
-				(isPhoneRevealed ? (
-					isTouchDevice ? (
-						<a
-							href={`tel:${telefon.replace(/\s+/g, "")}`}
-							className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-						>
-							<img
-								src="/svg/phone_green_icon.svg"
-								alt=""
-								className="size-4"
-							/>
-							{telefon}
-						</a>
-					) : (
-						<button
-							type="button"
-							onClick={() => setIsPhoneRevealed(false)}
-							className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-						>
-							<img
-								src="/svg/phone_green_icon.svg"
-								alt=""
-								className="size-4"
-							/>
-							{telefon}
-						</button>
-					)
-				) : (
-					<button
-						type="button"
-						onClick={() => setIsPhoneRevealed(true)}
-						className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
-					>
-						<img
-							src="/svg/phone_green_icon.svg"
-							alt=""
-							className="size-4"
-						/>
-						Telefon
-					</button>
-				))}
-		</div>
+		<span
+			key={skill}
+			data-skill
+			className={`rounded-full px-2.5 py-1 text-[13px] text-cream ${color.bg}`}
+		>
+			{skill}
+		</span>
 	);
-}
-
-function countFitting(
-	widths: number[],
-	containerWidth: number,
-	gap: number,
-	maxRows: number,
-): number {
-	let rows = 1;
-	let rowWidth = 0;
-	let count = 0;
-
-	for (const width of widths) {
-		const needed = rowWidth === 0 ? width : rowWidth + gap + width;
-		if (rowWidth === 0 || needed <= containerWidth) {
-			rowWidth = needed;
-			count++;
-			continue;
-		}
-		if (rows === maxRows) break;
-		rows++;
-		rowWidth = width;
-		count++;
-	}
-
-	return count;
 }
 
 export default function PadriverCard({ record }: { record: PadriverRecord }) {
@@ -138,8 +38,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const textContainerRef = useRef<HTMLDivElement>(null);
 	const readMoreButtonRef = useRef<HTMLButtonElement>(null);
-	const skillsContainerRef = useRef<HTMLDivElement>(null);
-	const skillMeasureRef = useRef<HTMLDivElement>(null);
 	const nameContainerRef = useRef<HTMLDivElement>(null);
 	const nameMeasureRef = useRef<HTMLHeadingElement>(null);
 
@@ -161,9 +59,11 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 
 	const hasSkills = skills.length > 0;
 
-	const [visibleSkillCount, setVisibleSkillCount] = useState(
-		skillsByLength.length,
-	);
+	const {
+		containerRef: skillsContainerRef,
+		measureRef: skillMeasureRef,
+		visibleCount: visibleSkillCount,
+	} = useSkillFitting(skillsByLength, MAX_SKILL_ROWS);
 
 	useResizeObserver(textContainerRef, () => {
 		const container = textContainerRef.current;
@@ -182,37 +82,6 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		setMaxTextHeight(lines * lineHeight);
 		setIsTruncated(el.scrollHeight > availableHeight + 1);
 	});
-
-	useResizeObserver(skillsContainerRef, () => {
-		const container = skillsContainerRef.current;
-		const measureContainer = skillMeasureRef.current;
-		if (!container || !measureContainer) return;
-
-		const containerWidth = container.clientWidth;
-		const gap = parseFloat(getComputedStyle(container).columnGap) || 0;
-
-		const widths = Array.from(
-			measureContainer.querySelectorAll<HTMLElement>("[data-skill]"),
-		).map((el) => el.offsetWidth);
-		const buttonWidth =
-			measureContainer.querySelector<HTMLElement>("[data-more-button]")
-				?.offsetWidth ?? 0;
-
-		let fitCount = countFitting(widths, containerWidth, gap, MAX_SKILL_ROWS);
-
-		while (fitCount > 0 && fitCount < widths.length) {
-			const withButton = countFitting(
-				[...widths.slice(0, fitCount), buttonWidth],
-				containerWidth,
-				gap,
-				MAX_SKILL_ROWS,
-			);
-			if (withButton === fitCount + 1) break;
-			fitCount--;
-		}
-
-		setVisibleSkillCount(fitCount);
-	}, [skillsByLength]);
 
 	useResizeObserver(nameContainerRef, () => {
 		const container = nameContainerRef.current;
@@ -234,25 +103,12 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 		</div>
 	);
 
-	function renderSkillPill(skill: string) {
-		const color = getSkillColor(skill);
-		return (
-			<span
-				key={skill}
-				data-skill
-				className={`rounded-full px-2.5 py-1 text-[13px] text-cream ${color.bg}`}
-			>
-				{skill}
-			</span>
-		);
-	}
-
 	const hiddenSkillCount = skillsByLength.length - visibleSkillCount;
 
 	const cardSkillPills = (
 		<div
 			ref={skillsContainerRef}
-			className="flex h-[4.5rem] flex-wrap content-start items-start justify-center gap-inline overflow-hidden"
+			className="flex h-18 flex-wrap content-start items-start justify-center gap-inline overflow-hidden"
 		>
 			{skillsByLength.slice(0, visibleSkillCount).map(renderSkillPill)}
 			{hiddenSkillCount > 0 && (
@@ -299,7 +155,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 	);
 
 	return (
-		<div className="relative flex h-[29rem] flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center">
+		<div className="relative flex h-116 flex-col items-center gap-group overflow-hidden rounded-2xl bg-cream p-6 text-center transition-transform duration-200 hover:scale-[1.03]">
 			<button
 				type="button"
 				onClick={() => setIsModalOpen(true)}

@@ -84,13 +84,11 @@ export default async function PartnereSection() {
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
 				<div className="flex flex-col gap-tight">
 					<h2 className="text-section font-bold text-green">
-						{loadFailed
-							? "Samarbeid med våre partnere"
-							: `Samarbeid med våre ${partnere.length} partnere`}
+						Samarbeid med våre partnere
 					</h2>
 					<p className="text-body text-copy">
 						Kommuner, bedrifter og organisasjoner som bidrar med ressurser,
-						kompetanse og nettverk inn i arbeidet for en frisk Oslofjord.
+						kompetanse og nettverk for en frisk Oslofjord.
 					</p>
 				</div>
 
