@@ -28,9 +28,10 @@ export default function HomeHeroSection() {
 					Bli med og gjør Oslofjorden frisk
 				</h1>
 				<p className="text-body text-balance max-w-lg font-normal leading-relaxed">
-					Oppdrag: Fjorden Vår kobler mennesker, kunnskap og ressurser på tvers
-					av offentlig, privat og frivillig sektor. Vi tror de beste løsningene
-					skapes når vi jobber sammen, derfor trenger vi deg med på laget
+					Prosjektet <em className="mr-1">Oppdrag: Fjorden Vår</em> kobler
+					mennesker, kunnskap og ressurser på tvers av offentlig, privat og
+					frivillig sektor. Vi tror de beste løsningene skapes når vi jobber
+					sammen, derfor trenger vi deg med på laget.
 				</p>
 			</div>
 		</section>
