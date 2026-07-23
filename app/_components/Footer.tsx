@@ -134,7 +134,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					<div className="flex flex-col">
 						<a
 							href="tel:+4790787982"
-							className={`flex w-fit items-center gap-inline font-medium transition-transform hover:scale-(--hover-footer) ${contactTextColor}`}
+							className={`flex w-fit items-center gap-inline font-medium transition-transform pointer-fine:pointer-events-none hover:scale-(--hover-footer) ${contactTextColor}`}
 						>
 							<img
 								src={`/svg/phone_${contactIconColor}_icon.svg`}
