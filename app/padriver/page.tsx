@@ -1,5 +1,6 @@
 import Footer from "@/app/_components/Footer";
 import Navigationbar from "@/app/_components/Navigationbar";
+import { RevealGroup, RevealItem } from "@/components/RevealGroup";
 import { client } from "@/lib/client";
 import PadriverCard from "./_components/PadriverCard";
 import PadriverHero from "./_components/PadriverHero";
@@ -34,11 +35,13 @@ export default async function Padrivere() {
 								Ingen Pådrivere å vise ennå.
 							</p>
 						)}
-						<div className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
-							{records.map((record) => (
-								<PadriverCard key={record.id} record={record} />
+						<RevealGroup className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
+							{records.map((record, index) => (
+								<RevealItem key={record.id} delayMs={Math.min(index * 60, 600)}>
+									<PadriverCard record={record} />
+								</RevealItem>
 							))}
-						</div>
+						</RevealGroup>
 					</div>
 				</div>
 			</main>
