@@ -10,7 +10,7 @@ export function countFitting(
 
 	for (const width of widths) {
 		const needed = rowWidth === 0 ? width : rowWidth + gap + width;
-		if (rowWidth === 0 || needed <= containerWidth) {
+		if (needed <= containerWidth) {
 			rowWidth = needed;
 			count++;
 			continue;
