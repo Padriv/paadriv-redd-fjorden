@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import DiverIcon from "./DiverIcon";
 
-const MAX_DEPTH_M = 200;
-const DEPTH_MARKS = [0, 50, 100, 150, 200];
+const MAX_DEPTH_M = 460;
+const DEPTH_MARKS = [0, 100, 200, 300, 400, MAX_DEPTH_M];
 
 function getScrollBounds() {
 	const heroRect = document
