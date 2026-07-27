@@ -56,8 +56,7 @@ Tabell- og rad-IDer finner du enklest ved å åpne basen i Airtable og se på UR
 
 Nettsiden viser kun data fra Airtable som oppfyller bestemte krav til godkjenning og samtykke. Dette gjelder pådrivere, partnere og kontaktpersoner på vegne av partnerskap. Kravene styres av avkrysningsfelter i Airtable, ikke av koden, og det er disse feltene som avgjør om noe vises på nettsiden.
 
-Både pådrivere og partnere melder først sin interesse gjennom interesseregistreringsskjemaene på nettsiden. Deretter sendes det automatisk ut en oppfølgingsmail med et skjema der personen/organisasjonen samtykker til å bli vist offentlig og fyller ut det som mangler.
-
+Både pådrivere og partnere melder først sin interesse gjennom interesseregistreringsskjemaene på nettsiden. Deretter sendes det automatisk ut en oppfølgingsmail med et skjema der privatpersonen/organisasjonen kan velge å samtykke til å bli vist på nettsiden.
 ### Pådriver
 
 En pådriver vises på nettsiden når alt dette stemmer i **Pådrivere**-tabellen i Airtable:
@@ -67,7 +66,7 @@ En pådriver vises på nettsiden når alt dette stemmer i **Pådrivere**-tabelle
 - `Prosjekt`-feltet inneholder "Oppdrag Fjorden vår" (settes automatisk når interesseregistreringen skjer via nettsiden)
 - `Navn` er fylt ut
 
-I oppfølgingsskjemaet kan pådriveren også laste opp et profilbilde og oppdatere motivasjonsteksten. Lar man de feltene stå tomme, blir man synlig på nettsiden uten profilbilde, mens motivasjonsteksten fra den opprinnelige interesseregistreringen blir stående.
+I oppfølgingsskjemaet kan pådriveren også laste opp et profilbilde og oppdatere motivasjonsteksten. Lar man de feltene stå tomme, blir man synlig på nettsiden uten profilbilde, og motivasjonsteksten fra den opprinnelige interesseregistreringen blir stående.
 
 ### Partner
 
@@ -86,4 +85,4 @@ Kontaktinformasjonen til en partner (navn, bilde, e-post, telefon) vises kun nå
 
 Begge deler settes i et valgfritt steg i oppfølgingsskjemaet "Synlig partner", der kontaktpersonen kan velge å være synlig på nettsiden og eventuelt laste opp et profilbilde.
 
-Hvis ett eller begge kravene ikke er oppfylt, vises partneren fortsatt på nettsiden, men uten kontaktperson. Profilbilde er heller ikke her et krav. Kontaktpersonen kan derfor være synlig selv om det ikke er lastet opp et bilde.
+Hvis ett eller begge kravene ikke er oppfylt, vises partneren fortsatt på nettsiden, men uten kontaktperson. Profilbilde er heller ikke her et krav.
