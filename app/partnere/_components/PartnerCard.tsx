@@ -28,7 +28,13 @@ function renderSkillPill(skill: string, options?: { truncate?: boolean }) {
 	);
 }
 
-export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
+export default function PartnerCard({
+	partner,
+	taKontaktTekst,
+}: {
+	partner: PartnerListItem;
+	taKontaktTekst: string;
+}) {
 	const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 	const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 	const [isNoContactModalOpen, setIsNoContactModalOpen] = useState(false);
@@ -212,7 +218,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 						className="size-5 shrink-0"
 					/>
 					<span className="flex-1 truncate text-button font-medium text-green">
-						Ta kontakt
+						{taKontaktTekst}
 					</span>
 					<span aria-hidden="true" className="text-muted">
 						›
@@ -252,38 +258,37 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							</div>
 						</div>
 						<div className="mt-group w-full border-t border-border-subtle pt-group">
-						<button
-							type="button"
-							onClick={() => {
-								setIsCardModalOpen(false);
-								setModalHasBack(true);
+							<button
+								type="button"
+								onClick={() => {
+									setIsCardModalOpen(false);
+									setModalHasBack(true);
 
-								if (kontaktperson) {
-									setIsContactModalOpen(true);
-								} else {
-									setIsNoContactModalOpen(true);
-								}
-							}}
-							aria-haspopup="dialog"
-							className="group relative flex w-full items-center gap-inline text-left"
-						>
-							<img
-								src="/svg/mail_green_icon.svg"
-								alt=""
-								className="size-5 shrink-0"
-							/>
-							<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
-								Ta kontakt
-							</span>
-							<span
-								aria-hidden="true"
-								className="text-muted transition-colors group-hover:text-ink"
+									if (kontaktperson) {
+										setIsContactModalOpen(true);
+									} else {
+										setIsNoContactModalOpen(true);
+									}
+								}}
+								aria-haspopup="dialog"
+								className="group relative flex w-full items-center gap-inline text-left"
 							>
-								›
-							</span>
-						</button>
-					</div>
-
+								<img
+									src="/svg/mail_green_icon.svg"
+									alt=""
+									className="size-5 shrink-0"
+								/>
+								<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
+									{taKontaktTekst}
+								</span>
+								<span
+									aria-hidden="true"
+									className="text-muted transition-colors group-hover:text-ink"
+								>
+									›
+								</span>
+							</button>
+						</div>
 					</div>
 				</Modal>
 			)}

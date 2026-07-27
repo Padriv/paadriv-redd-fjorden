@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 
 type FooterProps = {
 	variant?: "cream" | "green";
+	slagord: string;
+	kontaktOverskrift: string;
+	nyhetsbrevLenke: string;
 };
 
 const LOGO_INTRINSIC_SIZE = {
@@ -12,7 +15,12 @@ const LOGO_INTRINSIC_SIZE = {
 	"/images/paadriv-logo-sort.png": { width: 1800, height: 471 },
 } as const;
 
-export default function Footer({ variant = "cream" }: FooterProps) {
+export default function Footer({
+	variant = "cream",
+	slagord,
+	kontaktOverskrift,
+	nyhetsbrevLenke,
+}: FooterProps) {
 	const [isTouchDevice, setIsTouchDevice] = useState(false);
 
 	useEffect(() => {
@@ -53,10 +61,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 					/>
 				</a>
 				<div className="flex flex-col gap-loose md:col-start-1 md:row-start-2">
-					<p className={`text-body max-w-xs ${contactTextColor}`}>
-						For alle som vil finne gode løsninger og en mer bærekraftig retning
-						– sammen!
-					</p>
+					<p className={`text-body max-w-xs ${contactTextColor}`}>{slagord}</p>
 					<div className="flex items-center gap-inline">
 						<a
 							href="https://www.instagram.com/paadriv/"
@@ -114,7 +119,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 				</div>
 				<div className="flex flex-col gap-inline md:col-start-2 md:row-start-2">
 					<h3 className={`text-subheading font-semibold ${headingColor}`}>
-						Kontakt
+						{kontaktOverskrift}
 					</h3>
 					<a
 						href="https://landing.mailerlite.com/webforms/landing/q6z8z9"
@@ -127,7 +132,7 @@ export default function Footer({ variant = "cream" }: FooterProps) {
 							alt="Nyhetsbrev icon"
 							className="size-5"
 						/>
-						Motta nyhetsbrev
+						{nyhetsbrevLenke}
 					</a>
 					<a
 						href="mailto:fjorden@paadriv.no"

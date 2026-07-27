@@ -28,7 +28,13 @@ function renderSkillPill(skill: string) {
 	);
 }
 
-export default function PadriverCard({ record }: { record: PadriverRecord }) {
+export default function PadriverCard({
+	record,
+	lesMerTekst,
+}: {
+	record: PadriverRecord;
+	lesMerTekst: string;
+}) {
 	const [isTruncated, setIsTruncated] = useState(false);
 	const [lineClamp, setLineClamp] = useState(3);
 	const [maxTextHeight, setMaxTextHeight] = useState<number | null>(null);
@@ -205,7 +211,7 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 							isTruncated ? "" : "invisible"
 						}`}
 					>
-						Les mer
+						{lesMerTekst}
 					</button>
 				</div>
 			)}

@@ -1,27 +1,46 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import { client } from "@/lib/client";
 import Wave from "./Wave";
 
-const cards = [
-	{
-		tag: "Privatperson",
-		title: "Bli med som frivillig",
-		description:
-			"Bidra med din tid, kompetanse eller engasjement. Bli en del av nettverket som driver arbeidet for en frisk Oslofjord fremover.",
-		href: "/privatperson",
-		linkLabel: "Les mer og meld deg på",
-	},
-	{
-		tag: "Organisasjon",
-		title: "Bli med som partner",
-		description:
-			"Representerer du en kommune, en bedrift eller en frivillig organisasjon? Bli med i partnerskapet og bidra med ressurser og kompetanse.",
-		href: "/organisasjon",
-		linkLabel: "Les mer og meld deg på",
-	},
-];
+type CardCopy = {
+	tag: string;
+	title: string;
+	description: string;
+	linkLabel: string;
+};
 
-export default function JoinSection() {
+async function getCard(nokkelPrefix: string, href: string, fallback: CardCopy) {
+	const [tag, title, description, linkLabel] = await Promise.all([
+		client.airtable.tekster.get(`${nokkelPrefix}.kategori`, fallback.tag),
+		client.airtable.tekster.get(`${nokkelPrefix}.tittel`, fallback.title),
+		client.airtable.tekster.get(
+			`${nokkelPrefix}.beskrivelse`,
+			fallback.description,
+		),
+		client.airtable.tekster.get(`${nokkelPrefix}.lenke`, fallback.linkLabel),
+	]);
+	return { tag, title, description, href, linkLabel };
+}
+
+export default async function JoinSection() {
+	const cards = await Promise.all([
+		getCard("forside.bli-med.kort-privatperson", "/privatperson", {
+			tag: "Privatperson",
+			title: "Bli med som frivillig",
+			description:
+				"Bidra med din tid, kompetanse eller engasjement. Bli en del av nettverket som driver arbeidet for en frisk Oslofjord fremover.",
+			linkLabel: "Les mer og meld deg på",
+		}),
+		getCard("forside.bli-med.kort-organisasjon", "/organisasjon", {
+			tag: "Organisasjon",
+			title: "Bli med som partner",
+			description:
+				"Representerer du en kommune, en bedrift eller en frivillig organisasjon? Bli med i partnerskapet og bidra med ressurser og kompetanse.",
+			linkLabel: "Les mer og meld deg på",
+		}),
+	]);
+
 	return (
 		<section
 			id="bli-med"

@@ -8,9 +8,10 @@ const MAX_QUOTES = 3;
 
 type QuotesSectionProps = {
 	quotes: QuoteListItem[];
+	heading: string;
 };
 
-export default function QuotesSection({ quotes }: QuotesSectionProps) {
+export default function QuotesSection({ quotes, heading }: QuotesSectionProps) {
 	const visibleQuotes = quotes.slice(0, MAX_QUOTES);
 
 	return (
@@ -19,7 +20,7 @@ export default function QuotesSection({ quotes }: QuotesSectionProps) {
 
 			<div className="flex w-full max-w-5xl flex-col gap-group">
 				<ScrollReveal>
-					<h2 className="text-section font-bold">Hva sier Pådriverne selv?</h2>
+					<h2 className="text-section font-bold">{heading}</h2>
 				</ScrollReveal>
 				<RevealGroup className="flex flex-col gap-group sm:flex-row">
 					{visibleQuotes.map((person, index) => (

@@ -7,9 +7,17 @@ import { useJoinForm } from "@/lib/useJoinForm";
 export default function PadriverHero({
 	padriverCount,
 	loadFailed,
+	overline,
+	heading,
+	ingressSlutt,
+	buttonLabel,
 }: {
 	padriverCount: number;
 	loadFailed: boolean;
+	overline: string;
+	heading: string;
+	ingressSlutt: string;
+	buttonLabel: string;
 }) {
 	const { anchorId, showForm, onJoinClick, onCloseForm } =
 		useJoinForm("bli-padriver");
@@ -22,10 +30,10 @@ export default function PadriverHero({
 	return (
 		<>
 			<HeroSection
-				overline="Frivillig = Pådriver"
-				heading="Pådrivere som drar i samme retning"
-				description={`${intro} De er ildsjeler, fagfolk og naboer som sammen jobber for en friskere fjord. De bidrar med sin kompetanse og sine erfaringer på samlinger, og er del av et nettverk av mennesker som drar i samme retning. Vi trenger flere på laget. Kanskje er det deg?`}
-				buttonLabel="Bli Pådriver"
+				overline={overline}
+				heading={heading}
+				description={`${intro} ${ingressSlutt}`}
+				buttonLabel={buttonLabel}
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">

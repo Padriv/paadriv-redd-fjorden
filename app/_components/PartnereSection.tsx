@@ -73,6 +73,22 @@ export default async function PartnereSection() {
 		return null;
 	}
 
+	const [overskrift, ingress, knappTekst] = await Promise.all([
+		client.airtable.tekster.get(
+			"forside.partnere.overskrift",
+			"Samarbeid med våre partnere",
+		),
+		client.airtable.tekster.get(
+			"forside.partnere.ingress",
+			"Kommuner, bedrifter og organisasjoner som bidrar med ressurser, kompetanse og nettverk for en frisk Oslofjord.",
+		),
+		client.airtable.tekster.getMedAntall(
+			"forside.partnere.knapp",
+			"Se alle {antall} partnere",
+			loadFailed ? null : partnere.length,
+		),
+	]);
+
 	const halfwayPoint = Math.ceil(partnere.length / 2);
 	const firstRow = partnere.slice(0, halfwayPoint);
 	const secondRow = partnere.slice(halfwayPoint);
@@ -84,13 +100,8 @@ export default async function PartnereSection() {
 
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-cluster">
 				<ScrollReveal className="flex flex-col gap-tight">
-					<h2 className="text-section font-bold text-green">
-						Samarbeid med våre partnere
-					</h2>
-					<p className="text-body text-copy">
-						Kommuner, bedrifter og organisasjoner som bidrar med ressurser,
-						kompetanse og nettverk for en frisk Oslofjord.
-					</p>
+					<h2 className="text-section font-bold text-green">{overskrift}</h2>
+					<p className="text-body text-copy">{ingress}</p>
 				</ScrollReveal>
 
 				{!loadFailed && (
@@ -104,9 +115,7 @@ export default async function PartnereSection() {
 					href="/partnere"
 					className="self-end text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 				>
-					{loadFailed
-						? "Se alle partnere →"
-						: `Se alle ${partnere.length} partnere →`}
+					{knappTekst} →
 				</Link>
 			</div>
 		</section>

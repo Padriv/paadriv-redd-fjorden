@@ -6,6 +6,7 @@ const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 const quotesTable = process.env.AIRTABLE_SITAT_TABLE_ID;
+const teksterTable = process.env.AIRTABLE_TEKSTER_ID;
 
 export type AirtableAttachment = {
 	url: string;
@@ -363,6 +364,155 @@ const getQuotes = async (): Promise<QuoteListItem[]> => {
 	}));
 };
 
+type TekstResponse = {
+	fields: {
+		Nøkkel?: string;
+		"Synlig tekst"?: string;
+	};
+};
+
+const hentTeksterFraAirtable = async (): Promise<Record<string, string>> => {
+	try {
+		const tekster: Record<string, string> = {};
+		let offset: string | undefined;
+
+		// Airtable returnerer maks 100 rader per kall, med en offset til neste
+		// side. Uten denne løkken ville tekster utover rad 100 stille falt
+		// tilbake til fallback-teksten når Tekster-tabellen vokser forbi 100 rader.
+		do {
+			const url = new URL(`${baseUrl}/${app}/${teksterTable}`);
+			if (offset) url.searchParams.set("offset", offset);
+
+			const response = await fetch(url, {
+				headers: {
+					Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+				},
+				next: { revalidate: 60 },
+			});
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error(
+					`Airtable svarte med status ${response.status} ved henting av tekster: ${errorText}`,
+				);
+				return {};
+			}
+
+			const json = await response.json();
+			const { records, offset: nextOffset } = json as {
+				records: TekstResponse[];
+				offset?: string;
+			};
+
+			for (const record of records) {
+				const nokkel = record.fields.Nøkkel;
+				const synligTekst = record.fields["Synlig tekst"];
+				if (nokkel && synligTekst) {
+					tekster[nokkel] = synligTekst;
+				}
+			}
+			offset = nextOffset;
+		} while (offset);
+
+		return tekster;
+	} catch (error) {
+		console.error("Klarte ikke å hente tekster fra Airtable", error);
+		return {};
+	}
+};
+
+const getTekst = async (nokkel: string, fallback: string): Promise<string> => {
+	const tekster = await hentTeksterFraAirtable();
+	return tekster[nokkel] ?? fallback;
+};
+
+// Brukes til tekst med et tall midt i, f.eks. "Se alle {antall} partnere".
+// Redaktøren i Airtable kan endre ordene rundt, men "{antall}" må stå igjen
+// for at tallet skal fylles inn. Er antall null (f.eks. ved lastefeil),
+// fjernes plassholderen og eventuelt dobbelt mellomrom ryddes opp.
+const getTekstMedAntall = async (
+	nokkel: string,
+	fallback: string,
+	antall: number | null,
+): Promise<string> => {
+	const mal = await getTekst(nokkel, fallback);
+	const verdi = antall === null ? "" : String(antall);
+	return mal.replace("{antall}", verdi).replace(/\s+/g, " ").trim();
+};
+
+export type Kort = { title: string; description: string };
+
+// Brukes av seksjoner med en overskrift, en ingress og en liste med nummererte
+// kort (f.eks. "organisasjon.fordeler.kort-1.tittel", "...kort-2.tittel", ...).
+// nokkelPrefix er delen felles for hele seksjonen, f.eks. "organisasjon.fordeler".
+const getKortSeksjon = async (
+	nokkelPrefix: string,
+	fallback: { heading: string; intro: string; benefits: Kort[] },
+): Promise<{ heading: string; intro: string; benefits: Kort[] }> => {
+	const [heading, intro, benefits] = await Promise.all([
+		getTekst(`${nokkelPrefix}.overskrift`, fallback.heading),
+		getTekst(`${nokkelPrefix}.ingress`, fallback.intro),
+		Promise.all(
+			fallback.benefits.map((kort, index) =>
+				Promise.all([
+					getTekst(`${nokkelPrefix}.kort-${index + 1}.tittel`, kort.title),
+					getTekst(
+						`${nokkelPrefix}.kort-${index + 1}.beskrivelse`,
+						kort.description,
+					),
+				]).then(([title, description]) => ({ title, description })),
+			),
+		),
+	]);
+	return { heading, intro, benefits };
+};
+
+export type NavigasjonCopy = {
+	logo: string;
+	padriverLabel: string;
+	partnereLabel: string;
+	joinLabel: string;
+};
+
+export type FooterCopy = {
+	slagord: string;
+	kontaktOverskrift: string;
+	nyhetsbrevLenke: string;
+};
+
+// Navigasjonsbaren og footeren vises på alle sider, så teksten hentes her ett
+// sted og gjenbrukes fra hver enkelt side, i stedet for å gjenta de samme
+// kallene i alle page.tsx-filene.
+const getGlobalCopy = async (): Promise<{
+	nav: NavigasjonCopy;
+	footer: FooterCopy;
+}> => {
+	const [
+		logo,
+		padriverLabel,
+		partnereLabel,
+		joinLabel,
+		slagord,
+		kontaktOverskrift,
+		nyhetsbrevLenke,
+	] = await Promise.all([
+		getTekst("navigasjon.logo", "Oppdrag\nfjorden\nvår"),
+		getTekst("navigasjon.lenke-padriver", "Pådrivere"),
+		getTekst("navigasjon.lenke-partnere", "Partnere"),
+		getTekst("navigasjon.knapp", "Bli med"),
+		getTekst(
+			"footer.slagord",
+			"For alle som vil finne gode løsninger og en mer bærekraftig retning – sammen!",
+		),
+		getTekst("footer.kontakt.overskrift", "Kontakt"),
+		getTekst("footer.kontakt.nyhetsbrev", "Motta nyhetsbrev"),
+	]);
+	return {
+		nav: { logo, padriverLabel, partnereLabel, joinLabel },
+		footer: { slagord, kontaktOverskrift, nyhetsbrevLenke },
+	};
+};
+
 export const airtableClient = {
 	padriver: {
 		create: createPadriver,
@@ -374,5 +524,11 @@ export const airtableClient = {
 	},
 	quotes: {
 		list: getQuotes,
+	},
+	tekster: {
+		get: getTekst,
+		getMedAntall: getTekstMedAntall,
+		getKortSeksjon,
+		getGlobalCopy,
 	},
 };

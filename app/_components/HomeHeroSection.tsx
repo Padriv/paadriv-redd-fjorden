@@ -1,8 +1,18 @@
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import { client } from "@/lib/client";
 import Wave from "./Wave";
 
-export default function HomeHeroSection() {
+export default async function HomeHeroSection() {
+	const overskrift = await client.airtable.tekster.get(
+		"forside.hero.overskrift",
+		"Bli med og gjør Oslofjorden frisk",
+	);
+	const ingress = await client.airtable.tekster.get(
+		"forside.hero.ingress",
+		"Prosjektet Oppdrag: Fjorden Vår kobler mennesker, kunnskap og ressurser på tvers av offentlig, privat og frivillig sektor. Vi tror de beste løsningene skapes når vi jobber sammen, derfor trenger vi deg med på laget.",
+	);
+
 	return (
 		<section
 			id="home-hero"
@@ -26,13 +36,10 @@ export default function HomeHeroSection() {
 
 			<ScrollReveal className="relative z-10 flex max-w-2xl flex-col gap-inline text-cream sm:gap-group">
 				<h1 className="text-hero text-balance font-extrabold leading-tight">
-					Bli med og gjør Oslofjorden frisk
+					{overskrift}
 				</h1>
 				<p className="text-body text-balance max-w-lg font-normal leading-relaxed">
-					Prosjektet <em className="mr-1">Oppdrag: Fjorden Vår</em> kobler
-					mennesker, kunnskap og ressurser på tvers av offentlig, privat og
-					frivillig sektor. Vi tror de beste løsningene skapes når vi jobber
-					sammen, derfor trenger vi deg med på laget.
+					{ingress}
 				</p>
 			</ScrollReveal>
 		</section>

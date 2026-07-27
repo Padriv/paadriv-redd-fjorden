@@ -4,33 +4,29 @@ import HeroSection from "@/app/_components/HeroSection";
 import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
 import { useJoinForm } from "@/lib/useJoinForm";
 
-export default function PartnereHero({
-	partnerCount,
-	loadFailed,
-	heading,
-	ingressSlutt,
-	buttonLabel,
-}: {
-	partnerCount: number;
-	loadFailed: boolean;
+type OrganisasjonHeroSectionProps = {
+	overline: string;
 	heading: string;
-	ingressSlutt: string;
+	description: string;
 	buttonLabel: string;
-}) {
-	const { anchorId, showForm, onJoinClick, onCloseForm } = useJoinForm(
-		"meld-interesse-partner",
-	);
+};
 
-	const intro =
-		loadFailed || partnerCount === 0
-			? "Møt våre partnere."
-			: `Møt våre ${partnerCount} partnere.`;
+export default function OrganisasjonHeroSection({
+	overline,
+	heading,
+	description,
+	buttonLabel,
+}: OrganisasjonHeroSectionProps) {
+	const { anchorId, showForm, onJoinClick, onCloseForm } = useJoinForm(
+		"meld-inn-organisasjon",
+	);
 
 	return (
 		<>
 			<HeroSection
+				overline={overline}
 				heading={heading}
-				description={`${intro} ${ingressSlutt}`}
+				description={description}
 				buttonLabel={buttonLabel}
 				onJoinClick={onJoinClick}
 			/>
