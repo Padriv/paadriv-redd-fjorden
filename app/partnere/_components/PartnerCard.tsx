@@ -4,7 +4,12 @@ import { useMemo, useState } from "react";
 import ContactLinks from "@/components/ContactLinks";
 import LocationPinIcon from "@/components/LocationPinIcon";
 import Modal from "@/components/Modal";
-import type { PartnerListItem } from "@/lib/airtable";
+import type {
+	KontaktlenkerCopy,
+	PartnerKortCopy,
+	PartnerListItem,
+} from "@/lib/airtable";
+import { fyllMal } from "@/lib/fyllMal";
 import { getInitials } from "@/lib/initials";
 import { getSkillColor } from "@/lib/skillColors";
 import { useSkillFitting } from "@/lib/useSkillFitting";
@@ -30,10 +35,12 @@ function renderSkillPill(skill: string, options?: { truncate?: boolean }) {
 
 export default function PartnerCard({
 	partner,
-	taKontaktTekst,
+	copy,
+	kontaktlenkerCopy,
 }: {
 	partner: PartnerListItem;
-	taKontaktTekst: string;
+	copy: PartnerKortCopy;
+	kontaktlenkerCopy: KontaktlenkerCopy;
 }) {
 	const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 	const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -218,7 +225,7 @@ export default function PartnerCard({
 						className="size-5 shrink-0"
 					/>
 					<span className="flex-1 truncate text-button font-medium text-green">
-						{taKontaktTekst}
+						{copy.kontaktKnapp}
 					</span>
 					<span aria-hidden="true" className="text-muted">
 						›
@@ -279,7 +286,7 @@ export default function PartnerCard({
 									className="size-5 shrink-0"
 								/>
 								<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
-									{taKontaktTekst}
+									{copy.kontaktKnapp}
 								</span>
 								<span
 									aria-hidden="true"
@@ -308,7 +315,7 @@ export default function PartnerCard({
 							}}
 							className="absolute left-0 top-0 text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					)}
 					<div className="flex min-h-72 flex-col items-center">
@@ -322,13 +329,15 @@ export default function PartnerCard({
 									{kontaktperson.navn}
 								</h3>
 								<p className="text-caption text-muted">
-									Kontaktperson for {navn}
+									{fyllMal(copy.kontaktpersonForMal, { navn })}
 								</p>
 							</div>
 						</div>
 						<ContactLinks
 							epost={kontaktperson.epost}
 							telefon={kontaktperson.telefon}
+							epostLabel={kontaktlenkerCopy.epostLabel}
+							telefonLabel={kontaktlenkerCopy.telefonLabel}
 						/>
 					</div>
 				</Modal>
@@ -348,22 +357,20 @@ export default function PartnerCard({
 							}}
 							className="absolute left-0 top-0 text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					)}
 					<div className="flex min-h-72 flex-col justify-center gap-group">
+						<p className="text-body text-ink">{copy.ingenKontaktperson}</p>
 						<p className="text-body text-ink">
-							Organisasjonen har ingen synlig kontaktperson.
-						</p>
-						<p className="text-body text-ink">
-							Ta kontakt på{" "}
+							{copy.taKontaktEpostPrefix}{" "}
 							<a
 								href="mailto:fjorden@paadriv.no"
 								className="font-semibold text-green transition-colors hover:text-ink"
 							>
 								fjorden@paadriv.no
 							</a>{" "}
-							dersom du ønsker å komme i kontakt med dem.
+							{copy.taKontaktEpostSuffix}
 						</p>
 					</div>
 				</Modal>

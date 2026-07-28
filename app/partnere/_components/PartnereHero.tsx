@@ -2,6 +2,7 @@
 
 import HeroSection from "@/app/_components/HeroSection";
 import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
+import type { PartnerSkjemaCopy } from "@/lib/airtable";
 import { useJoinForm } from "@/lib/useJoinForm";
 
 export default function PartnereHero({
@@ -10,12 +11,14 @@ export default function PartnereHero({
 	heading,
 	ingressSlutt,
 	buttonLabel,
+	skjemaCopy,
 }: {
 	partnerCount: number;
 	loadFailed: boolean;
 	heading: string;
 	ingressSlutt: string;
 	buttonLabel: string;
+	skjemaCopy: PartnerSkjemaCopy;
 }) {
 	const { anchorId, showForm, onJoinClick, onCloseForm } = useJoinForm(
 		"meld-interesse-partner",
@@ -35,7 +38,9 @@ export default function PartnereHero({
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">
-				{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
+				{showForm && (
+					<OrganizationSignupForm onClose={onCloseForm} copy={skjemaCopy} />
+				)}
 			</div>
 		</>
 	);

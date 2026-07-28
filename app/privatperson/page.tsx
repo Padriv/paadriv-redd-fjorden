@@ -68,8 +68,8 @@ export default async function Privatperson() {
 	}
 	const showQuotes = quotes.length >= MIN_QUOTES;
 
-	const [heroCopy, fordelerCopy, quotesHeading, globalCopy] = await Promise.all(
-		[
+	const [heroCopy, fordelerCopy, quotesHeading, globalCopy, skjemaCopy] =
+		await Promise.all([
 			getHeroCopy(),
 			client.airtable.tekster.getKortSeksjon(
 				"privatperson.fordeler",
@@ -80,14 +80,14 @@ export default async function Privatperson() {
 				"Hva sier Pådriverne selv?",
 			),
 			client.airtable.tekster.getGlobalCopy(),
-		],
-	);
+			client.airtable.tekster.getPadriverSkjemaCopy(),
+		]);
 
 	return (
 		<>
 			<Navigationbar solid {...globalCopy.nav} />
 			<main className="relative flex min-h-screen flex-col items-center bg-cream">
-				<JoinFormSection {...heroCopy} />
+				<JoinFormSection {...heroCopy} skjemaCopy={skjemaCopy} />
 				<BenefitsSection {...fordelerCopy} />
 				{showQuotes && (
 					<QuotesSection quotes={quotes} heading={quotesHeading} />

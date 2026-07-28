@@ -33,20 +33,29 @@ export default async function Partnere() {
 		loadFailed = true;
 	}
 
-	const [heroCopy, feilmelding, tomListe, taKontaktTekst, globalCopy] =
-		await Promise.all([
-			getPartnereHeroCopy(),
-			client.airtable.tekster.get(
-				"partnere.liste.feilmelding",
-				"Beklager, vi klarer dessverre ikke å laste partnere akkurat nå. Prøv igjen om litt.",
-			),
-			client.airtable.tekster.get(
-				"partnere.liste.tom",
-				"Ingen partnere å vise ennå.",
-			),
-			client.airtable.tekster.get("partnere.kort.knapp", "Ta kontakt"),
-			client.airtable.tekster.getGlobalCopy(),
-		]);
+	const [
+		heroCopy,
+		feilmelding,
+		tomListe,
+		globalCopy,
+		skjemaCopy,
+		kortCopy,
+		kontaktlenkerCopy,
+	] = await Promise.all([
+		getPartnereHeroCopy(),
+		client.airtable.tekster.get(
+			"partnere.liste.feilmelding",
+			"Beklager, vi klarer dessverre ikke å laste partnere akkurat nå. Prøv igjen om litt.",
+		),
+		client.airtable.tekster.get(
+			"partnere.liste.tom",
+			"Ingen partnere å vise ennå.",
+		),
+		client.airtable.tekster.getGlobalCopy(),
+		client.airtable.tekster.getPartnerSkjemaCopy(),
+		client.airtable.tekster.getPartnerKortCopy(),
+		client.airtable.tekster.getKontaktlenkerCopy(),
+	]);
 
 	return (
 		<>
@@ -56,6 +65,7 @@ export default async function Partnere() {
 					partnerCount={partnere.length}
 					loadFailed={loadFailed}
 					{...heroCopy}
+					skjemaCopy={skjemaCopy}
 				/>
 				<div className="flex w-full flex-col items-center px-4 pb-32 md:px-28">
 					<div className="flex w-full max-w-5xl flex-col gap-loose">
@@ -73,7 +83,8 @@ export default async function Partnere() {
 								>
 									<PartnerCard
 										partner={partner}
-										taKontaktTekst={taKontaktTekst}
+										copy={kortCopy}
+										kontaktlenkerCopy={kontaktlenkerCopy}
 									/>
 								</RevealItem>
 							))}

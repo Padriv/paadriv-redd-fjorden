@@ -2,6 +2,7 @@
 
 import HeroSection from "@/app/_components/HeroSection";
 import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
+import type { PadriverSkjemaCopy } from "@/lib/airtable";
 import { useJoinForm } from "@/lib/useJoinForm";
 
 type JoinFormSectionProps = {
@@ -10,6 +11,7 @@ type JoinFormSectionProps = {
 	subheading?: string;
 	description: string;
 	buttonLabel: string;
+	skjemaCopy: PadriverSkjemaCopy;
 };
 
 export default function JoinFormSection({
@@ -18,6 +20,7 @@ export default function JoinFormSection({
 	subheading,
 	description,
 	buttonLabel,
+	skjemaCopy,
 }: JoinFormSectionProps) {
 	const { anchorId, showForm, onJoinClick, onCloseForm } =
 		useJoinForm("meld-deg-pa");
@@ -33,7 +36,9 @@ export default function JoinFormSection({
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">
-				{showForm && <IndividualSignupForm onClose={onCloseForm} />}
+				{showForm && (
+					<IndividualSignupForm onClose={onCloseForm} copy={skjemaCopy} />
+				)}
 			</div>
 		</>
 	);

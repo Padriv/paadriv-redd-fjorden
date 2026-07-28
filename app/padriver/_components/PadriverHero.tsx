@@ -2,6 +2,7 @@
 
 import HeroSection from "@/app/_components/HeroSection";
 import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
+import type { PadriverSkjemaCopy } from "@/lib/airtable";
 import { useJoinForm } from "@/lib/useJoinForm";
 
 export default function PadriverHero({
@@ -11,6 +12,7 @@ export default function PadriverHero({
 	heading,
 	ingressSlutt,
 	buttonLabel,
+	skjemaCopy,
 }: {
 	padriverCount: number;
 	loadFailed: boolean;
@@ -18,6 +20,7 @@ export default function PadriverHero({
 	heading: string;
 	ingressSlutt: string;
 	buttonLabel: string;
+	skjemaCopy: PadriverSkjemaCopy;
 }) {
 	const { anchorId, showForm, onJoinClick, onCloseForm } =
 		useJoinForm("bli-padriver");
@@ -37,7 +40,9 @@ export default function PadriverHero({
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">
-				{showForm && <IndividualSignupForm onClose={onCloseForm} />}
+				{showForm && (
+					<IndividualSignupForm onClose={onCloseForm} copy={skjemaCopy} />
+				)}
 			</div>
 		</>
 	);

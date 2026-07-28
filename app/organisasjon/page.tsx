@@ -74,7 +74,7 @@ async function getSpleiselagCopy() {
 }
 
 export default async function Organisasjon() {
-	const [heroCopy, fordelerCopy, spleiselagCopy, globalCopy] =
+	const [heroCopy, fordelerCopy, spleiselagCopy, globalCopy, skjemaCopy] =
 		await Promise.all([
 			getHeroCopy(),
 			client.airtable.tekster.getKortSeksjon(
@@ -83,13 +83,14 @@ export default async function Organisasjon() {
 			),
 			getSpleiselagCopy(),
 			client.airtable.tekster.getGlobalCopy(),
+			client.airtable.tekster.getPartnerSkjemaCopy(),
 		]);
 
 	return (
 		<>
 			<Navigationbar solid {...globalCopy.nav} />
 			<main className="relative flex min-h-screen flex-col items-center">
-				<OrganisasjonHeroSection {...heroCopy} />
+				<OrganisasjonHeroSection {...heroCopy} skjemaCopy={skjemaCopy} />
 				<BenefitsSection {...fordelerCopy} />
 				<PartnershipSection {...spleiselagCopy} />
 			</main>

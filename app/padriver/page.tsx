@@ -36,20 +36,29 @@ export default async function Padrivere() {
 		loadFailed = true;
 	}
 
-	const [heroCopy, feilmelding, tomListe, lesMerTekst, globalCopy] =
-		await Promise.all([
-			getPadriverHeroCopy(),
-			client.airtable.tekster.get(
-				"padriver.liste.feilmelding",
-				"Beklager, vi klarer dessverre ikke å laste Pådrivere akkurat nå. Prøv igjen om litt.",
-			),
-			client.airtable.tekster.get(
-				"padriver.liste.tom",
-				"Ingen Pådrivere å vise ennå.",
-			),
-			client.airtable.tekster.get("padriver.kort.knapp", "Les mer"),
-			client.airtable.tekster.getGlobalCopy(),
-		]);
+	const [
+		heroCopy,
+		feilmelding,
+		tomListe,
+		lesMerTekst,
+		globalCopy,
+		skjemaCopy,
+		kontaktlenkerCopy,
+	] = await Promise.all([
+		getPadriverHeroCopy(),
+		client.airtable.tekster.get(
+			"padriver.liste.feilmelding",
+			"Beklager, vi klarer dessverre ikke å laste Pådrivere akkurat nå. Prøv igjen om litt.",
+		),
+		client.airtable.tekster.get(
+			"padriver.liste.tom",
+			"Ingen Pådrivere å vise ennå.",
+		),
+		client.airtable.tekster.get("padriver.kort.knapp", "Les mer"),
+		client.airtable.tekster.getGlobalCopy(),
+		client.airtable.tekster.getPadriverSkjemaCopy(),
+		client.airtable.tekster.getKontaktlenkerCopy(),
+	]);
 
 	return (
 		<>
@@ -59,6 +68,7 @@ export default async function Padrivere() {
 					padriverCount={records.length}
 					loadFailed={loadFailed}
 					{...heroCopy}
+					skjemaCopy={skjemaCopy}
 				/>
 				<div className="flex w-full flex-col items-center px-4 pb-32 md:px-28">
 					<div className="flex w-full max-w-5xl flex-col gap-loose">
@@ -71,7 +81,11 @@ export default async function Padrivere() {
 						<RevealGroup className="grid grid-cols-1 gap-group sm:grid-cols-2 lg:grid-cols-3">
 							{records.map((record, index) => (
 								<RevealItem key={record.id} delayMs={Math.min(index * 60, 600)}>
-									<PadriverCard record={record} lesMerTekst={lesMerTekst} />
+									<PadriverCard
+										record={record}
+										lesMerTekst={lesMerTekst}
+										kontaktlenkerCopy={kontaktlenkerCopy}
+									/>
 								</RevealItem>
 							))}
 						</RevealGroup>

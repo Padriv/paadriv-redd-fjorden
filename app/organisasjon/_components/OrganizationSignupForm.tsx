@@ -3,7 +3,8 @@
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import type { Partner } from "@/lib/airtable";
+import type { Partner, PartnerSkjemaCopy } from "@/lib/airtable";
+import { fyllMal } from "@/lib/fyllMal";
 import CloseButton from "../../../components/CloseButton";
 import MultiSelect from "../../../components/MultiSelect";
 import SignupSuccessModal from "../../../components/SignupSuccessModal";
@@ -25,45 +26,6 @@ const kompetanseOptions = [
 	"Sirkulær økonomi",
 	"Ingen av disse gjelder for meg",
 ];
-
-const steps = [
-	{
-		title: "Om organisasjonen",
-		description:
-			"Informasjonen brukes for å sette dere i kontakt med andre Pådrivere og partnere.",
-		required: true,
-	},
-	{
-		title: "Kontaktperson",
-		description: "Hvem skal vi kontakte hos dere?",
-		required: true,
-	},
-	{
-		title: "Deres motivasjon",
-		description:
-			"Hvorfor ønsker dere å bli partner som bidrar til en friskere Oslofjord?",
-		required: true,
-	},
-	{
-		title: "Kompetanse",
-		description:
-			"Hvilken kompetanse eller ressurser ønsker dere å bidra med? Velg gjerne flere.",
-		required: true,
-	},
-	{
-		title: "Økonomisk bidrag",
-		description: "Innsatsgruppen er avhengig av langsiktig finansiering.",
-		required: true,
-	},
-	{
-		title: "Samtykke",
-		description: "Bekreft samtykket og bli partner.",
-		required: true,
-	},
-];
-
-const samtykkeError = (value: boolean) =>
-	!value ? "Du må samtykke for å sende inn skjemaet" : undefined;
 
 function isValidOrganisasjonsnummer(digits: string): boolean {
 	const weights = [3, 2, 7, 6, 5, 4, 3, 2];
@@ -129,8 +91,10 @@ function TextField({
 
 export default function OrganizationSignupForm({
 	onClose,
+	copy,
 }: {
 	onClose?: () => void;
+	copy: PartnerSkjemaCopy;
 }) {
 	const [step, setStep] = useState(0);
 	const [isValidating, setIsValidating] = useState(false);
@@ -140,6 +104,9 @@ export default function OrganizationSignupForm({
 	useEffect(() => {
 		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}, []);
+
+	const samtykkeError = (value: boolean) =>
+		!value ? copy.samtykke.feil : undefined;
 
 	const form = useForm({
 		defaultValues: {
@@ -184,17 +151,16 @@ export default function OrganizationSignupForm({
 				});
 
 				if (response.status !== 201) {
-					toast.error("Noe gikk galt", {
-						description: "Vi klarte ikke å registrere partneren. Prøv igjen.",
+					toast.error(copy.toastFeilTittel, {
+						description: copy.toastFeilRegistrering,
 					});
 					return;
 				}
 
 				setShowSuccess(true);
 			} catch {
-				toast.error("Noe gikk galt", {
-					description:
-						"Vi klarte ikke å koble til serveren. Sjekk internettforbindelsen og prøv igjen.",
+				toast.error(copy.toastFeilTittel, {
+					description: copy.toastFeilServer,
 				});
 			}
 		},
@@ -246,7 +212,7 @@ export default function OrganizationSignupForm({
 			const hasErrors = fields.some(
 				({ name }) => (form.getFieldMeta(name)?.errors?.length ?? 0) > 0,
 			);
-			if (!hasErrors) setStep((s) => Math.min(s + 1, steps.length));
+			if (!hasErrors) setStep((s) => Math.min(s + 1, copy.steg.length));
 		} finally {
 			setIsValidating(false);
 		}
@@ -254,7 +220,11 @@ export default function OrganizationSignupForm({
 
 	const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
-	const current = steps[step - 1];
+	const current = copy.steg[step - 1];
+	const stegLabel = fyllMal(copy.stegLabelMal, {
+		steg: String(step),
+		totalt: String(copy.steg.length),
+	});
 
 	return (
 		<form
@@ -269,10 +239,10 @@ export default function OrganizationSignupForm({
 				ref={cardRef}
 				className="relative mx-auto flex w-full max-w-2xl scroll-mt-24 flex-col gap-cluster rounded-2xl bg-cream p-8"
 			>
-				{onClose && <CloseButton onClick={onClose} label="Lukk skjema" />}
+				{onClose && <CloseButton onClick={onClose} label={copy.lukkSkjema} />}
 				<div className="flex flex-col gap-inline">
 					<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
-						Steg {step} av {steps.length}
+						{stegLabel}
 					</span>
 					<div className="mt-group flex items-center justify-between gap-inline">
 						<div className="flex items-center gap-inline">
@@ -280,10 +250,8 @@ export default function OrganizationSignupForm({
 								{step}
 							</span>
 							<h3 className="text-subheading font-semibold text-green">
-								{step === 0 ? "Meld interesse som partner" : current.title}
-								{step > 0 && current.required && (
-									<span className="text-error"> *</span>
-								)}
+								{step === 0 ? copy.introTittel : current.title}
+								{step > 0 && <span className="text-error"> *</span>}
 							</h3>
 						</div>
 						{step === 4 && (
@@ -295,7 +263,7 @@ export default function OrganizationSignupForm({
 											onClick={() => field.handleChange([])}
 											className="text-caption font-medium text-muted hover:text-ink hover:underline"
 										>
-											Nullstill
+											{copy.nullstill}
 										</button>
 									)
 								}
@@ -308,25 +276,21 @@ export default function OrganizationSignupForm({
 					<div className="h-1.5 w-full rounded-full bg-green/10">
 						<div
 							className="h-full rounded-full bg-green transition-all"
-							style={{ width: `${(step / steps.length) * 100}%` }}
+							style={{ width: `${(step / copy.steg.length) * 100}%` }}
 						/>
 					</div>
 				</div>
 
 				{step === 0 && (
 					<div className="flex flex-col gap-group text-body text-copy">
-						<p>Dette skjemaet er en interesseregistrering.</p>
+						<p>{copy.intro.avsnitt1}</p>
 						<p>
-							Informasjonen du oppgir brukes til å følge opp partnerskapet og
-							koble organisasjonen med relevante pådrivere og partnere.{" "}
+							{copy.intro.avsnitt2}{" "}
 							<strong className="font-semibold">
-								Ingenting av det du sender inn her publiseres på nettsiden.
+								{copy.intro.avsnitt2Uthevet}
 							</strong>
 						</p>
-						<p>
-							Etter registrering mottar du en e-post med informasjon om hvordan
-							dere kan bli synlige på fjordenvår.no.
-						</p>
+						<p>{copy.intro.avsnitt3}</p>
 					</div>
 				)}
 
@@ -336,21 +300,19 @@ export default function OrganizationSignupForm({
 							name="orgNavn"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim()
-										? "Navn på organisasjonen er påkrevd"
-										: undefined,
+									!value.trim() ? copy.orgNavn.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
 								<TextField
 									id="orgNavn"
-									label="Navn på organisasjonen"
+									label={copy.orgNavn.label}
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="Fjorden Vår AS"
+									placeholder={copy.orgNavn.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -359,14 +321,12 @@ export default function OrganizationSignupForm({
 							name="orgNummer"
 							validators={{
 								onBlur: ({ value }) => {
-									if (!value.trim()) return "Organisasjonsnummer er påkrevd";
+									if (!value.trim()) return copy.orgNummer.feilPakrevd;
 									const digits = value.trim().replace(/\s/g, "");
-									if (!/^\d+$/.test(digits))
-										return "Organisasjonsnummer kan bare inneholde tall";
-									if (digits.length !== 9)
-										return "Organisasjonsnummer må bestå av 9 siffer";
+									if (!/^\d+$/.test(digits)) return copy.orgNummer.feilTall;
+									if (digits.length !== 9) return copy.orgNummer.feilLengde;
 									if (!isValidOrganisasjonsnummer(digits))
-										return "Ugyldig organisasjonsnummer";
+										return copy.orgNummer.feilUgyldig;
 									return undefined;
 								},
 							}}
@@ -374,13 +334,13 @@ export default function OrganizationSignupForm({
 							{(field) => (
 								<TextField
 									id="orgNummer"
-									label="Organisasjonsnummer"
+									label={copy.orgNummer.label}
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="123 456 789"
+									placeholder={copy.orgNummer.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -389,19 +349,19 @@ export default function OrganizationSignupForm({
 							name="lokasjon"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim() ? "Lokasjon er påkrevd" : undefined,
+									!value.trim() ? copy.lokasjon.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
 								<TextField
 									id="lokasjon"
-									label="Lokasjon"
+									label={copy.lokasjon.label}
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="Oslo, Norge"
+									placeholder={copy.lokasjon.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -414,19 +374,19 @@ export default function OrganizationSignupForm({
 							name="kontaktNavn"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim() ? "Navn er påkrevd" : undefined,
+									!value.trim() ? copy.kontaktNavn.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
 								<TextField
 									id="kontaktNavn"
-									label="Fullt navn"
+									label={copy.kontaktNavn.label}
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="Ola Nordmann"
+									placeholder={copy.kontaktNavn.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -435,9 +395,9 @@ export default function OrganizationSignupForm({
 							name="kontaktEpost"
 							validators={{
 								onBlur: ({ value }) => {
-									if (!value.trim()) return "Epost er påkrevd";
+									if (!value.trim()) return copy.kontaktEpost.feilPakrevd;
 									if (!/\S+@\S+\.\S+/.test(value))
-										return "Ugyldig e-postadresse";
+										return copy.kontaktEpost.feilUgyldig;
 									return undefined;
 								},
 							}}
@@ -445,14 +405,14 @@ export default function OrganizationSignupForm({
 							{(field) => (
 								<TextField
 									id="kontaktEpost"
-									label="Epost"
+									label={copy.kontaktEpost.label}
 									type="email"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="ola.nordmann@example.com"
+									placeholder={copy.kontaktEpost.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -461,11 +421,11 @@ export default function OrganizationSignupForm({
 							name="kontaktTlf"
 							validators={{
 								onBlur: ({ value }) => {
-									if (!value.trim()) return "Tlf er påkrevd";
+									if (!value.trim()) return copy.kontaktTlf.feilPakrevd;
 									if (!/^\+?\d[\d\s]*$/.test(value.trim()))
-										return "Tlf kan bare inneholde tall (og eventuelt + foran landkode)";
+										return copy.kontaktTlf.feilTall;
 									if (value.trim().replace(/\s/g, "").length < 8)
-										return "Tlf må bestå av minst 8 tegn";
+										return copy.kontaktTlf.feilLengde;
 									return undefined;
 								},
 							}}
@@ -473,14 +433,14 @@ export default function OrganizationSignupForm({
 							{(field) => (
 								<TextField
 									id="kontaktTlf"
-									label="Tlf"
+									label={copy.kontaktTlf.label}
 									type="tel"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="+47 123 45 678"
+									placeholder={copy.kontaktTlf.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -492,22 +452,22 @@ export default function OrganizationSignupForm({
 						name="motivasjon"
 						validators={{
 							onChange: ({ value }) =>
-								value.length > 400 ? "Maks 400 tegn" : undefined,
+								value.length > 400 ? copy.motivasjon.feilMaksLengde : undefined,
 							onBlur: ({ value }) =>
-								!value.trim() ? "Dette feltet er påkrevd" : undefined,
+								!value.trim() ? copy.motivasjon.feilPakrevd : undefined,
 						}}
 					>
 						{(field) => (
 							<div className="flex flex-col gap-inline">
 								<label htmlFor="motivasjon" className="sr-only">
-									Deres motivasjon
+									{copy.motivasjon.srLabel}
 								</label>
 								<textarea
 									id="motivasjon"
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Fortell litt om hvorfor dere ønsker å bli partner, og hva dere håper å oppnå med samarbeidet."
+									placeholder={copy.motivasjon.placeholder}
 									rows={4}
 									maxLength={400}
 									aria-invalid={
@@ -544,7 +504,7 @@ export default function OrganizationSignupForm({
 						name="kompetanse"
 						validators={{
 							onSubmit: ({ value }) =>
-								value.length === 0 ? "Velg minst ett alternativ" : undefined,
+								value.length === 0 ? copy.kompetanse.feilMinstEtt : undefined,
 						}}
 					>
 						{(field) => (
@@ -570,7 +530,7 @@ export default function OrganizationSignupForm({
 							name="okonomiskBidrag"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim() ? "Dette feltet er påkrevd" : undefined,
+									!value.trim() ? copy.okonomiskBidrag.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
@@ -579,18 +539,18 @@ export default function OrganizationSignupForm({
 										htmlFor="okonomiskBidrag"
 										className="text-label font-medium"
 									>
-										Beløp <span className="text-error">*</span>
+										{copy.okonomiskBidrag.label}{" "}
+										<span className="text-error">*</span>
 									</label>
 									<p className="text-body italic text-copy">
-										Beskriv beløp, sponsormidler eller annen økonomisk støtte
-										dere kan bidra med.
+										{copy.okonomiskBidrag.hjelp}
 									</p>
 									<textarea
 										id="okonomiskBidrag"
 										value={field.state.value}
 										onChange={(e) => field.handleChange(e.target.value)}
 										onBlur={field.handleBlur}
-										placeholder="Et gitt beløp per år, eller sponsormidler"
+										placeholder={copy.okonomiskBidrag.placeholder}
 										rows={3}
 										aria-invalid={!!field.state.meta.errorMap.onBlur}
 										aria-describedby={
@@ -616,7 +576,7 @@ export default function OrganizationSignupForm({
 							name="annetBidrag"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim() ? "Dette feltet er påkrevd" : undefined,
+									!value.trim() ? copy.annetBidrag.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
@@ -625,18 +585,18 @@ export default function OrganizationSignupForm({
 										htmlFor="annetBidrag"
 										className="text-label font-medium"
 									>
-										Annet bidrag <span className="text-error">*</span>
+										{copy.annetBidrag.label}{" "}
+										<span className="text-error">*</span>
 									</label>
 									<p className="text-body italic text-copy">
-										Beskriv personer, stillingsbrøker eller annet dere kan bidra
-										med til innsatsgruppen.
+										{copy.annetBidrag.hjelp}
 									</p>
 									<textarea
 										id="annetBidrag"
 										value={field.state.value}
 										onChange={(e) => field.handleChange(e.target.value)}
 										onBlur={field.handleBlur}
-										placeholder="Egeninnsats, utstyr, lokaler eller nettverk"
+										placeholder={copy.annetBidrag.placeholder}
 										rows={3}
 										aria-invalid={!!field.state.meta.errorMap.onBlur}
 										aria-describedby={
@@ -691,9 +651,7 @@ export default function OrganizationSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at oppgitt informasjon brukes til å sette
-										oss i kontakt med andre i nettverket.{" "}
-										<span className="text-error">*</span>
+										{copy.samtykke.tekst} <span className="text-error">*</span>
 									</span>
 								</label>
 								{(field.state.meta.errorMap.onBlur ||
@@ -715,20 +673,20 @@ export default function OrganizationSignupForm({
 							onClick={goBack}
 							className="text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					) : (
 						<span />
 					)}
 
-					{step < steps.length ? (
+					{step < copy.steg.length ? (
 						<button
 							type="button"
 							onClick={goNext}
 							disabled={isValidating}
 							className="text-link font-semibold text-green transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
 						>
-							{isValidating ? "Sjekker..." : "Neste →"}
+							{isValidating ? copy.nesteLaster : copy.neste}
 						</button>
 					) : (
 						<form.Subscribe selector={(state) => state.isSubmitting}>
@@ -738,7 +696,7 @@ export default function OrganizationSignupForm({
 									disabled={isSubmitting}
 									className="flex h-12 items-center justify-center rounded-full bg-accent px-8 text-button font-semibold text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
 								>
-									{isSubmitting ? "Sender..." : "Send inn"}
+									{isSubmitting ? copy.sendInnLaster : copy.sendInn}
 								</button>
 							)}
 						</form.Subscribe>
@@ -747,7 +705,10 @@ export default function OrganizationSignupForm({
 			</div>
 			{showSuccess && (
 				<SignupSuccessModal
-					audience="partner"
+					tittel={copy.suksess.tittel}
+					avsnitt1={copy.suksess.avsnitt1}
+					avsnitt2={copy.suksess.avsnitt2}
+					lukk={copy.suksess.lukk}
 					onClose={() => {
 						setShowSuccess(false);
 						onClose?.();

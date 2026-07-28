@@ -1,3 +1,8 @@
+import { fyllMal } from "./fyllMal";
+import { getPadriverSkjemaCopy, getPartnerSkjemaCopy } from "./skjemaCopy";
+
+export type { PadriverSkjemaCopy, PartnerSkjemaCopy } from "./skjemaCopy";
+
 const baseUrl = process.env.AIRTABLE_BASE_URL;
 const app = process.env.AIRTABLE_APP_BASE_ID;
 const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
@@ -421,30 +426,33 @@ const hentTeksterFraAirtable = async (): Promise<Record<string, string>> => {
 	}
 };
 
-const getTekst = async (nokkel: string, fallback: string): Promise<string> => {
+export const getTekst = async (
+	nokkel: string,
+	fallback: string,
+): Promise<string> => {
 	const tekster = await hentTeksterFraAirtable();
 	return tekster[nokkel] ?? fallback;
 };
+const getTekstMedVerdier = async (
+	nokkel: string,
+	fallback: string,
+	verdier: Record<string, string>,
+): Promise<string> => {
+	const mal = await getTekst(nokkel, fallback);
+	return fyllMal(mal, verdier);
+};
 
-// Brukes til tekst med et tall midt i, f.eks. "Se alle {antall} partnere".
-// Redaktøren i Airtable kan endre ordene rundt, men "{antall}" må stå igjen
-// for at tallet skal fylles inn. Er antall null (f.eks. ved lastefeil),
-// fjernes plassholderen og eventuelt dobbelt mellomrom ryddes opp.
-const getTekstMedAntall = async (
+const getTekstMedAntall = (
 	nokkel: string,
 	fallback: string,
 	antall: number | null,
-): Promise<string> => {
-	const mal = await getTekst(nokkel, fallback);
-	const verdi = antall === null ? "" : String(antall);
-	return mal.replace("{antall}", verdi).replace(/\s+/g, " ").trim();
-};
+): Promise<string> =>
+	getTekstMedVerdier(nokkel, fallback, {
+		antall: antall === null ? "" : String(antall),
+	});
 
 export type Kort = { title: string; description: string };
 
-// Brukes av seksjoner med en overskrift, en ingress og en liste med nummererte
-// kort (f.eks. "organisasjon.fordeler.kort-1.tittel", "...kort-2.tittel", ...).
-// nokkelPrefix er delen felles for hele seksjonen, f.eks. "organisasjon.fordeler".
 const getKortSeksjon = async (
 	nokkelPrefix: string,
 	fallback: { heading: string; intro: string; benefits: Kort[] },
@@ -480,9 +488,6 @@ export type FooterCopy = {
 	nyhetsbrevLenke: string;
 };
 
-// Navigasjonsbaren og footeren vises på alle sider, så teksten hentes her ett
-// sted og gjenbrukes fra hver enkelt side, i stedet for å gjenta de samme
-// kallene i alle page.tsx-filene.
 const getGlobalCopy = async (): Promise<{
 	nav: NavigasjonCopy;
 	footer: FooterCopy;
@@ -513,6 +518,57 @@ const getGlobalCopy = async (): Promise<{
 	};
 };
 
+export type PartnerKortCopy = {
+	kontaktKnapp: string;
+	tilbake: string;
+	kontaktpersonForMal: string;
+	ingenKontaktperson: string;
+	taKontaktEpostPrefix: string;
+	taKontaktEpostSuffix: string;
+};
+
+const getPartnerKortCopy = async (): Promise<PartnerKortCopy> => {
+	const [
+		kontaktKnapp,
+		tilbake,
+		kontaktpersonForMal,
+		ingenKontaktperson,
+		taKontaktEpostPrefix,
+		taKontaktEpostSuffix,
+	] = await Promise.all([
+		getTekst("partnere.kort.knapp", "Ta kontakt"),
+		getTekst("partnere.kort.tilbake", "← Tilbake"),
+		getTekst("partnere.kort.kontaktperson-for", "Kontaktperson for {navn}"),
+		getTekst(
+			"partnere.kort.ingen-kontaktperson",
+			"Organisasjonen har ingen synlig kontaktperson.",
+		),
+		getTekst("partnere.kort.ta-kontakt-epost-prefix", "Ta kontakt på"),
+		getTekst(
+			"partnere.kort.ta-kontakt-epost-suffix",
+			"dersom du ønsker å komme i kontakt med dem.",
+		),
+	]);
+	return {
+		kontaktKnapp,
+		tilbake,
+		kontaktpersonForMal,
+		ingenKontaktperson,
+		taKontaktEpostPrefix,
+		taKontaktEpostSuffix,
+	};
+};
+
+export type KontaktlenkerCopy = { epostLabel: string; telefonLabel: string };
+
+const getKontaktlenkerCopy = async (): Promise<KontaktlenkerCopy> => {
+	const [epostLabel, telefonLabel] = await Promise.all([
+		getTekst("padriver-partner.kontaktlenker.epost", "E-post"),
+		getTekst("padriver-partner.kontaktlenker.telefon", "Telefon"),
+	]);
+	return { epostLabel, telefonLabel };
+};
+
 export const airtableClient = {
 	padriver: {
 		create: createPadriver,
@@ -530,5 +586,9 @@ export const airtableClient = {
 		getMedAntall: getTekstMedAntall,
 		getKortSeksjon,
 		getGlobalCopy,
+		getPartnerSkjemaCopy,
+		getPadriverSkjemaCopy,
+		getPartnerKortCopy,
+		getKontaktlenkerCopy,
 	},
 };
