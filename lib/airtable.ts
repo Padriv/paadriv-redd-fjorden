@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { fyllMal } from "./fyllMal";
 import { getPadriverSkjemaCopy, getPartnerSkjemaCopy } from "./skjemaCopy";
 
@@ -376,55 +377,57 @@ type TekstResponse = {
 	};
 };
 
-const hentTeksterFraAirtable = async (): Promise<Record<string, string>> => {
-	try {
-		const tekster: Record<string, string> = {};
-		let offset: string | undefined;
+const hentTeksterFraAirtable = cache(
+	async (): Promise<Record<string, string>> => {
+		try {
+			const tekster: Record<string, string> = {};
+			let offset: string | undefined;
 
-		// Airtable returnerer maks 100 rader per kall, med en offset til neste
-		// side. Uten denne løkken ville tekster utover rad 100 stille falt
-		// tilbake til fallback-teksten når Tekster-tabellen vokser forbi 100 rader.
-		do {
-			const url = new URL(`${baseUrl}/${app}/${teksterTable}`);
-			if (offset) url.searchParams.set("offset", offset);
+			// Airtable returnerer maks 100 rader per kall, med en offset til neste
+			// side. Uten denne løkken ville tekster utover rad 100 stille falt
+			// tilbake til fallback-teksten når Tekster-tabellen vokser forbi 100 rader.
+			do {
+				const url = new URL(`${baseUrl}/${app}/${teksterTable}`);
+				if (offset) url.searchParams.set("offset", offset);
 
-			const response = await fetch(url, {
-				headers: {
-					Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
-				},
-				next: { revalidate: 60 },
-			});
+				const response = await fetch(url, {
+					headers: {
+						Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+					},
+					next: { revalidate: 60 },
+				});
 
-			if (!response.ok) {
-				const errorText = await response.text();
-				console.error(
-					`Airtable svarte med status ${response.status} ved henting av tekster: ${errorText}`,
-				);
-				return {};
-			}
-
-			const json = await response.json();
-			const { records, offset: nextOffset } = json as {
-				records: TekstResponse[];
-				offset?: string;
-			};
-
-			for (const record of records) {
-				const nokkel = record.fields.Nøkkel;
-				const synligTekst = record.fields["Synlig tekst"];
-				if (nokkel && synligTekst) {
-					tekster[nokkel] = synligTekst;
+				if (!response.ok) {
+					const errorText = await response.text();
+					console.error(
+						`Airtable svarte med status ${response.status} ved henting av tekster: ${errorText}`,
+					);
+					return {};
 				}
-			}
-			offset = nextOffset;
-		} while (offset);
 
-		return tekster;
-	} catch (error) {
-		console.error("Klarte ikke å hente tekster fra Airtable", error);
-		return {};
-	}
-};
+				const json = await response.json();
+				const { records, offset: nextOffset } = json as {
+					records: TekstResponse[];
+					offset?: string;
+				};
+
+				for (const record of records) {
+					const nokkel = record.fields.Nøkkel;
+					const synligTekst = record.fields["Synlig tekst"];
+					if (nokkel && synligTekst) {
+						tekster[nokkel] = synligTekst;
+					}
+				}
+				offset = nextOffset;
+			} while (offset);
+
+			return tekster;
+		} catch (error) {
+			console.error("Klarte ikke å hente tekster fra Airtable", error);
+			return {};
+		}
+	},
+);
 
 export const getTekst = async (
 	nokkel: string,
