@@ -12,7 +12,7 @@ const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 const quotesTable = process.env.AIRTABLE_SITAT_TABLE_ID;
-const teksterTable = process.env.AIRTABLE_TEKSTER_ID;
+const teksterTable = process.env.AIRTABLE_TEKSTER_TABLE_ID;
 
 export type AirtableAttachment = {
 	url: string;
