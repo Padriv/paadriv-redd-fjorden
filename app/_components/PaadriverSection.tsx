@@ -72,6 +72,22 @@ export default async function PaadriverSection() {
 		loadFailed = true;
 	}
 
+	const [overskrift, ingress, knappTekst] = await Promise.all([
+		client.airtable.tekster.get(
+			"forside.padriver.overskrift",
+			"Frivillige = Pådrivere",
+		),
+		client.airtable.tekster.get(
+			"forside.padriver.ingress",
+			"Ildsjeler, fagfolk og naboer som allerede har tatt tak. Bla i profilene og finn noen å slå følge med.",
+		),
+		client.airtable.tekster.getMedAntall(
+			"forside.padriver.knapp",
+			"Se alle {antall} Pådrivere",
+			loadFailed ? null : records.length,
+		),
+	]);
+
 	const withPhoto = records.filter((record) => record.fields.Profilbilde?.[0]);
 	const grid = buildGrid(withPhoto);
 
@@ -82,20 +98,13 @@ export default async function PaadriverSection() {
 
 			<div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-cluster md:grid-cols-2">
 				<ScrollReveal className="flex flex-col gap-group">
-					<h2 className="text-section font-bold text-green">
-						Frivillige = Pådrivere
-					</h2>
-					<p className="text-body text-copy">
-						Ildsjeler, fagfolk og naboer som allerede har tatt tak. Bla i
-						profilene og finn noen å slå følge med.
-					</p>
+					<h2 className="text-section font-bold text-green">{overskrift}</h2>
+					<p className="text-body text-copy">{ingress}</p>
 					<Link
 						href="/padriver"
 						className="text-base font-medium text-green transition-colors hover:text-ink md:text-lg"
 					>
-						{loadFailed
-							? "Se alle Pådrivere →"
-							: `Se alle ${records.length} Pådrivere →`}
+						{knappTekst} →
 					</Link>
 				</ScrollReveal>
 

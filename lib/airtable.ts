@@ -1,3 +1,9 @@
+import { cache } from "react";
+import { fyllMal } from "./fyllMal";
+import { getPadriverSkjemaCopy, getPartnerSkjemaCopy } from "./skjemaCopy";
+
+export type { PadriverSkjemaCopy, PartnerSkjemaCopy } from "./skjemaCopy";
+
 const baseUrl = process.env.AIRTABLE_BASE_URL;
 const app = process.env.AIRTABLE_APP_BASE_ID;
 const table = process.env.AIRTABLE_PADRIVERE_TABLE_ID;
@@ -6,6 +12,7 @@ const partnereTable = process.env.AIRTABLE_PARTNERE_TABLE_ID;
 const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 const quotesTable = process.env.AIRTABLE_SITAT_TABLE_ID;
+const teksterTable = process.env.AIRTABLE_TEKSTER_TABLE_ID;
 
 export type AirtableAttachment = {
 	url: string;
@@ -363,6 +370,208 @@ const getQuotes = async (): Promise<QuoteListItem[]> => {
 	}));
 };
 
+type TekstResponse = {
+	fields: {
+		Nøkkel?: string;
+		"Synlig tekst"?: string;
+	};
+};
+
+const hentTeksterFraAirtable = cache(
+	async (): Promise<Record<string, string>> => {
+		try {
+			const tekster: Record<string, string> = {};
+			let offset: string | undefined;
+
+			// Airtable returnerer maks 100 rader per kall, med en offset til neste
+			// side. Uten denne løkken ville tekster utover rad 100 stille falt
+			// tilbake til fallback-teksten når Tekster-tabellen vokser forbi 100 rader.
+			do {
+				const url = new URL(`${baseUrl}/${app}/${teksterTable}`);
+				if (offset) url.searchParams.set("offset", offset);
+
+				const response = await fetch(url, {
+					headers: {
+						Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+					},
+					next: { revalidate: 60 },
+				});
+
+				if (!response.ok) {
+					const errorText = await response.text();
+					console.error(
+						`Airtable svarte med status ${response.status} ved henting av tekster: ${errorText}`,
+					);
+					return {};
+				}
+
+				const json = await response.json();
+				const { records, offset: nextOffset } = json as {
+					records: TekstResponse[];
+					offset?: string;
+				};
+
+				for (const record of records) {
+					const nokkel = record.fields.Nøkkel;
+					const synligTekst = record.fields["Synlig tekst"];
+					if (nokkel && synligTekst) {
+						tekster[nokkel] = synligTekst;
+					}
+				}
+				offset = nextOffset;
+			} while (offset);
+
+			return tekster;
+		} catch (error) {
+			console.error("Klarte ikke å hente tekster fra Airtable", error);
+			return {};
+		}
+	},
+);
+
+export const getTekst = async (
+	nokkel: string,
+	fallback: string,
+): Promise<string> => {
+	const tekster = await hentTeksterFraAirtable();
+	return tekster[nokkel] ?? fallback;
+};
+const getTekstMedVerdier = async (
+	nokkel: string,
+	fallback: string,
+	verdier: Record<string, string>,
+): Promise<string> => {
+	const mal = await getTekst(nokkel, fallback);
+	return fyllMal(mal, verdier);
+};
+
+const getTekstMedAntall = (
+	nokkel: string,
+	fallback: string,
+	antall: number | null,
+): Promise<string> =>
+	getTekstMedVerdier(nokkel, fallback, {
+		antall: antall === null ? "" : String(antall),
+	});
+
+export type Kort = { title: string; description: string };
+
+const getKortSeksjon = async (
+	nokkelPrefix: string,
+	fallback: { heading: string; intro: string; benefits: Kort[] },
+): Promise<{ heading: string; intro: string; benefits: Kort[] }> => {
+	const [heading, intro, benefits] = await Promise.all([
+		getTekst(`${nokkelPrefix}.overskrift`, fallback.heading),
+		getTekst(`${nokkelPrefix}.ingress`, fallback.intro),
+		Promise.all(
+			fallback.benefits.map((kort, index) =>
+				Promise.all([
+					getTekst(`${nokkelPrefix}.kort-${index + 1}.tittel`, kort.title),
+					getTekst(
+						`${nokkelPrefix}.kort-${index + 1}.beskrivelse`,
+						kort.description,
+					),
+				]).then(([title, description]) => ({ title, description })),
+			),
+		),
+	]);
+	return { heading, intro, benefits };
+};
+
+export type NavigasjonCopy = {
+	logo: string;
+	padriverLabel: string;
+	partnereLabel: string;
+	joinLabel: string;
+};
+
+export type FooterCopy = {
+	slagord: string;
+	kontaktOverskrift: string;
+	nyhetsbrevLenke: string;
+};
+
+const getGlobalCopy = async (): Promise<{
+	nav: NavigasjonCopy;
+	footer: FooterCopy;
+}> => {
+	const [
+		logo,
+		padriverLabel,
+		partnereLabel,
+		joinLabel,
+		slagord,
+		kontaktOverskrift,
+		nyhetsbrevLenke,
+	] = await Promise.all([
+		getTekst("navigasjon.logo", "Oppdrag\nfjorden\nvår"),
+		getTekst("navigasjon.lenke-padriver", "Pådrivere"),
+		getTekst("navigasjon.lenke-partnere", "Partnere"),
+		getTekst("navigasjon.knapp", "Bli med"),
+		getTekst(
+			"footer.slagord",
+			"For alle som vil finne gode løsninger og en mer bærekraftig retning – sammen!",
+		),
+		getTekst("footer.kontakt.overskrift", "Kontakt"),
+		getTekst("footer.kontakt.nyhetsbrev", "Motta nyhetsbrev"),
+	]);
+	return {
+		nav: { logo, padriverLabel, partnereLabel, joinLabel },
+		footer: { slagord, kontaktOverskrift, nyhetsbrevLenke },
+	};
+};
+
+export type PartnerKortCopy = {
+	kontaktKnapp: string;
+	tilbake: string;
+	kontaktpersonForMal: string;
+	ingenKontaktperson: string;
+	taKontaktEpostPrefix: string;
+	taKontaktEpostSuffix: string;
+};
+
+const getPartnerKortCopy = async (): Promise<PartnerKortCopy> => {
+	const [
+		kontaktKnapp,
+		tilbake,
+		kontaktpersonForMal,
+		ingenKontaktperson,
+		taKontaktEpostPrefix,
+		taKontaktEpostSuffix,
+	] = await Promise.all([
+		getTekst("partnere.kort.knapp", "Ta kontakt"),
+		getTekst("partnere.kort.tilbake", "← Tilbake"),
+		getTekst("partnere.kort.kontaktperson-for", "Kontaktperson for {navn}"),
+		getTekst(
+			"partnere.kort.ingen-kontaktperson",
+			"Organisasjonen har ingen synlig kontaktperson.",
+		),
+		getTekst("partnere.kort.ta-kontakt-epost-prefix", "Ta kontakt på"),
+		getTekst(
+			"partnere.kort.ta-kontakt-epost-suffix",
+			"dersom du ønsker å komme i kontakt med dem.",
+		),
+	]);
+	return {
+		kontaktKnapp,
+		tilbake,
+		kontaktpersonForMal,
+		ingenKontaktperson,
+		taKontaktEpostPrefix,
+		taKontaktEpostSuffix,
+	};
+};
+
+export type KontaktlenkerCopy = { epostLabel: string; telefonLabel: string };
+
+const getKontaktlenkerCopy = async (): Promise<KontaktlenkerCopy> => {
+	const [epostLabel, telefonLabel] = await Promise.all([
+		getTekst("padriver-partner.kontaktlenker.epost", "E-post"),
+		getTekst("padriver-partner.kontaktlenker.telefon", "Telefon"),
+	]);
+	return { epostLabel, telefonLabel };
+};
+
 export const airtableClient = {
 	padriver: {
 		create: createPadriver,
@@ -374,5 +583,15 @@ export const airtableClient = {
 	},
 	quotes: {
 		list: getQuotes,
+	},
+	tekster: {
+		get: getTekst,
+		getMedAntall: getTekstMedAntall,
+		getKortSeksjon,
+		getGlobalCopy,
+		getPartnerSkjemaCopy,
+		getPadriverSkjemaCopy,
+		getPartnerKortCopy,
+		getKontaktlenkerCopy,
 	},
 };

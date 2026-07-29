@@ -4,16 +4,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const links = [
-	{ href: "/padriver", label: "Pådrivere" },
-	{ href: "/partnere", label: "Partnere" },
-];
-
 type NavigationbarProps = {
 	solid?: boolean;
+	logo: string;
+	padriverLabel: string;
+	partnereLabel: string;
+	joinLabel: string;
 };
 
-export default function Navigationbar({ solid = false }: NavigationbarProps) {
+export default function Navigationbar({
+	solid = false,
+	logo,
+	padriverLabel,
+	partnereLabel,
+	joinLabel,
+}: NavigationbarProps) {
+	const links = [
+		{ href: "/padriver", label: padriverLabel },
+		{ href: "/partnere", label: partnereLabel },
+	];
 	const pathname = usePathname();
 	const [visible, setVisible] = useState(true);
 	const [scrolled, setScrolled] = useState(false);
@@ -67,13 +76,9 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 			<Link
 				href="/"
 				onClick={handleLogoClick}
-				className="text-label font-syne font-bold leading-tight text-cream transition-transform hover:scale-(--hover-navigasjonsbar)"
+				className="text-label font-syne font-bold leading-tight text-cream transition-transform hover:scale-(--hover-navigasjonsbar) whitespace-pre-line"
 			>
-				Oppdrag
-				<br />
-				fjorden
-				<br />
-				vår
+				{logo}
 			</Link>
 
 			<div className="flex items-center gap-3 sm:gap-6 md:gap-8">
@@ -92,7 +97,7 @@ export default function Navigationbar({ solid = false }: NavigationbarProps) {
 					onClick={handleJoinClick}
 					className="text-button whitespace-nowrap rounded-full bg-cream px-3 py-1.5 font-semibold text-deep-green transition-transform hover:scale-(--hover-navigasjonsbar) md:px-5 md:py-2"
 				>
-					Bli med
+					{joinLabel}
 				</Link>
 			</div>
 		</header>

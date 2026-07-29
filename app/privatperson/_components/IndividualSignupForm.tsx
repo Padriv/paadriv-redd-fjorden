@@ -3,41 +3,14 @@
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import type { Padriver } from "@/lib/airtable";
+import type { Padriver, PadriverSkjemaCopy } from "@/lib/airtable";
+import { fyllMal } from "@/lib/fyllMal";
 import { NONE_APPLY_SKILL, SKILL_OPTIONS } from "@/lib/skills";
 import CloseButton from "../../../components/CloseButton";
 import MultiSelect from "../../../components/MultiSelect";
 import SignupSuccessModal from "../../../components/SignupSuccessModal";
 
 const skillOptions = [...SKILL_OPTIONS, NONE_APPLY_SKILL];
-
-const steps = [
-	{
-		title: "Om deg",
-		description:
-			"Informasjonen brukes for å sette deg i kontakt med andre Pådrivere og partnere.",
-		required: true,
-	},
-	{
-		title: "Din motivasjon",
-		description:
-			"Hvorfor vil du bli en Pådriver som bidrar til en friskere Oslofjord?",
-		required: true,
-	},
-	{
-		title: "Kompetanse",
-		description: "Har du erfaring innen noe av dette? Velg gjerne flere.",
-		required: true,
-	},
-	{
-		title: "Samtykke",
-		description: "Bekreft samtykket ditt og bli en Pådriver.",
-		required: true,
-	},
-];
-
-const samtykkeError = (value: boolean) =>
-	!value ? "Du må krysse av for samtykke før du kan melde deg inn." : undefined;
 
 function TextField({
 	id,
@@ -91,8 +64,10 @@ function TextField({
 
 export default function IndividualSignupForm({
 	onClose,
+	copy,
 }: {
 	onClose?: () => void;
+	copy: PadriverSkjemaCopy;
 }) {
 	const [step, setStep] = useState(0);
 	const [isValidating, setIsValidating] = useState(false);
@@ -102,6 +77,9 @@ export default function IndividualSignupForm({
 	useEffect(() => {
 		cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}, []);
+
+	const samtykkeError = (value: boolean) =>
+		!value ? copy.samtykke.feil : undefined;
 
 	const form = useForm({
 		defaultValues: {
@@ -134,18 +112,16 @@ export default function IndividualSignupForm({
 				});
 
 				if (response.status !== 201) {
-					toast.error("Noe gikk galt", {
-						description:
-							"Vi klarte ikke å registrere påmeldingen din. Prøv igjen.",
+					toast.error(copy.toastFeilTittel, {
+						description: copy.toastFeilRegistrering,
 					});
 					return;
 				}
 
 				setShowSuccess(true);
 			} catch {
-				toast.error("Noe gikk galt", {
-					description:
-						"Vi klarte ikke å koble til serveren. Sjekk internettforbindelsen og prøv igjen.",
+				toast.error(copy.toastFeilTittel, {
+					description: copy.toastFeilServer,
 				});
 			}
 		},
@@ -178,7 +154,7 @@ export default function IndividualSignupForm({
 			const hasErrors = fields.some(
 				({ name }) => (form.getFieldMeta(name)?.errors?.length ?? 0) > 0,
 			);
-			if (!hasErrors) setStep((s) => Math.min(s + 1, steps.length));
+			if (!hasErrors) setStep((s) => Math.min(s + 1, copy.steg.length));
 		} finally {
 			setIsValidating(false);
 		}
@@ -186,7 +162,11 @@ export default function IndividualSignupForm({
 
 	const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
-	const current = steps[step - 1];
+	const current = copy.steg[step - 1];
+	const stegLabel = fyllMal(copy.stegLabelMal, {
+		steg: String(step),
+		totalt: String(copy.steg.length),
+	});
 
 	return (
 		<form
@@ -201,10 +181,10 @@ export default function IndividualSignupForm({
 				ref={cardRef}
 				className="relative mx-auto flex w-full max-w-2xl scroll-mt-24 flex-col gap-cluster rounded-2xl bg-cream p-8"
 			>
-				{onClose && <CloseButton onClick={onClose} label="Lukk skjema" />}
+				{onClose && <CloseButton onClick={onClose} label={copy.lukkSkjema} />}
 				<div className="flex flex-col gap-inline">
 					<span className="w-fit rounded-full bg-green/10 px-3 py-1 text-caption font-medium text-green">
-						Steg {step} av {steps.length}
+						{stegLabel}
 					</span>
 					<div className="mt-group flex items-center justify-between gap-inline">
 						<div className="flex items-center gap-inline">
@@ -212,10 +192,8 @@ export default function IndividualSignupForm({
 								{step}
 							</span>
 							<h3 className="text-subheading font-semibold text-green">
-								{step === 0 ? "Meld interesse som pådriver" : current.title}
-								{step > 0 && current.required && (
-									<span className="text-error"> *</span>
-								)}
+								{step === 0 ? copy.introTittel : current.title}
+								{step > 0 && <span className="text-error"> *</span>}
 							</h3>
 						</div>
 						{step === 3 && (
@@ -227,7 +205,7 @@ export default function IndividualSignupForm({
 											onClick={() => field.handleChange([])}
 											className="text-caption font-medium text-muted hover:text-ink hover:underline"
 										>
-											Nullstill
+											{copy.nullstill}
 										</button>
 									)
 								}
@@ -240,25 +218,21 @@ export default function IndividualSignupForm({
 					<div className="h-1.5 w-full rounded-full bg-green/10">
 						<div
 							className="h-full rounded-full bg-green transition-all"
-							style={{ width: `${(step / steps.length) * 100}%` }}
+							style={{ width: `${(step / copy.steg.length) * 100}%` }}
 						/>
 					</div>
 				</div>
 
 				{step === 0 && (
 					<div className="flex flex-col gap-group text-body text-copy">
-						<p>Dette skjemaet er en interesseregistrering.</p>
+						<p>{copy.intro.avsnitt1}</p>
 						<p>
-							Informasjonen du oppgir brukes til å følge deg opp og koble deg
-							med relevante pådrivere og partnere.{" "}
+							{copy.intro.avsnitt2}{" "}
 							<strong className="font-semibold">
-								Ingenting av det du sender inn her publiseres på nettsiden.
+								{copy.intro.avsnitt2Uthevet}
 							</strong>
 						</p>
-						<p>
-							Etter registrering får du en e-post der du selv kan velge om du
-							ønsker å bli synlig som pådriver på fjordenvår.no.
-						</p>
+						<p>{copy.intro.avsnitt3}</p>
 					</div>
 				)}
 
@@ -268,19 +242,19 @@ export default function IndividualSignupForm({
 							name="navn"
 							validators={{
 								onBlur: ({ value }) =>
-									!value.trim() ? "Navn er påkrevd" : undefined,
+									!value.trim() ? copy.navn.feilPakrevd : undefined,
 							}}
 						>
 							{(field) => (
 								<TextField
 									id="navn"
-									label="Fullt navn"
+									label={copy.navn.label}
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="Ola Nordmann"
+									placeholder={copy.navn.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -289,9 +263,9 @@ export default function IndividualSignupForm({
 							name="epost"
 							validators={{
 								onBlur: ({ value }) => {
-									if (!value.trim()) return "E-post er påkrevd";
+									if (!value.trim()) return copy.epost.feilPakrevd;
 									if (!/\S+@\S+\.\S+/.test(value))
-										return "Ugyldig e-postadresse";
+										return copy.epost.feilUgyldig;
 									return undefined;
 								},
 							}}
@@ -299,14 +273,14 @@ export default function IndividualSignupForm({
 							{(field) => (
 								<TextField
 									id="epost"
-									label="E-post"
+									label={copy.epost.label}
 									type="email"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="ola.nordmann@example.com"
+									placeholder={copy.epost.placeholder}
 								/>
 							)}
 						</form.Field>
@@ -316,12 +290,11 @@ export default function IndividualSignupForm({
 							validators={{
 								onBlur: ({ value }) => {
 									const trimmed = value.trim();
-									if (!trimmed) return "Telefonnummer er påkrevd";
+									if (!trimmed) return copy.telefon.feilPakrevd;
 									if (!/^\+?\d[\d\s]*$/.test(trimmed))
-										return "Telefonnummer kan bare inneholde tall (og eventuelt + foran landkode)";
+										return copy.telefon.feilTall;
 									const digits = trimmed.replace(/\D/g, "");
-									if (digits.length < 8)
-										return "Telefonnummer må ha minst 8 sifre";
+									if (digits.length < 8) return copy.telefon.feilLengde;
 									return undefined;
 								},
 							}}
@@ -329,14 +302,14 @@ export default function IndividualSignupForm({
 							{(field) => (
 								<TextField
 									id="telefon"
-									label="Telefon"
+									label={copy.telefon.label}
 									type="tel"
 									required
 									value={field.state.value}
 									onChange={field.handleChange}
 									onBlur={field.handleBlur}
 									error={field.state.meta.errorMap.onBlur as string | undefined}
-									placeholder="+47 123 45 678"
+									placeholder={copy.telefon.placeholder}
 									maxLength={18}
 								/>
 							)}
@@ -349,20 +322,20 @@ export default function IndividualSignupForm({
 						name="motivasjon"
 						validators={{
 							onSubmit: ({ value }) =>
-								!value.trim() ? "Motivasjon er påkrevd" : undefined,
+								!value.trim() ? copy.motivasjon.feilPakrevd : undefined,
 						}}
 					>
 						{(field) => (
 							<div className="flex flex-col gap-inline">
 								<label htmlFor="motivasjon" className="sr-only">
-									Din motivasjon
+									{copy.motivasjon.srLabel}
 								</label>
 								<textarea
 									id="motivasjon"
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
-									placeholder="Fortell litt om hvorfor du ønsker å bli Pådriver, og hva du håper å oppnå."
+									placeholder={copy.motivasjon.placeholder}
 									rows={4}
 									maxLength={400}
 									aria-invalid={!!field.state.meta.errorMap.onSubmit}
@@ -391,9 +364,7 @@ export default function IndividualSignupForm({
 						name="kompetanse"
 						validators={{
 							onSubmit: ({ value }) =>
-								value.length === 0
-									? "Velg minst ett kompetanseområde"
-									: undefined,
+								value.length === 0 ? copy.kompetanse.feilMinstEtt : undefined,
 						}}
 					>
 						{(field) => (
@@ -444,9 +415,7 @@ export default function IndividualSignupForm({
 										className="mt-1 accent-deep-green"
 									/>
 									<span>
-										Jeg samtykker til at oppgitt informasjon brukes til å sette
-										meg i kontakt med andre i nettverket.{" "}
-										<span className="text-error">*</span>
+										{copy.samtykke.tekst} <span className="text-error">*</span>
 									</span>
 								</label>
 								{(field.state.meta.errorMap.onBlur ||
@@ -468,20 +437,20 @@ export default function IndividualSignupForm({
 							onClick={goBack}
 							className="text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					) : (
 						<span />
 					)}
 
-					{step < steps.length ? (
+					{step < copy.steg.length ? (
 						<button
 							type="button"
 							onClick={goNext}
 							disabled={isValidating}
 							className="text-link font-semibold text-green transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
 						>
-							{isValidating ? "Sjekker..." : "Neste →"}
+							{isValidating ? copy.nesteLaster : copy.neste}
 						</button>
 					) : (
 						<form.Subscribe selector={(state) => state.isSubmitting}>
@@ -491,7 +460,7 @@ export default function IndividualSignupForm({
 									disabled={isSubmitting}
 									className="flex h-12 items-center justify-center rounded-full bg-accent px-8 text-button font-semibold text-on-accent transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
 								>
-									{isSubmitting ? "Sender..." : "Send inn"}
+									{isSubmitting ? copy.sendInnLaster : copy.sendInn}
 								</button>
 							)}
 						</form.Subscribe>
@@ -500,7 +469,10 @@ export default function IndividualSignupForm({
 			</div>
 			{showSuccess && (
 				<SignupSuccessModal
-					audience="pådriver"
+					tittel={copy.suksess.tittel}
+					avsnitt1={copy.suksess.avsnitt1}
+					avsnitt2={copy.suksess.avsnitt2}
+					lukk={copy.suksess.lukk}
 					onClose={() => {
 						setShowSuccess(false);
 						onClose?.();

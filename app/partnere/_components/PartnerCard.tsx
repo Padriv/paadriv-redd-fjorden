@@ -4,7 +4,12 @@ import { useMemo, useState } from "react";
 import ContactLinks from "@/components/ContactLinks";
 import LocationPinIcon from "@/components/LocationPinIcon";
 import Modal from "@/components/Modal";
-import type { PartnerListItem } from "@/lib/airtable";
+import type {
+	KontaktlenkerCopy,
+	PartnerKortCopy,
+	PartnerListItem,
+} from "@/lib/airtable";
+import { fyllMal } from "@/lib/fyllMal";
 import { getInitials } from "@/lib/initials";
 import { getSkillColor } from "@/lib/skillColors";
 import { useSkillFitting } from "@/lib/useSkillFitting";
@@ -28,7 +33,15 @@ function renderSkillPill(skill: string, options?: { truncate?: boolean }) {
 	);
 }
 
-export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
+export default function PartnerCard({
+	partner,
+	copy,
+	kontaktlenkerCopy,
+}: {
+	partner: PartnerListItem;
+	copy: PartnerKortCopy;
+	kontaktlenkerCopy: KontaktlenkerCopy;
+}) {
 	const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 	const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 	const [isNoContactModalOpen, setIsNoContactModalOpen] = useState(false);
@@ -212,7 +225,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 						className="size-5 shrink-0"
 					/>
 					<span className="flex-1 truncate text-button font-medium text-green">
-						Ta kontakt
+						{copy.kontaktKnapp}
 					</span>
 					<span aria-hidden="true" className="text-muted">
 						›
@@ -252,38 +265,37 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							</div>
 						</div>
 						<div className="mt-group w-full border-t border-border-subtle pt-group">
-						<button
-							type="button"
-							onClick={() => {
-								setIsCardModalOpen(false);
-								setModalHasBack(true);
+							<button
+								type="button"
+								onClick={() => {
+									setIsCardModalOpen(false);
+									setModalHasBack(true);
 
-								if (kontaktperson) {
-									setIsContactModalOpen(true);
-								} else {
-									setIsNoContactModalOpen(true);
-								}
-							}}
-							aria-haspopup="dialog"
-							className="group relative flex w-full items-center gap-inline text-left"
-						>
-							<img
-								src="/svg/mail_green_icon.svg"
-								alt=""
-								className="size-5 shrink-0"
-							/>
-							<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
-								Ta kontakt
-							</span>
-							<span
-								aria-hidden="true"
-								className="text-muted transition-colors group-hover:text-ink"
+									if (kontaktperson) {
+										setIsContactModalOpen(true);
+									} else {
+										setIsNoContactModalOpen(true);
+									}
+								}}
+								aria-haspopup="dialog"
+								className="group relative flex w-full items-center gap-inline text-left"
 							>
-								›
-							</span>
-						</button>
-					</div>
-
+								<img
+									src="/svg/mail_green_icon.svg"
+									alt=""
+									className="size-5 shrink-0"
+								/>
+								<span className="flex-1 truncate text-button font-medium text-green transition-colors group-hover:text-ink">
+									{copy.kontaktKnapp}
+								</span>
+								<span
+									aria-hidden="true"
+									className="text-muted transition-colors group-hover:text-ink"
+								>
+									›
+								</span>
+							</button>
+						</div>
 					</div>
 				</Modal>
 			)}
@@ -303,7 +315,7 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							}}
 							className="absolute left-0 top-0 text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					)}
 					<div className="flex min-h-72 flex-col items-center">
@@ -317,13 +329,15 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 									{kontaktperson.navn}
 								</h3>
 								<p className="text-caption text-muted">
-									Kontaktperson for {navn}
+									{fyllMal(copy.kontaktpersonForMal, { navn })}
 								</p>
 							</div>
 						</div>
 						<ContactLinks
 							epost={kontaktperson.epost}
 							telefon={kontaktperson.telefon}
+							epostLabel={kontaktlenkerCopy.epostLabel}
+							telefonLabel={kontaktlenkerCopy.telefonLabel}
 						/>
 					</div>
 				</Modal>
@@ -343,22 +357,20 @@ export default function PartnerCard({ partner }: { partner: PartnerListItem }) {
 							}}
 							className="absolute left-0 top-0 text-button font-semibold text-ink transition-colors hover:text-copy"
 						>
-							← Tilbake
+							{copy.tilbake}
 						</button>
 					)}
 					<div className="flex min-h-72 flex-col justify-center gap-group">
+						<p className="text-body text-ink">{copy.ingenKontaktperson}</p>
 						<p className="text-body text-ink">
-							Organisasjonen har ingen synlig kontaktperson.
-						</p>
-						<p className="text-body text-ink">
-							Ta kontakt på{" "}
+							{copy.taKontaktEpostPrefix}{" "}
 							<a
 								href="mailto:fjorden@paadriv.no"
 								className="font-semibold text-green transition-colors hover:text-ink"
 							>
 								fjorden@paadriv.no
 							</a>{" "}
-							dersom du ønsker å komme i kontakt med dem.
+							{copy.taKontaktEpostSuffix}
 						</p>
 					</div>
 				</Modal>

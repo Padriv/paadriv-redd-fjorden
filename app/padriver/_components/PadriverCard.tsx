@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import ContactLinks from "@/components/ContactLinks";
 import Modal from "@/components/Modal";
-import type { PadriverListResponse } from "@/lib/airtable";
+import type { KontaktlenkerCopy, PadriverListResponse } from "@/lib/airtable";
 import { getInitials } from "@/lib/initials";
 import { getShortName } from "@/lib/shortName";
 import { getSkillColor } from "@/lib/skillColors";
@@ -28,7 +28,15 @@ function renderSkillPill(skill: string) {
 	);
 }
 
-export default function PadriverCard({ record }: { record: PadriverRecord }) {
+export default function PadriverCard({
+	record,
+	lesMerTekst,
+	kontaktlenkerCopy,
+}: {
+	record: PadriverRecord;
+	lesMerTekst: string;
+	kontaktlenkerCopy: KontaktlenkerCopy;
+}) {
 	const [isTruncated, setIsTruncated] = useState(false);
 	const [lineClamp, setLineClamp] = useState(3);
 	const [maxTextHeight, setMaxTextHeight] = useState<number | null>(null);
@@ -205,13 +213,18 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 							isTruncated ? "" : "invisible"
 						}`}
 					>
-						Les mer
+						{lesMerTekst}
 					</button>
 				</div>
 			)}
 			<div className="mt-auto flex w-full flex-col items-center gap-inline">
 				{cardSkillPills}
-				<ContactLinks epost={fields.Epost} telefon={fields.Telefon} />
+				<ContactLinks
+					epost={fields.Epost}
+					telefon={fields.Telefon}
+					epostLabel={kontaktlenkerCopy.epostLabel}
+					telefonLabel={kontaktlenkerCopy.telefonLabel}
+				/>
 			</div>
 
 			{isModalOpen && (
@@ -232,7 +245,12 @@ export default function PadriverCard({ record }: { record: PadriverRecord }) {
 							<p className="text-card-body text-copy">“{motivasjon}”</p>
 						)}
 						{fullSkillPills}
-						<ContactLinks epost={fields.Epost} telefon={fields.Telefon} />
+						<ContactLinks
+							epost={fields.Epost}
+							telefon={fields.Telefon}
+							epostLabel={kontaktlenkerCopy.epostLabel}
+							telefonLabel={kontaktlenkerCopy.telefonLabel}
+						/>
 					</div>
 				</Modal>
 			)}

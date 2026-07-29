@@ -1,43 +1,41 @@
 "use client";
 
 import HeroSection from "@/app/_components/HeroSection";
-import IndividualSignupForm from "@/app/privatperson/_components/IndividualSignupForm";
-import type { PadriverSkjemaCopy } from "@/lib/airtable";
+import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
+import type { PartnerSkjemaCopy } from "@/lib/airtable";
 import { useJoinForm } from "@/lib/useJoinForm";
 
-type JoinFormSectionProps = {
+type OrganisasjonHeroSectionProps = {
 	overline: string;
 	heading: string;
-	subheading?: string;
 	description: string;
 	buttonLabel: string;
-	skjemaCopy: PadriverSkjemaCopy;
+	skjemaCopy: PartnerSkjemaCopy;
 };
 
-export default function JoinFormSection({
+export default function OrganisasjonHeroSection({
 	overline,
 	heading,
-	subheading,
 	description,
 	buttonLabel,
 	skjemaCopy,
-}: JoinFormSectionProps) {
-	const { anchorId, showForm, onJoinClick, onCloseForm } =
-		useJoinForm("meld-deg-pa");
+}: OrganisasjonHeroSectionProps) {
+	const { anchorId, showForm, onJoinClick, onCloseForm } = useJoinForm(
+		"meld-inn-organisasjon",
+	);
 
 	return (
 		<>
 			<HeroSection
 				overline={overline}
 				heading={heading}
-				subheading={subheading}
 				description={description}
 				buttonLabel={buttonLabel}
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">
 				{showForm && (
-					<IndividualSignupForm onClose={onCloseForm} copy={skjemaCopy} />
+					<OrganizationSignupForm onClose={onCloseForm} copy={skjemaCopy} />
 				)}
 			</div>
 		</>

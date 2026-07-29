@@ -2,14 +2,23 @@
 
 import HeroSection from "@/app/_components/HeroSection";
 import OrganizationSignupForm from "@/app/organisasjon/_components/OrganizationSignupForm";
+import type { PartnerSkjemaCopy } from "@/lib/airtable";
 import { useJoinForm } from "@/lib/useJoinForm";
 
 export default function PartnereHero({
 	partnerCount,
 	loadFailed,
+	heading,
+	ingressSlutt,
+	buttonLabel,
+	skjemaCopy,
 }: {
 	partnerCount: number;
 	loadFailed: boolean;
+	heading: string;
+	ingressSlutt: string;
+	buttonLabel: string;
+	skjemaCopy: PartnerSkjemaCopy;
 }) {
 	const { anchorId, showForm, onJoinClick, onCloseForm } = useJoinForm(
 		"meld-interesse-partner",
@@ -23,13 +32,15 @@ export default function PartnereHero({
 	return (
 		<>
 			<HeroSection
-				heading="Partnere som drar i samme retning"
-				description={`${intro} De representerer bedrifter, kommuner og organisasjoner som bidrar med ressurser, kompetanse og nettverk i arbeidet for en frisk Oslofjord. Som partner er de en synlig del av løsningen. Samtidig gir de sine ansatte noe å engasjere seg i, og blir del av et nettverk som gir verdi tilbake. Vi trenger flere på laget. Kanskje er det dere?`}
-				buttonLabel="Meld interesse for å bli partner"
+				heading={heading}
+				description={`${intro} ${ingressSlutt}`}
+				buttonLabel={buttonLabel}
 				onJoinClick={onJoinClick}
 			/>
 			<div id={anchorId} className="w-full scroll-mt-24">
-				{showForm && <OrganizationSignupForm onClose={onCloseForm} />}
+				{showForm && (
+					<OrganizationSignupForm onClose={onCloseForm} copy={skjemaCopy} />
+				)}
 			</div>
 		</>
 	);

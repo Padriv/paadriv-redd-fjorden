@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 export default function ContactLinks({
 	epost,
 	telefon,
+	epostLabel,
+	telefonLabel,
 }: {
 	epost?: string;
 	telefon?: string;
+	epostLabel: string;
+	telefonLabel: string;
 }) {
 	const [isPhoneRevealed, setIsPhoneRevealed] = useState(false);
 	const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -26,7 +30,7 @@ export default function ContactLinks({
 					className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
 				>
 					<img src="/svg/mail_green_icon.svg" alt="" className="size-4" />
-					E-post
+					{epostLabel}
 				</a>
 			)}
 			{telefon &&
@@ -56,7 +60,7 @@ export default function ContactLinks({
 						className="relative flex flex-1 items-center justify-center gap-inline py-1 text-button font-medium text-green transition-colors hover:text-ink"
 					>
 						<img src="/svg/phone_green_icon.svg" alt="" className="size-4" />
-						Telefon
+						{telefonLabel}
 					</button>
 				))}
 		</div>
