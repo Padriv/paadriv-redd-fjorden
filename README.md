@@ -48,6 +48,7 @@ Alle miljøvariabler er samlet i `.example.env`. Kopier filen til `.env` og fyll
 | `AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID` | Tabell-ID for Prosjektportefølje-tabellen (starter med `tbl`) |
 | `AIRTABLE_PROSJEKT_RECORD_ID` | Rad-ID for "Oppdrag Fjorden vår"-prosjektet i Prosjektportefølje-tabellen (starter med `rec`) |
 | `AIRTABLE_SITAT_TABLE_ID` | Tabell-ID for tabellen med sitater (starter med `tbl`) |
+| `AIRTABLE_TEKSTER_ID` | Tabell-ID for tabellen med tekster (CMS-tekst for hele nettsiden, starter med `tbl`) |
 | `AIRTABLE_PAT` | Personal Access Token med lese- og skrivetilgang til basen (starter med `pat`) |
 
 Tabell- og rad-IDer finner du enklest ved å åpne basen i Airtable og se på URL-en, eller via Airtables API-dokumentasjon for basen (`Help` → `API documentation`). Et Personal Access Token opprettes under [airtable.com/create/tokens](https://airtable.com/create/tokens) og må ha `data.records:read` og `data.records:write`-scope for basen.
