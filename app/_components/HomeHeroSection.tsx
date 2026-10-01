@@ -13,14 +13,19 @@ export default async function HomeHeroSection() {
 		"Prosjektet Oppdrag: Fjorden Vår kobler mennesker, kunnskap og ressurser på tvers av offentlig, privat og frivillig sektor. Vi tror de beste løsningene skapes når vi jobber sammen, derfor trenger vi deg med på laget.",
 	);
 
+	const bilde = await client.airtable.bilder.get("forside.hero.bilde", {
+		url: "/images/Forsidebilde.jpg",
+		alt: "Dykker som undersøker dekk og skrot på fjordbunnen",
+	});
+
 	return (
 		<section
 			id="home-hero"
 			className="relative flex h-dvh min-h-150 w-full flex-col justify-end overflow-hidden bg-deep-green pb-32 pl-10 pr-6 pt-10 md:pb-40 md:pl-28 md:pr-16"
 		>
 			<Image
-				src="/images/Forsidebilde.jpg"
-				alt="Dykker som undersøker dekk og skrot på fjordbunnen"
+				src={bilde.url}
+				alt={bilde.alt}
 				fill
 				priority
 				className="object-cover object-[center_40%]"

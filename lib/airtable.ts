@@ -13,9 +13,11 @@ const prosjektportefoljeTable =
 	process.env.AIRTABLE_PROSJEKTPORTEFOLJE_TABLE_ID;
 const quotesTable = process.env.AIRTABLE_SITAT_TABLE_ID;
 const teksterTable = process.env.AIRTABLE_TEKSTER_TABLE_ID;
+const bilderTable = process.env.AIRTABLE_BILDER_TABLE_ID;
 
 export type AirtableAttachment = {
 	url: string;
+	type?: string;
 	thumbnails?: {
 		large: { url: string };
 	};
@@ -454,6 +456,77 @@ const getTekstMedAntall = (
 		antall: antall === null ? "" : String(antall),
 	});
 
+export type Bilde = { url: string; alt: string };
+
+type BildeResponse = {
+	fields: {
+		Nøkkel?: string;
+		Bilde?: AirtableAttachment[];
+		Beskrivelse?: string;
+	};
+};
+
+const hentBilderFraAirtable = cache(
+	async (): Promise<Record<string, Bilde>> => {
+		if (!bilderTable) return {};
+		try {
+			const bilder: Record<string, Bilde> = {};
+			let offset: string | undefined;
+
+			do {
+				const url = new URL(`${baseUrl}/${app}/${bilderTable}`);
+				if (offset) url.searchParams.set("offset", offset);
+
+				// Vedleggs-URL-ene fra Airtable utløper etter et par timer, så de
+				// må hentes på nytt jevnlig og kan ikke caches lenge.
+				const response = await fetch(url, {
+					headers: {
+						Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
+					},
+					next: { revalidate: 60 },
+				});
+
+				if (!response.ok) {
+					const errorText = await response.text();
+					console.error(
+						`Airtable svarte med status ${response.status} ved henting av bilder: ${errorText}`,
+					);
+					return {};
+				}
+
+				const json = await response.json();
+				const { records, offset: nextOffset } = json as {
+					records: BildeResponse[];
+					offset?: string;
+				};
+
+				for (const record of records) {
+					const nokkel = record.fields.Nøkkel;
+					const vedlegg = record.fields.Bilde?.[0];
+					const erBilde = !vedlegg?.type || vedlegg.type.startsWith("image/");
+					if (nokkel && vedlegg && erBilde) {
+						bilder[nokkel] = {
+							url: vedlegg.url,
+							alt: record.fields.Beskrivelse ?? "",
+						};
+					}
+				}
+				offset = nextOffset;
+			} while (offset);
+
+			return bilder;
+		} catch (error) {
+			console.error("Klarte ikke å hente bilder fra Airtable", error);
+			return {};
+		}
+	},
+);
+
+const getBilde = async (nokkel: string, fallback: Bilde): Promise<Bilde> => {
+	const bilder = await hentBilderFraAirtable();
+	return bilder[nokkel] ?? fallback;
+};
+
 export type Kort = { title: string; description: string };
 
 const getKortSeksjon = async (
@@ -583,6 +656,9 @@ export const airtableClient = {
 	},
 	quotes: {
 		list: getQuotes,
+	},
+	bilder: {
+		get: getBilde,
 	},
 	tekster: {
 		get: getTekst,
